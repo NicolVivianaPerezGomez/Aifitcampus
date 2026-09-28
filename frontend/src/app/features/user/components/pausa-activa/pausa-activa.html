@@ -1,0 +1,29 @@
+<main>
+  <div class="pausa-container">
+    <section class="pausa-tittle">
+      <span>{{ categoria }}</span>
+      <h1>{{ pausa_nombre }}</h1>
+    </section>
+    <div class="resource-container">Recurso</div>
+    <section class="pausa-description">
+      <p>{{ descripcion }}</p>
+    </section>
+
+    <!--Reloj contador-->
+    <section class="timer-container">
+      <app-reloj-contador  
+      [isPaused]="isPaused()" //El valor que el padre pasa al hijo, se obtiene el valor actual por eso es "()"
+      (timeOut)="onTiempoAgotado()" //función del ts
+      ></app-reloj-contador>
+    </section>
+
+    <section class="btn-section">
+      <!--boton de pausa-->
+      <button class="blue-btn" type="button" (click)="togglePausa()" >
+        {{ isPaused() ? 'Reanudar' : 'Pausar' }} <!--si es true "?"" (pausado): reanudar, si false ":" (no pausado): pausar-->
+      </button>
+      <button class="border-blue-btn" type="button">Saltar</button>
+      <button class="simple-blue-btn"  type="button">Finalizar</button>
+    </section>
+  </div>
+</main>

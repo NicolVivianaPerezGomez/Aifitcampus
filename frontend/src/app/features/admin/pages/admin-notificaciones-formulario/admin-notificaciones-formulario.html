@@ -1,0 +1,81 @@
+<!-- formulario visual para crear una notificación. -->
+<section class="fondo-modal">
+  <section
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-formulario-notificacion"
+  >
+    <!--  encabezado y control para cerrar. -->
+    <header class="encabezado-modal">
+      <section>
+        <p class="seccion">NUEVA NOTIFICACIÓN</p>
+        <h1 id="titulo-formulario-notificacion">Crear notificación</h1>
+        <p class="descripcion">Programa una rutina para los días y usuarios que la recibirán.</p>
+      </section>
+      <button type="button" class="cerrar" aria-label="Cerrar" routerLink="/admin/adminNotificaciones">×</button>
+    </header>
+
+    <form>
+      <!--  campos que corresponden a la tabla notifications. -->
+      <section class="contenido-formulario">
+        <section class="bloque-formulario">
+          <h2><span>1</span> Configuración de la notificación</h2>
+          <label for="nombre-notificacion"
+            >Nombre de la notificación<input
+              id="nombre-notificacion"
+              type="text"
+              name="name"
+              placeholder="Ejemplo: Pausa visual de mañana"/></label>
+          <label for="descripcion-notificacion">Descripción<textarea
+              id="descripcion-notificacion"
+              name="description"
+              rows="3"
+              placeholder="Escribe el mensaje que verá el usuario."></textarea>
+          </label>
+          <section class="campos">
+            <label for="rutina"
+              >Rutina<select id="rutina" name="routine_id">
+                <option value="">Selecciona una rutina</option>
+              </select></label><label for="hora">Hora de envío<input id="hora" type="time" name="notification_time"/></label>
+          </section>
+          <label class="fila-switch"><span><strong>Notificación activa</strong><small>Se enviará según la programación configurada.</small></span><input type="checkbox" name="is_active" checked/></label>
+        </section>
+
+        <!--  días, recordatorio y destinatarios relacionados con las tablas auxiliares. -->
+        <section class="bloque-formulario">
+          <h2><span>2</span> Programación y destinatarios</h2>
+          <p class="ayuda">
+            Selecciona los días, configura el recordatorio y elige quién recibirá el aviso.
+          </p>
+          <p class="etiqueta">Días de la semana</p>
+          <section class="dias">
+            <label><input type="checkbox" checked /><span>Lun</span></label>
+            <label><input type="checkbox" checked /><span>Mar</span></label>
+            <label><input type="checkbox" checked /><span>Mié</span></label>
+            <label><input type="checkbox" checked /><span>Jue</span></label>
+            <label><input type="checkbox" checked /><span>Vie</span></label>
+            <label><input type="checkbox" /><span>Sáb</span></label>
+            <label><input type="checkbox" /><span>Dom</span></label>
+          </section>
+          <label class="fila-switch">
+            <span><strong>Enviar recordatorio</strong><small>Envía un aviso antes de la hora principal.</small>
+            </span><input type="checkbox" name="reminder"/></label>
+          <label for="minutos-recordatorio">Minutos antes del recordatorio<input id="minutos-recordatorio" type="number" name="reminder_minutes" min="1" placeholder="10"/></label>
+          <label for="usuarios">Usuarios destinatarios<select id="usuarios" name="user_notifications" multiple size="3">
+              <option value="">Cargando usuarios...</option>
+            </select></label>
+          <p class="nota">
+            Los identificadores de notificación y usuarios se asignarán al conectar el formulario
+            con el backend.
+          </p>
+        </section>
+      </section>
+      <!-- acciones finales del formulario. -->
+      <footer class="acciones-modal">
+        <button type="button" class="boton-secundario" routerLink="/admin/adminNotificaciones">
+          Cancelar</button><button type="submit" class="boton-principal">Guardar notificación</button>
+      </footer>
+    </form>
+  </section>
+</section>

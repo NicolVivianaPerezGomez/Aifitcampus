@@ -1,0 +1,94 @@
+<main class="pagina-ejercicios">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">CATÁLOGO</p>
+      <h1>Ejercicios y animaciones</h1>
+      <p class="descripcion">
+        Vincula el video de cada pausa. Lo que guardes aquí es lo que verá el colaborador en Inicio y
+        Ejercicios.
+      </p>
+    </section>
+    <button type="button" class="boton-principal" routerLink="/admin/adminEjerciciosFormulario">
+      + Nuevo ejercicio
+    </button>
+  </header>
+
+  @if (error()) {
+    <p class="descripcion" role="alert" style="color: var(--color-secondary)">{{ error() }}</p>
+  }
+
+  @if (ejercicios().length === 0) {
+    <section class="lista-vacia">
+      <p>Aún no hay ejercicios. Crea el primero con su video o imagen.</p>
+      <button type="button" class="boton-principal" routerLink="/admin/adminEjerciciosFormulario">
+        + Nuevo ejercicio
+      </button>
+    </section>
+  } @else {
+    <section class="lista-ejercicios">
+      @for (ejercicio of ejercicios(); track ejercicio.id) {
+        <article class="tarjeta-ejercicio">
+          <section class="ilustracion">
+            @if (ejercicio.tipoRecurso === 'video' && ejercicio.urlRecurso) {
+              <video [src]="ejercicio.urlRecurso" muted playsinline preload="metadata"></video>
+            } @else if (ejercicio.urlRecurso) {
+              <img [src]="ejercicio.urlRecurso" [alt]="ejercicio.nombre" />
+            } @else {
+              <span class="sin-recurso">Sin recurso</span>
+            }
+          </section>
+
+          <section class="etiquetas">
+            <span>{{ ejercicio.categoria }}</span>
+            <span [class.etiqueta-roja]="ejercicio.tipoAviso === 'bloqueo'">
+              {{ ejercicio.tipoAviso === 'bloqueo' ? 'Bloqueo de pantalla' : 'Notificación' }}
+            </span>
+            @if (!ejercicio.activo) {
+              <span class="etiqueta-inactivo">Inactivo</span>
+            }
+          </section>
+
+          <section class="titulo-tarjeta">
+            <h2>{{ ejercicio.nombre }}</h2>
+            <section class="acciones">
+              <button
+                type="button"
+                aria-label="Editar ejercicio"
+                title="Editar ejercicio"
+                (click)="editar(ejercicio.id)"
+              >
+                ✎
+              </button>
+              <button
+                type="button"
+                aria-label="Activar ejercicio"
+                title="Activar ejercicio"
+                [disabled]="ejercicio.activo"
+                (click)="activar(ejercicio.id)"
+              >
+                ✓
+              </button>
+              <button
+                type="button"
+                aria-label="Inactivar ejercicio"
+                title="Inactivar ejercicio"
+                [disabled]="!ejercicio.activo"
+                (click)="eliminar(ejercicio.id)"
+              >
+                ♧
+              </button>
+            </section>
+          </section>
+
+          <p>{{ ejercicio.descripcion }}</p>
+          <small>
+            {{ formatear(ejercicio.duracionSegundos) }} · {{ ejercicio.repeticiones }} reps ·
+            {{ ejercicio.tipoRecurso === 'video' ? 'Video' : 'Imagen' }}
+          </small>
+
+          <a class="boton-video" routerLink="/user/inicio">▷ Ver como el usuario</a>
+        </article>
+      }
+    </section>
+  }
+</main>

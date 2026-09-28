@@ -1,0 +1,69 @@
+<div class="navbar-container" [class.navbar-collapsed]="collapsed()">
+  <div class="up-side">
+    @if (!collapsed()) {
+      <div class="close-btn-container">
+        <button class="close-menu-button" (click)="menuClick.emit()" aria-label="Cerrar menú">
+          <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+      </div>
+    }
+
+    <section class="logo-container">
+      <button type="button" (click)="menuClick.emit()">
+        <img src="/assets/UE-logo.webp" alt="UE-logo" [class.collapsed-logo]="collapsed()" />
+      </button>
+
+      <hr />
+      @if (!collapsed()) {
+        <h1>Uniempresarial</h1>
+        <h2>PAUSAS ACTIVAS</h2>
+        <hr />
+      }
+    </section>
+
+    <nav class="items-container" aria-label="Menú del colaborador">
+      <ul class="nav-list">
+        @for (item of items(); track item.path) {
+          <li>
+            <a
+              class="navbar-item"
+              [class.justify-center]="collapsed()"
+              [routerLink]="item.path"
+              routerLinkActive="navbar-item--active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [attr.title]="collapsed() ? item.label : null"
+            >
+              <mat-icon>{{ item.icon }}</mat-icon>
+              @if (!collapsed()) {
+                <span>{{ item.label }}</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="down-side">
+    @if (!collapsed()) {
+      <hr />
+      <section class="user-info-cotainer">
+        <app-user-info></app-user-info>
+      </section>
+    }
+
+    <div class="exit-btn-container" [class.collapsed]="collapsed()">
+      <button
+        class="exit-btn"
+        type="button"
+        [title]="collapsed() ? 'Cerrar sesión' : ''"
+        (click)="cerrarSesion()"
+      >
+        <mat-icon>logout</mat-icon>
+        @if (!collapsed()) {
+          <span>Cerrar sesión</span>
+        }
+      </button>
+    </div>
+  </div>
+</div>

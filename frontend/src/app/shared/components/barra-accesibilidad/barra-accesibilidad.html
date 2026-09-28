@@ -1,0 +1,195 @@
+<a class="accesibilidad-saltar-contenido" href="#contenido-principal">
+  Saltar al contenido principal
+</a>
+
+<section class="accesibilidad-barra" aria-label="Barra de accesibilidad">
+  <button
+    #botonToggle
+    type="button"
+    class="accesibilidad-toggle-panel"
+    [attr.aria-expanded]="a11y.panelAbierto()"
+    [attr.aria-controls]="panelId"
+    [attr.aria-label]="etiquetaToggle()"
+    (click)="ejecutar('toggle-panel')"
+  >
+    <span class="accesibilidad-toggle-panel__icono" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="4.3" r="1.9" />
+        <path d="M6.5 8.7h11" />
+        <path d="M12 8.7v4.4" />
+        <path d="M9.2 20.3 12 13.1l2.8 7.2" />
+      </svg>
+    </span>
+    <span class="accesibilidad-sr">Accesibilidad</span>
+  </button>
+
+  @if (a11y.panelAbierto()) {
+    <div
+      [id]="panelId"
+      class="accesibilidad-panel"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="accesibilidad-titulo"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+    >
+      <div class="accesibilidad-panel__encabezado">
+        <h2 id="accesibilidad-titulo" class="accesibilidad-panel__titulo">
+          Menú de accesibilidad
+        </h2>
+        <button
+          type="button"
+          class="accesibilidad-cerrar"
+          aria-label="Cerrar menú"
+          (click)="ejecutar('toggle-panel')"
+        >
+          X
+        </button>
+      </div>
+
+      <div class="accesibilidad-grid" role="group" aria-label="Controles de accesibilidad">
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [disabled]="!a11y.puedeDisminuirFuente()"
+          (click)="ejecutar('font-decrease')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">Tt-</span>
+          <span class="accesibilidad-card__texto">Disminuir texto</span>
+        </button>
+
+        <button type="button" class="accesibilidad-card" (click)="ejecutar('font-reset')">
+          <span class="accesibilidad-card__icono" aria-hidden="true">T</span>
+          <span class="accesibilidad-card__texto">Restablecer texto</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [disabled]="!a11y.puedeAumentarFuente()"
+          (click)="ejecutar('font-increase')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">Tt+</span>
+          <span class="accesibilidad-card__texto">Agrandar texto</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().highContrast"
+          (click)="ejecutar('toggle-contrast')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">◐</span>
+          <span class="accesibilidad-card__texto">Contraste daltónico</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().smartContrast"
+          (click)="ejecutar('toggle-smart-contrast')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">◑</span>
+          <span class="accesibilidad-card__texto">Escala de grises</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().darkHighContrast"
+          (click)="ejecutar('toggle-dark-hc')"
+        >
+          <span class="accesibilidad-card__icono accesibilidad-card__icono--svg" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
+          <span class="accesibilidad-card__texto">Modo nocturno</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().underlineLinks"
+          (click)="ejecutar('toggle-links')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">🔗</span>
+          <span class="accesibilidad-card__texto">Resaltar enlaces</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().textSpacing"
+          (click)="ejecutar('toggle-text-spacing')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">↔</span>
+          <span class="accesibilidad-card__texto">Espaciado de texto</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().imagesHidden"
+          (click)="ejecutar('toggle-images')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">🖼</span>
+          <span class="accesibilidad-card__texto">Ocultar imágenes</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().dyslexiaFont"
+          (click)="ejecutar('toggle-dyslexia-font')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">Df</span>
+          <span class="accesibilidad-card__texto">Apto para dislexia</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().cursorMode !== 'normal'"
+          (click)="ejecutar('cursor-cycle')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">⌖</span>
+          <span class="accesibilidad-card__texto">{{ a11y.etiquetaModoCursor() }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="accesibilidad-card"
+          [attr.aria-pressed]="a11y.preferencias().lineHeightBoost"
+          (click)="ejecutar('toggle-line-height')"
+        >
+          <span class="accesibilidad-card__icono" aria-hidden="true">↕</span>
+          <span class="accesibilidad-card__texto">Altura de la línea</span>
+        </button>
+      </div>
+
+      <p class="accesibilidad-panel__estado" role="status" aria-live="polite">
+        {{ a11y.estado() }}
+      </p>
+
+      <div class="accesibilidad-panel__pie">
+        <button
+          type="button"
+          class="accesibilidad-btn-secundario"
+          (click)="ejecutar('reset-all')"
+        >
+          Restablecer todo
+        </button>
+      </div>
+    </div>
+  }
+
+  <p [id]="anunciosId" class="accesibilidad-sr" aria-live="polite" aria-atomic="true"></p>
+</section>

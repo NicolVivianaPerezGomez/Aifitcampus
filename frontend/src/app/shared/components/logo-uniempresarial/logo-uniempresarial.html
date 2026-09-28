@@ -1,0 +1,14 @@
+@if (compacto()) {
+  <img
+    class="isotipo"
+    src="images/logo-isotipo.png"
+    alt="Uniempresarial"
+  />
+} @else {
+  <img
+    class="lockup"
+    [class.lockup--estrecho]="estrecho()"
+    src="images/logo-lockup.png"
+    alt="Uniempresarial, Fundación Universitaria Empresarial"
+  />
+}

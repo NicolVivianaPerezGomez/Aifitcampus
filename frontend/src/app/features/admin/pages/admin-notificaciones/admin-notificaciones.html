@@ -1,0 +1,22 @@
+<!-- página para consultar las notificaciones configuradas. -->
+<main class="pagina-notificaciones">
+  <!-- encabezado y acceso al formulario de creación. -->
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">AVISOS</p>
+      <h1>Notificaciones programadas</h1>
+      <p class="descripcion">
+        Configura qué rutina se envía, a qué hora, los días de la semana y quiénes la recibirán.
+      </p>
+    </section>
+    <button type="button" class="boton-principal" routerLink="/admin/adminNotificacionesFormulario">
+      + Nueva notificación
+    </button>
+  </header>
+
+  <!-- Estado vacío: las notificaciones se cargarán desde el backend cuando el módulo esté disponible. -->
+  <section class="lista-vacia">
+    <p>Aún no hay notificaciones programadas.</p>
+    <p class="descripcion">Cuando el módulo de notificaciones esté disponible en el backend, podrás programar avisos aquí.</p>
+  </section>
+</main>

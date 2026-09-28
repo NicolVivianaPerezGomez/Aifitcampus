@@ -1,0 +1,19 @@
+<div class="fila">
+  <div class="fila__texto">
+    <p>{{ titulo() }}</p>
+    @if (descripcion()) {
+      <small>{{ descripcion() }}</small>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="switch"
+    role="switch"
+    [attr.aria-checked]="activo()"
+    [class.switch--on]="activo()"
+    (click)="alternar()"
+  >
+    <span class="switch__boton"></span>
+  </button>
+</div>

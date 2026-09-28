@@ -1,0 +1,66 @@
+main {
+  background-color: var(--color-bluesupport);
+  color: var(--color-text);
+  min-height: 100%;
+}
+
+.pausa-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: clamp(35px, 4vw, 42px);
+}
+
+.pausa-container h1 {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-kpi);
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.pausa-container span {
+  color: var(--color-secondary);
+  font-size: var(--fs-nav);
+  font-weight: 400;
+}
+
+.pausa-container p {
+  font-size: var(--fs-body);
+  color: var(--color-gray-text);
+}
+
+.resource-container {
+  color: var(--color-muted);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pausa-tittle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: center;
+}
+
+.pausa-description {
+  width: 60%;
+  text-align: center;
+}
+
+.btn-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(6px, 1vw, 12px);
+}
+
+.btn-section .blue-btn,
+.btn-section .border-blue-btn,
+.btn-section .simple-blue-btn {
+  min-width: 6.5rem;
+}

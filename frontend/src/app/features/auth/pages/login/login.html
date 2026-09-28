@@ -1,0 +1,49 @@
+<section id="contenido-principal" class="pagina" tabindex="-1">
+  <span class="anillos" aria-hidden="true"></span>
+  <article class="tarjeta">
+    <app-panel-bienvenida />
+
+    <div class="lado">
+      <div class="caja">
+        <app-logo-uniempresarial/>
+
+        <header>
+          <h2 class="tipo-titulo tipo-titulo--auth">Iniciar sesión</h2>
+          <p class="tipo-lead">Accede con tu cuenta institucional para continuar con tus pausas activas.</p>
+        </header>
+
+        @if (error()) {
+          <p class="alerta" role="alert">{{ error() }}</p>
+        }
+
+        <form (ngSubmit)="entrar()">
+          <label for="correo">Correo institucional</label>
+          <input id="correo" name="email" type="email" [(ngModel)]="correo" placeholder="tucorreo@uniempresarial.edu.co" required />
+
+          <label for="clave">Contraseña</label>
+          <div class="campo-clave">
+            <input id="clave" name="password" type="password" [(ngModel)]="clave" placeholder="••••••••" required />
+            <button type="button" aria-label="Mostrar contraseña">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+
+          <label class="recordar">
+            <input type="checkbox" name="recordar" />
+            <span class="cuadro"></span>
+            Recordarme
+          </label>
+
+          <button type="submit" class="entrar" [disabled]="cargando()">
+            {{ cargando() ? 'Verificando...' : 'Iniciar sesión' }}
+          </button>
+        </form>
+
+        <p class="enlace">
+          ¿Aún no tienes cuenta?
+          <a routerLink="/register">Regístrate</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</section>

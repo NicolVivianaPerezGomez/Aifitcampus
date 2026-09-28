@@ -1,0 +1,88 @@
+<!-- Sección: estructura visual del componente. -->
+<main id="contenido-principal" class="registro" tabindex="-1">
+  <section class="panel-informativo">
+    <header class="marca-superior">UNIEMPRESARIAL</header>
+    <section class="circulo circulo-superior"></section>
+    <section class="circulo circulo-medio"></section>
+
+    <section class="mensaje-bienvenida">
+      <h1>Pausas Activas</h1>
+      <p>Estira, respira y recupera energía durante tu jornada académica y laboral.</p>
+    </section>
+
+    <section class="circulo circulo-inferior"></section>
+    <section class="circulo circulo-secundario"></section>
+    <footer>Fundación Universitaria Empresarial</footer>
+  </section>
+
+  <section class="panel-formulario">
+    <section class="formulario-contenedor">
+      <img class="logo-uniempresarial" src="/assets/UE-logo.webp" alt="Logo de Uniempresarial" />
+      <h1>Crea tu cuenta</h1>
+      <p class="texto-registro">Regístrate para empezar a cuidar tu bienestar en la jornada.</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+        <label for="nombre">Nombre completo</label>
+        <input
+          id="nombre"
+          type="text"
+          formControlName="nombre"
+          autocomplete="name"
+          [class.input-invalido]="isControlInvalid('nombre')"
+        />
+        @if (hasError('nombre', 'required')) {
+          <small class="mensaje-error">El nombre completo es obligatorio.</small>
+        } @else if (hasError('nombre', 'pattern')) {
+          <small class="mensaje-error">Escribe al menos nombre y apellido; usa solo letras.</small>
+        }
+
+        <label for="correo">Correo institucional</label>
+        <input
+          id="correo"
+          type="email"
+          formControlName="correo"
+          placeholder="nombre@uniempresarial.edu.co"
+          autocomplete="email"
+          [class.input-invalido]="isControlInvalid('correo')"
+        />
+        @if (hasError('correo', 'required')) {
+          <small class="mensaje-error">El correo institucional es obligatorio.</small>
+        } @else if (hasError('correo', 'pattern')) {
+          <small class="mensaje-error"
+            >Usa un correo terminado en &#64;uniempresarial.edu.co.</small
+          >
+        }
+
+        <label for="programa">Programa (ID)</label>
+        <input
+          id="programa"
+          type="number"
+          formControlName="programa"
+          placeholder="Ingresa el ID de tu programa"
+          [class.input-invalido]="isControlInvalid('programa')"
+        />
+        @if (hasError('programa', 'required')) {
+          <small class="mensaje-error">El programa es obligatorio.</small>
+        }
+
+        <label for="departamento">Departamento</label>
+        <input
+          id="departamento"
+          type="text"
+          formControlName="departamento"
+          placeholder="Nombre de tu departamento"
+        />
+
+        @if (error) {
+          <small class="mensaje-error">{{ error }}</small>
+        }
+
+        <button type="submit" [disabled]="cargando">
+          {{ cargando ? 'Creando cuenta...' : 'Registrarme' }}
+        </button>
+      </form>
+
+      <p class="inicio-sesion">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+    </section>
+  </section>
+</main>

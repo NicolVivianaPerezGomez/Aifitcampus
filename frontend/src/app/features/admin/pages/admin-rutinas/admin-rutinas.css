@@ -1,0 +1,190 @@
+:host {
+  color: var(--color-primary);
+  display: block;
+  font-family: var(--font-primary);
+}
+.pagina-rutinas {
+  width: 100%;
+}
+
+.encabezado-pagina {
+  align-items: flex-end;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-bottom: 2.2rem;
+}
+.seccion {
+  color: var(--color-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.6rem;
+}
+h1,
+h2 {
+  font-family: var(--font-primary);
+  margin: 0;
+}
+h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.descripcion {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin: 0.9rem 0 0;
+  max-width: 760px;
+}
+.boton-principal {
+  background: var(--color-secondary);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(237, 23, 54, 0.22);
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.9rem 1.35rem;
+}
+
+.lista-rutinas {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tarjeta-rutina {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: 18px;
+  box-shadow: var(--color-card-shadow);
+  color: var(--color-text);
+  overflow: hidden;
+  padding: 1.25rem;
+  position: relative;
+}
+.tarjeta-rutina::before {
+  background: var(--color-primary);
+  content: '';
+  height: 4px;
+  left: 1.25rem;
+  position: absolute;
+  right: 1.25rem;
+  top: 0;
+}
+.cabecera-rutina {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+.tipo-rutina {
+  background: var(--color-redsupport);
+  border-radius: 999px;
+  color: var(--color-secondary);
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  margin-bottom: 0.55rem;
+  padding: 0.3rem 0.55rem;
+}
+.tipo-secundario {
+  background: var(--color-bluesupport);
+  color: var(--color-primary);
+}
+.cabecera-rutina h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.acciones {
+  display: flex;
+  gap: 0.15rem;
+}
+.acciones button {
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1rem;
+}
+.acciones button:last-child {
+  color: var(--color-secondary);
+}
+.tarjeta-rutina > p {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0.9rem 0;
+}
+.datos-rutina {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+.datos-rutina > span {
+  background: var(--color-bluesupport);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.32rem 0.55rem;
+}
+.datos-rutina .activo {
+  background: #def8ed;
+  color: #16804c;
+}
+.ejercicios-rutina {
+  border-top: 1px solid #edf0f6;
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0 0;
+}
+.ejercicios-rutina li {
+  align-items: center;
+  display: flex;
+  font-size: 0.72rem;
+  gap: 0.55rem;
+  padding: 0.4rem 0;
+}
+.ejercicios-rutina li > span {
+  align-items: center;
+  background: var(--color-primary);
+  border-radius: 50%;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.58rem;
+  height: 19px;
+  justify-content: center;
+  width: 19px;
+}
+.ejercicios-rutina small {
+  color: #737b99;
+  margin-left: auto;
+}
+.tarjeta-rutina footer {
+  border-top: 1px solid #edf0f6;
+  color: #737b99;
+  font-size: 0.65rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+/* Sección: adaptación para pantallas pequeñas. */
+@media (max-width: 760px) {
+  .lista-rutinas {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .encabezado-pagina {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .boton-principal {
+    width: 100%;
+  }
+}

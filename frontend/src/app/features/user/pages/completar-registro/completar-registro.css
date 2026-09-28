@@ -1,0 +1,72 @@
+.completar-registro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.completar-registro .tarjeta {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.completar-registro h1 {
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.completar-registro .tipo-lead {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.completar-registro form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completar-registro label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 500;
+}
+
+.completar-registro input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.completar-registro button {
+  padding: 0.75rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.completar-registro button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.completar-registro .error {
+  color: #dc3545;
+  font-size: 0.875rem;
+}
+
+.completar-registro .mensaje {
+  color: #28a745;
+  font-size: 0.875rem;
+}

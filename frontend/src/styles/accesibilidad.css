@@ -1,0 +1,848 @@
+/* =========================================================================
+   Preferencias globales de accesibilidad — Pausas Activas
+   Las clases se aplican a <html> desde AccesibilidadService.
+   ========================================================================= */
+
+:root {
+  --a11y-font-scale: 1;
+  --a11y-cursor-x: 50vw;
+  --a11y-cursor-y: 50vh;
+  --a11y-base-font: 16px;
+}
+
+/*
+  Tamaño de letra (NO zoom de página).
+  WCAG 1.4.4: texto redimensionable hasta 200% sin pérdida de contenido.
+*/
+html {
+  font-size: calc(var(--a11y-base-font) * var(--a11y-font-scale));
+}
+
+app-root {
+  font-size: 1rem;
+}
+
+/* Escala tipográfica del contenido; la barra de accesibilidad queda excluida */
+app-root
+  :where(p, li, label, td, th, legend, summary, button, input, select, textarea, span, a):not(
+    app-barra-accesibilidad *
+  ) {
+  font-size: calc(0.875rem * var(--a11y-font-scale));
+}
+
+app-root :where(h1):not(app-barra-accesibilidad *) {
+  font-size: calc(1.75rem * var(--a11y-font-scale));
+}
+
+app-root :where(h2):not(app-barra-accesibilidad *) {
+  font-size: calc(1.5rem * var(--a11y-font-scale));
+}
+
+app-root :where(h3):not(app-barra-accesibilidad *) {
+  font-size: calc(1.25rem * var(--a11y-font-scale));
+}
+
+app-root :where(h4):not(app-barra-accesibilidad *) {
+  font-size: calc(1.125rem * var(--a11y-font-scale));
+}
+
+app-root :where(small):not(app-barra-accesibilidad *) {
+  font-size: calc(0.75rem * var(--a11y-font-scale));
+}
+
+/* --- Enlaces resaltados --- */
+html.a11y-underline-links a,
+html.a11y-underline-links .navbar-item,
+html.a11y-underline-links button.link {
+  background: rgba(255, 235, 59, 0.45) !important;
+  border-radius: 0.2em;
+  box-decoration-break: clone;
+  color: #0033a0 !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #0033a0 !important;
+  text-decoration-thickness: 0.16em !important;
+  text-underline-offset: 0.18em !important;
+}
+
+html.a11y-underline-links .accesibilidad-saltar-contenido {
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+/* --- Espaciado de texto --- */
+html.a11y-text-spacing body,
+html.a11y-text-spacing button,
+html.a11y-text-spacing input,
+html.a11y-text-spacing select,
+html.a11y-text-spacing textarea,
+html.a11y-text-spacing p,
+html.a11y-text-spacing li,
+html.a11y-text-spacing label,
+html.a11y-text-spacing span,
+html.a11y-text-spacing td,
+html.a11y-text-spacing th {
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.13em !important;
+}
+
+/* --- Ocultar imágenes (conserva iconos de la barra) --- */
+html.a11y-hide-images img,
+html.a11y-hide-images svg {
+  visibility: hidden !important;
+}
+
+html.a11y-hide-images app-barra-accesibilidad svg {
+  visibility: visible !important;
+}
+
+/* --- Fuente apta para dislexia --- */
+html.a11y-dyslexia-font body,
+html.a11y-dyslexia-font button,
+html.a11y-dyslexia-font input,
+html.a11y-dyslexia-font select,
+html.a11y-dyslexia-font textarea,
+html.a11y-dyslexia-font p,
+html.a11y-dyslexia-font li,
+html.a11y-dyslexia-font label,
+html.a11y-dyslexia-font h1,
+html.a11y-dyslexia-font h2,
+html.a11y-dyslexia-font h3 {
+  font-family: Verdana, Arial, sans-serif !important;
+}
+
+/* --- Máscara / guía de lectura --- */
+html.a11y-reading-mask::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.58) 0,
+    rgba(0, 0, 0, 0.58) calc(var(--a11y-cursor-y) - 3.6rem),
+    rgba(0, 0, 0, 0.12) calc(var(--a11y-cursor-y) - 3.6rem),
+    rgba(0, 0, 0, 0.12) calc(var(--a11y-cursor-y) + 3.6rem),
+    rgba(0, 0, 0, 0.58) calc(var(--a11y-cursor-y) + 3.6rem),
+    rgba(0, 0, 0, 0.58) 100%
+  );
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 1200;
+}
+
+html.a11y-reading-guide::after {
+  background: var(--color-primary);
+  border: 2px solid var(--color-navy);
+  border-radius: 999px;
+  content: '';
+  height: 0.58rem;
+  left: var(--a11y-cursor-x);
+  pointer-events: none;
+  position: fixed;
+  top: var(--a11y-cursor-y);
+  transform: translate(-50%, -50%);
+  width: min(17rem, 62vw);
+  z-index: 1201;
+}
+
+html.a11y-reading-guide::before {
+  border-bottom: 0.52rem solid var(--color-primary);
+  border-left: 0.52rem solid transparent;
+  border-right: 0.52rem solid transparent;
+  content: '';
+  height: 0;
+  left: var(--a11y-cursor-x);
+  pointer-events: none;
+  position: fixed;
+  top: var(--a11y-cursor-y);
+  transform: translate(-50%, calc(-50% - 0.5rem));
+  width: 0;
+  z-index: 1202;
+}
+
+html.a11y-line-height {
+  line-height: 1.7 !important;
+}
+
+html.a11y-line-height p,
+html.a11y-line-height li,
+html.a11y-line-height td,
+html.a11y-line-height label {
+  line-height: 1.9 !important;
+}
+
+html.a11y-smart-contrast {
+  filter: grayscale(1) contrast(1.25);
+}
+
+/* =========================================================================
+   Contraste daltónico — negro + azul + amarillo + naranja (ref. gov)
+   ========================================================================= */
+html.a11y-high-contrast {
+  --color-text: #ffffff;
+  --color-muted: #d1d5db;
+  --color-gray-text: #f3f4f6;
+  --color-gray-border: #ffe566;
+  --color-background: #000000;
+  --color-white: #0a0a0a;
+  --color-surface: #0a0a0a;
+  --color-surface-muted: #1a1a1a;
+  --color-status-ok-bg: #102a56;
+  --color-status-ok-fg: #ffe566;
+  --color-primary: #4ea1ff;
+  --color-navy: #ffe566;
+  --color-secondary: #ff8a33;
+  --color-bluesupport: #000000;
+  --color-redsupport: #3a1d0a;
+  --color-graysupport: #0a0a0a;
+  --color-navbar-beige: #000000;
+  --color-card-border: #ffe566;
+  --color-card-shadow: none;
+  --color-deepblue: #4ea1ff;
+  --color-deep-gray: #f3f4f6;
+  --color-input: #0a0a0a;
+  --color-pink-soft: #102a56;
+  --color-kpi-blob: #102a56;
+  --color-kpi-pink: #ff8a33;
+  color-scheme: dark;
+}
+
+html.a11y-high-contrast body {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast :is(
+  .sidenav,
+  .mat-drawer,
+  .mat-sidenav,
+  .mat-mdc-card,
+  .navbar-container,
+  mat-sidenav,
+  mat-sidenav-content,
+  .mat-toolbar
+) {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  border-color: #ffe566 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast :is(h1, h2, h3, h4) {
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast :is(p, span, small, label, td, th, li, strong, legend) {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast :is(a, .navbar-item) {
+  background: transparent !important;
+  border: 1px solid #4ea1ff !important;
+  border-radius: 8px;
+  color: #4ea1ff !important;
+  font-weight: 800 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #ffe566 !important;
+}
+
+html.a11y-high-contrast :is(button, .accesibilidad-card, input, textarea, select):not(
+    .blue-btn,
+    .border-blue-btn,
+    .simple-blue-btn,
+    .comenzar,
+    .boton-principal
+  ) {
+  background: #000 !important;
+  border: 2px solid #4ea1ff !important;
+  color: #fff !important;
+}
+
+/* Botones de marca en pausa activa / acciones principales */
+html.a11y-high-contrast .blue-btn {
+  background: #102a56 !important;
+  border: 2px solid #ffe566 !important;
+  border-radius: 12px !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .border-blue-btn {
+  background: #000 !important;
+  border: 2px solid #4ea1ff !important;
+  border-radius: 12px !important;
+  color: #4ea1ff !important;
+}
+
+html.a11y-high-contrast .simple-blue-btn {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  border-radius: 12px !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .simple-blue-btn:hover,
+html.a11y-high-contrast .simple-blue-btn:focus-visible {
+  border-color: #ffe566 !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .boton-principal {
+  background: #102a56 !important;
+  border: 2px solid #ffe566 !important;
+  box-shadow: none !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .accesibilidad-card[aria-pressed='true'],
+html.a11y-high-contrast .accesibilidad-toggle-panel {
+  background: #102a56 !important;
+  border: 2px solid #ffe566 !important;
+  color: #ffe566 !important;
+}
+
+/* Superficies admin: evita bloques blancos ilegibles */
+html.a11y-high-contrast :is(
+  .tarjeta-ejercicio,
+  .tarjeta-horarios,
+  .tarjeta-usuarios,
+  .tarjeta-rutina,
+  .tarjeta-notificaciones,
+  .contenedor-tabla,
+  .boton-video,
+  .formulario-tarjeta,
+  .panel-formulario,
+  .modal,
+  .fondo-modal .modal,
+  article.tarjeta-ejercicio
+) {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  border: 2px solid #ffe566 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast :is(
+  .tarjeta-ejercicio h2,
+  .tarjeta-ejercicio p,
+  .tarjeta-ejercicio small,
+  .tarjeta-horarios td,
+  .tarjeta-horarios th,
+  .tarjeta-horarios strong,
+  .tarjeta-horarios small
+) {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast :is(.tarjeta-horarios, .tarjeta-usuarios, .tarjeta-notificaciones) th {
+  background: #102a56 !important;
+  color: #ffe566 !important;
+  border-bottom: 2px solid #4ea1ff !important;
+}
+
+html.a11y-high-contrast :is(.tarjeta-horarios, .tarjeta-usuarios, .tarjeta-notificaciones) td {
+  background: #0a0a0a !important;
+  border-bottom-color: #4ea1ff !important;
+  color: #fff !important;
+}
+
+/* Badge "Activo": debe ganar a la regla genérica de span */
+html.a11y-high-contrast :is(.estado.activo, .activo, span.estado.activo, .datos-rutina .activo) {
+  background: #102a56 !important;
+  border: 2px solid #ffe566 !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .etiquetas span {
+  background: #102a56 !important;
+  border: 1px solid #4ea1ff !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .etiquetas .etiqueta-roja {
+  background: #3a1d0a !important;
+  border-color: #ff8a33 !important;
+  color: #ff8a33 !important;
+}
+
+/* Pantalla de pausa activa */
+html.a11y-high-contrast :is(main:has(.pausa-container), .pausa-container) {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .pausa-container h1 {
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .pausa-container :is(span, .resource-container) {
+  color: #4ea1ff !important;
+}
+
+html.a11y-high-contrast .pausa-container p {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .contador {
+  background: #000 !important;
+  border: 3px solid #ffe566 !important;
+  color: #ffe566 !important;
+}
+
+/* Dashboard: resumen + KPI blob */
+html.a11y-high-contrast :is(.tarjeta, .kpi, .bloque-formulario) {
+  background: #0a0a0a !important;
+  border: 2px solid #ffe566 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .kpi::before {
+  background: #102a56 !important;
+  opacity: 0.85;
+}
+
+html.a11y-high-contrast .resumen li {
+  background: #000 !important;
+  border: 2px solid #4ea1ff !important;
+}
+
+html.a11y-high-contrast .resumen strong {
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .resumen span {
+  color: #d1d5db !important;
+}
+
+html.a11y-high-contrast .kpi__datos :is(p, small, strong) {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .kpi__datos strong {
+  color: #ffe566 !important;
+}
+
+/* Formularios: días, switches y cards de ejercicios */
+html.a11y-high-contrast :is(.dias span, .fila-switch, .ejercicio, .boton-secundario) {
+  background: #000 !important;
+  border: 2px solid #4ea1ff !important;
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .dias span {
+  color: #4ea1ff !important;
+}
+
+html.a11y-high-contrast .dias input:checked + span {
+  background: #102a56 !important;
+  border-color: #ffe566 !important;
+  color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .ejercicio :is(strong, small, span) {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .ejercicio:has(input:checked) {
+  background: #102a56 !important;
+  border-color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .fila-switch :is(strong, small, span, p, label) {
+  color: #fff !important;
+}
+
+html.a11y-high-contrast .switch {
+  background: #102a56 !important;
+  border: 2px solid #4ea1ff !important;
+}
+
+html.a11y-high-contrast .switch--on {
+  background: #ff8a33 !important;
+  border-color: #ffe566 !important;
+}
+
+html.a11y-high-contrast .switch__boton {
+  background: #ffe566 !important;
+}
+
+html.a11y-high-contrast .a11y-reading-guide::after {
+  background: #ffe566;
+  border-color: #4ea1ff;
+}
+
+html.a11y-high-contrast .a11y-reading-guide::before {
+  border-bottom-color: #ffe566;
+}
+
+/* =========================================================================
+   Modo nocturno — paleta original, acentos apenas suavizados
+   ========================================================================= */
+html.a11y-dark-high-contrast {
+  --color-text: #e8eaf2;
+  --color-muted: #9aa3b5;
+  --color-gray-text: #c5ccd9;
+  --color-gray-border: #2f3a5c;
+  --color-background: #12162a;
+  --color-white: #1a2038;
+  --color-surface: #1a2038;
+  --color-surface-muted: #243056;
+  --color-status-ok-bg: #1f3a2e;
+  --color-status-ok-fg: #b7e4c7;
+  /* Mismos acentos de antes, un poco menos brillantes */
+  --color-primary: #7389d4;
+  --color-navy: #96a6e0;
+  --color-secondary: #e06b82;
+  --color-magenta: #b84d6a;
+  --color-bluesupport: #12162a;
+  --color-redsupport: #3a242c;
+  --color-graysupport: #1e243c;
+  --color-navbar-beige: #171b2e;
+  --color-card-border: #2f3a5c;
+  --color-card-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --color-deepblue: #7389d4;
+  --color-deep-gray: #c5ccd9;
+  --color-input: #1a2038;
+  --color-pink-soft: #243056;
+  --color-kpi-blob: #243056;
+  --color-kpi-pink: #e06b82;
+  color-scheme: dark;
+}
+
+html.a11y-dark-high-contrast body {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(115, 137, 212, 0.08), transparent 36%),
+    linear-gradient(180deg, #0e1222 0%, #12162a 48%, #0c1020 100%) !important;
+  color: var(--color-text) !important;
+}
+
+html.a11y-dark-high-contrast :is(
+  .sidenav,
+  .mat-drawer,
+  .mat-sidenav,
+  .mat-mdc-card,
+  .navbar-container,
+  mat-sidenav,
+  mat-sidenav-content,
+  .mat-toolbar
+) {
+  background: #1a2038 !important;
+  background-image: none !important;
+  border-color: #2f3a5c !important;
+  color: var(--color-text) !important;
+}
+
+html.a11y-dark-high-contrast :is(h1, h2, h3, h4) {
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast :is(p, span, small, label, td, th, li, strong) {
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast :is(a, .navbar-item) {
+  color: #96a6e0 !important;
+}
+
+/* Iconos: un tono más profundo que el pastel, sin apagar todo el tema */
+html.a11y-dark-high-contrast :is(.kpi__icono, .tarjeta__icono, .puesto) {
+  color: #e8eaf2 !important;
+  box-shadow: none !important;
+}
+
+html.a11y-dark-high-contrast .kpi[data-acento='azul'] .kpi__icono,
+html.a11y-dark-high-contrast .tarjeta__icono,
+html.a11y-dark-high-contrast .puesto {
+  background: #3d4f8c !important;
+}
+
+html.a11y-dark-high-contrast .kpi[data-acento='rosa'] .kpi__icono {
+  background: #8a3d55 !important;
+}
+
+html.a11y-dark-high-contrast .kpi[data-acento='verde'] .kpi__icono {
+  background: #3d5080 !important;
+}
+
+html.a11y-dark-high-contrast .kpi[data-acento='coral'] .kpi__icono {
+  background: #9a4a5c !important;
+}
+
+html.a11y-dark-high-contrast .kpi[data-acento='ambar'] .kpi__icono {
+  background: #6a4a58 !important;
+}
+
+html.a11y-dark-high-contrast .kpi__icono ::ng-deep svg,
+html.a11y-dark-high-contrast .tarjeta__icono svg {
+  color: #e8eaf2 !important;
+  stroke: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast :is(button, input, textarea, select, .accesibilidad-card):not(
+    .blue-btn,
+    .border-blue-btn,
+    .simple-blue-btn,
+    .comenzar,
+    .boton-principal
+  ) {
+  background: #12162a !important;
+  border-color: #2f3a5c !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast .blue-btn {
+  background: #243056 !important;
+  border: 1px solid #7389d4 !important;
+  border-radius: 12px !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .border-blue-btn {
+  background: transparent !important;
+  border: 1px solid #7389d4 !important;
+  border-radius: 12px !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .simple-blue-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .simple-blue-btn:hover,
+html.a11y-dark-high-contrast .simple-blue-btn:focus-visible {
+  border-color: #7389d4 !important;
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast .boton-principal {
+  background: #c45d72 !important;
+  border: 1px solid #c45d72 !important;
+  box-shadow: 0 8px 16px rgba(196, 93, 114, 0.22) !important;
+  color: #ffffff !important;
+}
+
+html.a11y-dark-high-contrast .boton-principal:hover {
+  background: #b35468 !important;
+  border-color: #b35468 !important;
+}
+
+html.a11y-dark-high-contrast .accesibilidad-card[aria-pressed='true'],
+html.a11y-dark-high-contrast .accesibilidad-toggle-panel {
+  background: #243056 !important;
+  border: 1px solid #7389d4 !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast :is(
+  .tarjeta-ejercicio,
+  .tarjeta-horarios,
+  .tarjeta-usuarios,
+  .tarjeta-rutina,
+  .tarjeta-notificaciones,
+  .contenedor-tabla,
+  .boton-video,
+  .formulario-tarjeta,
+  .panel-formulario,
+  .modal,
+  .fondo-modal .modal,
+  article.tarjeta-ejercicio
+) {
+  background: #1a2038 !important;
+  background-image: none !important;
+  border: 1px solid #2f3a5c !important;
+  box-shadow: var(--color-card-shadow) !important;
+  color: var(--color-text) !important;
+}
+
+html.a11y-dark-high-contrast :is(
+  .tarjeta-ejercicio h2,
+  .tarjeta-ejercicio p,
+  .tarjeta-ejercicio small,
+  .tarjeta-horarios td,
+  .tarjeta-horarios th,
+  .tarjeta-horarios strong,
+  .tarjeta-horarios small
+) {
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast .tarjeta-ejercicio h2 {
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast :is(.tarjeta-horarios, .tarjeta-usuarios, .tarjeta-notificaciones) th {
+  background: #243056 !important;
+  color: #96a6e0 !important;
+  border-bottom: 1px solid #2f3a5c !important;
+}
+
+html.a11y-dark-high-contrast :is(.tarjeta-horarios, .tarjeta-usuarios, .tarjeta-notificaciones) td {
+  background: #1a2038 !important;
+  border-bottom-color: #2f3a5c !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast :is(.estado.activo, .activo, span.estado.activo, .datos-rutina .activo) {
+  background: #1f3a2e !important;
+  border: 1px solid #7dcea0 !important;
+  color: #b7e4c7 !important;
+}
+
+html.a11y-dark-high-contrast .etiquetas span {
+  background: #243056 !important;
+  border: 1px solid #7389d4 !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .etiquetas .etiqueta-roja {
+  background: #3a242c !important;
+  border-color: #e06b82 !important;
+  color: #f0b7b7 !important;
+}
+
+/* Pantalla de pausa activa */
+html.a11y-dark-high-contrast :is(main:has(.pausa-container), .pausa-container) {
+  background: #12162a !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast .pausa-container h1 {
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .pausa-container :is(span, .resource-container) {
+  color: #e06b82 !important;
+}
+
+html.a11y-dark-high-contrast .pausa-container p {
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast .contador {
+  background: transparent !important;
+  border: 2px solid #7389d4 !important;
+  color: #96a6e0 !important;
+}
+
+/* Dashboard: resumen + KPI blob */
+html.a11y-dark-high-contrast :is(.tarjeta, .kpi, .bloque-formulario) {
+  background: #1a2038 !important;
+  border: 1px solid #2f3a5c !important;
+  box-shadow: var(--color-card-shadow) !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast .kpi::before {
+  background: #243056 !important;
+  opacity: 0.9;
+}
+
+html.a11y-dark-high-contrast .resumen li {
+  background: #12162a !important;
+  border: 1px solid #2f3a5c !important;
+}
+
+html.a11y-dark-high-contrast .resumen strong {
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .resumen span {
+  color: #9aa3b5 !important;
+}
+
+html.a11y-dark-high-contrast .kpi__datos :is(p, small) {
+  color: #9aa3b5 !important;
+}
+
+html.a11y-dark-high-contrast .kpi__datos strong {
+  color: #e8eaf2 !important;
+}
+
+/* Formularios: días, switches y cards de ejercicios */
+html.a11y-dark-high-contrast :is(.dias span, .fila-switch, .ejercicio, .boton-secundario) {
+  background: #12162a !important;
+  border: 1px solid #2f3a5c !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast .dias span {
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .dias input:checked + span {
+  background: #243056 !important;
+  border-color: #7389d4 !important;
+  color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .ejercicio :is(strong, small, span) {
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast .ejercicio strong {
+  color: #e8eaf2 !important;
+}
+
+html.a11y-dark-high-contrast .ejercicio:has(input:checked) {
+  background: #243056 !important;
+  border-color: #7389d4 !important;
+}
+
+html.a11y-dark-high-contrast .fila-switch :is(strong, small, span, p, label) {
+  color: #c5ccd9 !important;
+}
+
+html.a11y-dark-high-contrast .switch {
+  background: #2f3a5c !important;
+  border: 1px solid #7389d4 !important;
+}
+
+html.a11y-dark-high-contrast .switch--on {
+  background: #e06b82 !important;
+  border-color: #96a6e0 !important;
+}
+
+html.a11y-dark-high-contrast .switch__boton {
+  background: #e8eaf2 !important;
+}
+
+/* Tarjeta de sesión (ánimo) sin bloques blancos */
+html.a11y-dark-high-contrast :is(.pagina .marco, .pagina header, .pagina .tarjeta) {
+  background: #1a2038 !important;
+  border-color: #2f3a5c !important;
+  color: #e8eaf2 !important;
+}
+
+html.a11y-high-contrast :is(.pagina .marco, .pagina header, .pagina .tarjeta) {
+  background: #0a0a0a !important;
+  border: 2px solid #ffe566 !important;
+  color: #fff !important;
+}
+
+html.a11y-dark-high-contrast .a11y-reading-guide::after {
+  background: #7389d4;
+  border-color: #96a6e0;
+}
+
+html.a11y-dark-high-contrast .a11y-reading-guide::before {
+  border-bottom-color: #7389d4;
+}
+
+/* Combinaciones enlaces + modos */
+html.a11y-underline-links.a11y-high-contrast :is(a, .navbar-item) {
+  background: #102a56 !important;
+  color: #ffe566 !important;
+  outline: 2px solid #4ea1ff;
+  text-decoration-color: #ffe566 !important;
+}
+
+html.a11y-underline-links.a11y-dark-high-contrast :is(a, .navbar-item) {
+  background: rgba(168, 184, 240, 0.2) !important;
+  color: #96a6e0 !important;
+  text-decoration-color: #96a6e0 !important;
+}

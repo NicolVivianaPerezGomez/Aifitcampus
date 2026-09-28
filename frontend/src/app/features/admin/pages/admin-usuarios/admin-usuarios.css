@@ -1,0 +1,194 @@
+/* Sección: estilos visuales y responsive del componente. */
+:host {
+  color: var(--color-primary);
+  display: block;
+  font-family: var(--font-primary);
+}
+.pagina-usuarios {
+  width: 100%;
+}
+.encabezado-pagina {
+  margin-bottom: 2.2rem;
+}
+.seccion {
+  color: var(--color-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.6rem;
+}
+h1 {
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+.descripcion {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin: 0.9rem 0 0;
+}
+.tarjeta-usuarios {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: 22px;
+  box-shadow: var(--color-card-shadow);
+  color: var(--color-text);
+  padding: clamp(1rem, 2vw, 1.7rem);
+}
+.contenedor-tabla {
+  border: 1px solid var(--color-gray-border);
+  border-radius: 14px;
+  overflow-x: auto;
+  padding: 0.7rem;
+}
+table {
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  min-width: 940px;
+  width: 100%;
+}
+th {
+  background: var(--color-bluesupport);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  padding: 0.9rem 0.8rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+td {
+  border-bottom: 1px solid #edf0f6;
+  padding: 0.85rem 0.8rem;
+  vertical-align: middle;
+}
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+td:first-child strong {
+  display: block;
+  font-size: 0.72rem;
+}
+.rol,
+.estado {
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.3rem 0.55rem;
+}
+.rol {
+  background: var(--color-bluesupport);
+}
+.rol.administrador {
+  background: var(--color-redsupport);
+  color: var(--color-secondary);
+}
+.activo {
+  background: var(--color-status-ok-bg);
+  color: var(--color-status-ok-fg);
+}
+.inactivo {
+  background: var(--color-graysupport);
+  color: var(--color-muted);
+}
+.cambiar-rol {
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-border);
+  border-radius: 9px;
+  color: var(--color-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.45rem 0.65rem;
+}
+.accion-usuario {
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-left: 0.55rem;
+}
+.accion-usuario.activar {
+  color: var(--color-status-ok-fg, #1a7f37);
+}
+@media (max-width: 640px) {
+  .tarjeta-usuarios {
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+}
+
+/* Buscador y selector de rol (conexión con el backend) */
+.buscador input {
+  min-width: 16rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #d7dbe7;
+  border-radius: 999px;
+  font: inherit;
+}
+
+td select {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #d7dbe7;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.modal {
+  background: var(--color-surface);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 420px;
+  width: 100%;
+  padding: 1.75rem;
+}
+.modal h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+.modal p {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+.modal-acciones {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+.boton-secundario {
+  background: transparent;
+  border: 1px solid var(--color-gray-border);
+  border-radius: 9px;
+  color: var(--color-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+}
+.boton-secundario:hover {
+  background: var(--color-bluesupport);
+}

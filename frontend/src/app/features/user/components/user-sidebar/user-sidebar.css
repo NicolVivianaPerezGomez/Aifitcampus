@@ -1,0 +1,74 @@
+/* Estilos locales del menú de usuario (activo y tipografía). */
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.items-container {
+  width: 100%;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.navbar-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  text-decoration: none;
+  color: var(--color-primary);
+  border-radius: 0.75rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    font-weight 0.2s ease;
+}
+
+.navbar-item span {
+  font-size: var(--fs-nav);
+  font-weight: var(--fw-medium);
+  line-height: 1.2;
+}
+
+.navbar-item:hover {
+  background-color: var(--color-white);
+  color: var(--color-secondary);
+  box-shadow: 0 0.15rem 0.45rem rgba(17, 24, 39, 0.12);
+}
+
+.navbar-item--active {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-white));
+  color: var(--color-primary);
+  font-weight: var(--fw-semibold);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.navbar-item--active:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-white));
+  color: var(--color-primary);
+}
+
+.navbar-item--active span {
+  font-weight: var(--fw-semibold);
+}
+
+.navbar-collapsed .navbar-item {
+  justify-content: center;
+  padding-inline: 0.45rem;
+}
+
+.navbar-collapsed .navbar-item--active {
+  box-shadow: none;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-white));
+}

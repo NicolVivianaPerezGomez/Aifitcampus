@@ -1,0 +1,142 @@
+<!-- Sección: contenedor visual del formulario de una rutina. -->
+<section class="fondo-modal">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-formulario-rutina">
+    <!-- Sección: encabezado y cierre del formulario. -->
+    <header class="encabezado-modal">
+      <section>
+        <p class="seccion">{{ editando ? 'EDITAR RUTINA' : 'NUEVA RUTINA' }}</p>
+        <h1 id="titulo-formulario-rutina">{{ editando ? 'Editar rutina' : 'Crear rutina' }}</h1>
+        <p class="descripcion">Configura la rutina y los ejercicios que la componen.</p>
+      </section>
+      <button type="button" class="cerrar" aria-label="Cerrar" routerLink="/admin/adminRutinas">
+        ×
+      </button>
+    </header>
+
+    <form (ngSubmit)="guardar()">
+      <!-- Sección: campos equivalentes a la tabla routines. -->
+      <section class="contenido-formulario">
+        <section class="bloque-formulario">
+          <h2><span>1</span> Información de la rutina</h2>
+          <label for="nombre-rutina"
+            >Nombre de la rutina<input
+              id="nombre-rutina"
+              name="name"
+              type="text"
+              [(ngModel)]="nombre"
+              placeholder="Ejemplo: Pausa de espalda"
+          /></label>
+          <label for="descripcion-rutina"
+            >Descripción<textarea
+              id="descripcion-rutina"
+              name="description"
+              rows="3"
+              [(ngModel)]="descripcion"
+              placeholder="Describe el objetivo de la rutina."
+            ></textarea>
+          </label>
+          <section class="campos">
+            <label for="tipo-rutina"
+              >Tipo de rutina<input
+                id="tipo-rutina"
+                name="routine_type_id"
+                type="text"
+                [(ngModel)]="tipo"
+                placeholder="Ejemplo: Pausa matutina"
+                list="tipos-sugeridos"
+              />
+              <datalist id="tipos-sugeridos">
+                @for (t of tipos(); track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </datalist>
+            </label>
+            <label for="duracion-total"
+              >Duración total (segundos)<input
+                id="duracion-total"
+                name="total_duration_seconds"
+                type="number"
+                readonly
+                [value]="duracionTotal()"
+                title="Se calcula sola: duración × series + descanso"
+            /></label>
+          </section>
+          <label class="fila-switch"
+            ><span
+              ><strong>Rutina activa</strong
+              ><small>Estará disponible para asignar a los colaboradores.</small></span
+            ><input type="checkbox" name="is_active" [(ngModel)]="activa"
+          /></label>
+          <p class="nota">
+            Duración estimada: {{ formatear(duracionTotal()) }}. El usuario creador, identificador y
+            fechas se generan desde el backend.
+          </p>
+        </section>
+
+        <!-- Sección: relación exercise_routines con parámetros por ejercicio. -->
+        <section class="bloque-formulario">
+          <h2><span>2</span> Ejercicios de la rutina</h2>
+          <p class="ayuda">
+            Marca los ejercicios y define su orden, series, repeticiones y descanso.
+          </p>
+          <section class="ejercicios-seleccionables">
+            @for (fila of filas(); track fila.exerciseId) {
+              <section class="ejercicio-rutina">
+                <label
+                  ><input type="checkbox" [(ngModel)]="fila.seleccionado" [name]="'sel-' + fila.exerciseId" />
+                  {{ fila.nombre }} <small>({{ formatear(fila.duracionSegundos) }})</small></label
+                >
+                <section class="parametros">
+                  <label
+                    >Orden<input
+                      [name]="'orden-' + fila.exerciseId"
+                      type="number"
+                      min="1"
+                      [(ngModel)]="fila.orden" /></label
+                  ><label
+                    >Series<input
+                      [name]="'series-' + fila.exerciseId"
+                      type="number"
+                      placeholder="1"
+                      min="1"
+                      [(ngModel)]="fila.series" /></label
+                  ><label
+                    >Repeticiones<input
+                      [name]="'reps-' + fila.exerciseId"
+                      type="number"
+                      placeholder="10"
+                      min="1"
+                      [(ngModel)]="fila.repeticiones" /></label
+                  ><label
+                    >Descanso (s)<input
+                      [name]="'descanso-' + fila.exerciseId"
+                      type="number"
+                      placeholder="0"
+                      min="0"
+                      [(ngModel)]="fila.descanso"
+                  /></label>
+                </section>
+              </section>
+            } @empty {
+              <p class="nota">
+                No hay ejercicios activos. Crea ejercicios primero en la sección Ejercicios.
+              </p>
+            }
+          </section>
+        </section>
+      </section>
+
+      @if (error()) {
+        <p class="nota" role="alert" style="color: var(--color-secondary); padding: 0 1.5rem">{{ error() }}</p>
+      }
+      <!-- Sección: acciones finales del formulario. -->
+      <footer class="acciones-modal">
+        <button type="button" class="boton-secundario" routerLink="/admin/adminRutinas">
+          Cancelar</button
+        ><button type="submit" class="boton-principal" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar rutina' }}
+        </button>
+      </footer>
+    </form>
+  </section>
+</section>

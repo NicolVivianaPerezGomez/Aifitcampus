@@ -1,0 +1,339 @@
+### ============================================================
+### AI Fit Campus - Endpoints del backend
+### Usar con la extensión "REST Client" de VS Code (o en IntelliJ/WebStorm)
+### Clic en "Send Request" encima de cada petición.
+### ============================================================
+
+@baseUrl = http://localhost:4000/api
+
+# Pega aquí tu token (el que empieza por eyJ...), sin comillas
+@token = PEGA_AQUI_TU_TOKEN
+
+
+### ============================================================
+### AUTENTICACIÓN
+### ============================================================
+
+### Iniciar sesión con Microsoft
+# Ábrelo en el NAVEGADOR (no aquí): redirige al login de Microsoft
+# y al terminar te devuelve el token en la URL (#token=...)
+GET {{baseUrl}}/auth/microsoft
+
+### Usuario de la sesión actual (el dueño del token)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### USUARIOS
+### ============================================================
+
+### Listar / buscar usuarios
+# search: nombre, correo o área   |   active=true: solo activos
+GET {{baseUrl}}/users?search=&active=true
+Authorization: Bearer {{token}}
+
+### Registrar usuario (lo hace el administrador)
+POST {{baseUrl}}/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Ana",
+  "lastName": "Gómez",
+  "email": "ana.gomez@uniempresarial.edu.co",
+  "roleId": 1,
+  "programId": 1,
+  "department": "Talento Humano",
+  "officeLocation": "Sede principal"
+}
+
+### Actualizar mi perfil (solo el propio usuario)
+PATCH {{baseUrl}}/users/1/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Johan",
+  "lastName": "Pérez",
+  "mobilePhone": "3001234567",
+  "jobTitle": "Desarrollador",
+  "officeLocation": "Sede principal"
+}
+
+### Asignar área / departamento
+PATCH {{baseUrl}}/users/2/department
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "department": "Sistemas",
+  "officeLocation": "Bloque B"
+}
+
+### Actualizar permisos del usuario
+PATCH {{baseUrl}}/users/2/permissions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "permissions": {
+    "ejercicios": true,
+    "reportes": false
+  }
+}
+
+### Desactivar usuario
+PATCH {{baseUrl}}/users/2/deactivate
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### ROLES
+### ============================================================
+
+### Listar roles
+GET {{baseUrl}}/roles
+Authorization: Bearer {{token}}
+
+### Crear rol
+POST {{baseUrl}}/roles
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Colaborador"
+}
+
+### Renombrar rol
+PATCH {{baseUrl}}/roles/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Colaborador general"
+}
+
+### Eliminar rol (falla si tiene usuarios asignados)
+DELETE {{baseUrl}}/roles/2
+Authorization: Bearer {{token}}
+
+### Asignar rol a un usuario
+PATCH {{baseUrl}}/users/2/role
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "roleId": 1
+}
+
+
+### ============================================================
+### CATEGORÍAS DE EJERCICIOS
+### ============================================================
+
+### Listar categorías (active=true: solo activas)
+GET {{baseUrl}}/exercise-categories?active=true
+Authorization: Bearer {{token}}
+
+### Crear categoría
+POST {{baseUrl}}/exercise-categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramiento",
+  "description": "Ejercicios para estirar cuello, espalda y brazos"
+}
+
+### Editar categoría (también sirve para reactivar: "isActive": true)
+PATCH {{baseUrl}}/exercise-categories/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "description": "Ejercicios de estiramiento para la jornada"
+}
+
+### Inactivar categoría (falla si tiene ejercicios activos)
+DELETE {{baseUrl}}/exercise-categories/1
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### EJERCICIOS (por video)
+### ============================================================
+
+### Listar ejercicios
+# search: nombre o descripción   |   categoryId: filtra por categoría   |   active=true: solo activos
+GET {{baseUrl}}/exercises?search=&categoryId=&active=true
+Authorization: Bearer {{token}}
+
+### Ver un ejercicio
+GET {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+
+### Crear ejercicio
+POST {{baseUrl}}/exercises
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramiento de cuello",
+  "description": "Gira el cuello suavemente hacia ambos lados",
+  "durationSeconds": 60,
+  "resourceUrl": "https://www.youtube.com/watch?v=abc123",
+  "categoryId": 1
+}
+
+### Editar ejercicio (también sirve para reactivar: "isActive": true)
+PATCH {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "durationSeconds": 90,
+  "resourceUrl": "https://www.youtube.com/watch?v=nuevo456"
+}
+
+### Inactivar ejercicio
+DELETE {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### INSIGNIAS (BADGES)
+### ============================================================
+
+### Listar insignias (active=true: solo activas)
+GET {{baseUrl}}/badges?active=true
+Authorization: Bearer {{token}}
+
+### Ver una insignia
+GET {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+
+### Crear insignia
+POST {{baseUrl}}/badges
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Constante",
+  "description": "Completa 10 pausas activas",
+  "condition": "pausas_completadas",
+  "targetValue": 10
+}
+
+### Editar insignia (también sirve para reactivar: "isActive": true)
+PATCH {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "targetValue": 15
+}
+
+### Inactivar insignia
+DELETE {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### TIPOS DE RUTINA
+### ============================================================
+
+### Listar tipos de rutina (search: nombre o descripción | active=true: solo activos)
+GET {{baseUrl}}/routine-types?search=&active=true
+Authorization: Bearer {{token}}
+
+### Crear tipo de rutina
+POST {{baseUrl}}/routine-types
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Oficina",
+  "description": "Rutinas para hacer en el puesto de trabajo"
+}
+
+### Editar tipo de rutina (también sirve para reactivar: "isActive": true)
+PATCH {{baseUrl}}/routine-types/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "description": "Rutinas cortas para hacer sentado"
+}
+
+### Inactivar tipo de rutina (falla si tiene rutinas activas)
+DELETE {{baseUrl}}/routine-types/1
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### RUTINAS
+### ============================================================
+
+### Listar rutinas
+# search: nombre o descripción | routineTypeId: filtra por tipo | active=true: solo activas
+GET {{baseUrl}}/routines?search=&routineTypeId=&active=true
+Authorization: Bearer {{token}}
+
+### Ver una rutina con sus ejercicios
+GET {{baseUrl}}/routines/1
+Authorization: Bearer {{token}}
+
+### Crear rutina
+# La duración total se calcula sola: duración del ejercicio × series + descanso
+POST {{baseUrl}}/routines
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pausa de 5 minutos",
+  "description": "Estiramientos rápidos para la mitad de la jornada",
+  "routineTypeId": 1,
+  "exercises": [
+    { "exerciseId": 1, "orderIndex": 1, "sets": 2, "reps": 10, "restSeconds": 15 },
+    { "exerciseId": 2, "orderIndex": 2, "sets": 1, "restSeconds": 0 }
+  ]
+}
+
+### Editar rutina
+# Si envías "exercises", se reemplaza la lista completa y se recalcula la duración.
+# Para reactivar una rutina inactiva: { "isActive": true }
+PATCH {{baseUrl}}/routines/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pausa activa de oficina",
+  "exercises": [
+    { "exerciseId": 2, "orderIndex": 1, "sets": 3 }
+  ]
+}
+
+### Inactivar rutina
+# Si alguien la hizo en los últimos 7 días, pide confirmación con ?confirm=true
+DELETE {{baseUrl}}/routines/1?confirm=true
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### REALIZAR RUTINAS E HISTORIAL (usuario de la sesión)
+### ============================================================
+
+### Registrar que hice una rutina
+# Si durationSeconds >= duración total -> "completada" (100%); si no -> "abandonada" con su %
+POST {{baseUrl}}/routines/1/execute
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "durationSeconds": 120
+}
+
+### Mi historial de rutinas
+GET {{baseUrl}}/routines/history/me
+Authorization: Bearer {{token}}

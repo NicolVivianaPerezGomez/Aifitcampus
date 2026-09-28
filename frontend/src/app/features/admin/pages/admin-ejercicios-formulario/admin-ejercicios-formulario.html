@@ -1,0 +1,154 @@
+<section class="fondo-modal">
+  <section
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-formulario-ejercicio"
+  >
+    <header class="encabezado-modal">
+      <section>
+        <p class="seccion">{{ editando ? 'EDITAR EJERCICIO' : 'NUEVO EJERCICIO' }}</p>
+        <h1 id="titulo-formulario-ejercicio">{{ editando ? 'Editar ejercicio' : 'Crear ejercicio' }}</h1>
+        <p class="descripcion">Agrega la información que se enviará al catálogo de ejercicios.</p>
+      </section>
+      <button type="button" class="cerrar" aria-label="Cerrar" routerLink="/admin/adminEjercicios">
+        ×
+      </button>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <section class="contenido-formulario">
+        <section class="bloque-formulario bloque-principal">
+          <h2><span>1</span> Información del ejercicio</h2>
+
+          <label for="nombre">Nombre del ejercicio</label>
+          <input
+            id="nombre"
+            type="text"
+            formControlName="nombre"
+            placeholder="Ejemplo: Descanso visual 20-20-20"
+          />
+
+          <label for="descripcion">Descripción e instrucciones</label>
+          <textarea
+            id="descripcion"
+            formControlName="descripcion"
+            rows="4"
+            placeholder="Explica cómo realizar el ejercicio."
+          ></textarea>
+
+          <section class="campos">
+            <label for="duracion">
+              Duración (segundos)
+              <input
+                id="duracion"
+                type="number"
+                formControlName="duracionSegundos"
+                min="1"
+                placeholder="60"
+              />
+            </label>
+
+            <label for="repeticiones">
+              Repeticiones
+              <input
+                id="repeticiones"
+                type="number"
+                formControlName="repeticiones"
+                min="1"
+                placeholder="5"
+              />
+            </label>
+
+            <label for="categoria">
+              Categoría
+              <input
+                id="categoria"
+                type="text"
+                formControlName="categoria"
+                placeholder="Ejemplo: Ojos"
+                list="categorias-sugeridas"
+              />
+              <datalist id="categorias-sugeridas">
+                <option value="Ojos">Ojos</option>
+                <option value="Espalda">Espalda</option>
+                <option value="Cuello">Cuello</option>
+                <option value="Piernas">Piernas</option>
+                <option value="Relajación">Relajación</option>
+              </datalist>
+            </label>
+          </section>
+        </section>
+
+        <section class="bloque-formulario">
+          <h2><span>2</span> Recurso multimedia</h2>
+
+          <label for="tipo-recurso">Tipo de recurso</label>
+          <select id="tipo-recurso" formControlName="tipoRecurso">
+            <option value="video">Video</option>
+            <option value="image">Imagen</option>
+          </select>
+
+          <label for="archivo-recurso">Subir video o imagen</label>
+          <input
+            id="archivo-recurso"
+            type="file"
+            accept="video/*,image/*"
+            (change)="onArchivo($event)"
+          />
+          @if (cargandoArchivo()) {
+            <p class="nota">Leyendo archivo…</p>
+          }
+          @if (nombreArchivo()) {
+            <p class="nota">Archivo listo: {{ nombreArchivo() }}</p>
+          }
+          @if (errorArchivo()) {
+            <p class="nota" style="color: var(--color-secondary)">{{ errorArchivo() }}</p>
+          }
+
+          <label for="url-recurso">O pegar URL del recurso</label>
+          <input
+            id="url-recurso"
+            type="text"
+            formControlName="urlRecurso"
+            placeholder="https://… o se completa al subir un archivo"
+          />
+
+          <label for="tipo-aviso">Tipo de aviso</label>
+          <select id="tipo-aviso" formControlName="tipoAviso">
+            <option value="notificacion">Notificación</option>
+            <option value="bloqueo">Bloqueo de pantalla</option>
+          </select>
+
+          <label class="fila-switch">
+            <span>
+              <strong>Ejercicio activo</strong>
+              <small>Disponible para el colaborador en Inicio y Ejercicios.</small>
+            </span>
+            <input type="checkbox" formControlName="activo" />
+          </label>
+
+          <p class="nota">
+            El video o imagen que indiques aquí es el que verá el usuario. No se usan recursos
+            de demostración.
+          </p>
+        </section>
+      </section>
+
+      @if (errorGuardar()) {
+        <p class="nota" role="alert" style="color: var(--color-secondary); padding: 0 1.5rem">
+          {{ errorGuardar() }}
+        </p>
+      }
+
+      <footer class="acciones-modal">
+        <button type="button" class="boton-secundario" routerLink="/admin/adminEjercicios">
+          Cancelar
+        </button>
+        <button type="submit" class="boton-principal" [disabled]="form.invalid || guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar ejercicio' }}
+        </button>
+      </footer>
+    </form>
+  </section>
+</section>

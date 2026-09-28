@@ -1,0 +1,35 @@
+<section class="pagina">
+  <div class="marco">
+    <header>
+      <app-logo-uniempresarial [compacto]="true" />
+      <button type="button" aria-label="Salir de la sesión" (click)="salir()">Salir</button>
+    </header>
+
+    <div class="escenario">
+      <article class="tarjeta">
+        <h1>¿Cómo te sientes ahora?</h1>
+        <p>Tu respuesta ayuda a medir el impacto de las pausas activas.</p>
+        <small>Estado de ánimo antes de la pausa</small>
+
+        <div class="animos" role="listbox" aria-label="Estado de ánimo">
+          @for (opcion of opciones; track opcion.valor) {
+            <button
+              type="button"
+              role="option"
+              [class.elegido]="sesion().animoInicial?.valor === opcion.valor"
+              [attr.aria-selected]="sesion().animoInicial?.valor === opcion.valor"
+              (click)="seleccionar(opcion)"
+            >
+              <span>{{ opcion.emoji }}</span>
+              {{ opcion.etiqueta }}
+            </button>
+          }
+        </div>
+
+        <button type="button" class="comenzar" [disabled]="!sesion().tieneAnimo()" (click)="comenzar()">
+          Comenzar ejercicio
+        </button>
+      </article>
+    </div>
+  </div>
+</section>

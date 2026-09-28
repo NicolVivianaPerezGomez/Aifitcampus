@@ -1,0 +1,611 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
+@import "tailwindcss";
+
+/* =========================
+   CONFIGURACIÓN GLOBAL
+   ========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: calc(var(--a11y-base-font, 16px) * var(--a11y-font-scale, 1));
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Colores del proyecto (Unificados y combinados) */
+  --color-primary: #182987;
+  --color-secondary: #ed1736;
+  --color-bluesupport: #eaf0ff;
+  --color-redsupport: #fff0f2;
+  --color-text: #111827;
+  --color-background: #edf0f7; /* Priorizado de Andrés para vistas nuevas */
+
+  /* Otros */
+  --color-navy: #0c1467;
+  --color-white: #ffffff;
+  --color-muted: #6b7280;
+  --color-input: #f3f4f8;
+  --color-auth-bg: #f4f5fa;
+  --color-circle-blue: #28348a;
+  --color-magenta: #c3194a;
+  --color-ring-blue: #e7edfb;
+  --color-ring-pink: #f5e9ed;
+  --color-accent-line: linear-gradient(
+    90deg,
+    var(--color-white) 0%,
+    var(--color-secondary) 100%
+  );
+  --color-pink-soft: #f48aa0;
+  --color-card-border: #eef1f6;
+  --color-surface: #ffffff;
+  --color-surface-muted: #edf0f6;
+  --color-status-ok-bg: #def8ed;
+  --color-status-ok-fg: #16804c;
+  --color-card-shadow: 0 10px 28px
+    color-mix(in srgb, var(--color-navy) 5%, transparent);
+  --color-kpi-blob: #f0f2f8;
+  --color-kpi-pink: var(--color-magenta);
+  --color-chart-grid: #d8dce8;
+  --color-button-border: #e5e7ef;
+  --color-grayblue: #26316b;
+  --color-graysupport: #f4f5f9;
+  --color-gray-text: #4b5563;
+  --color-gray-border: #e5e7eb;
+  --color-navbar-beige: #f5f0eb;
+  --color-deepblue: #182361;
+  --color-lightgray: #9ba2af;
+  --color-deep-gray: #2f3338;
+
+  /* Tipografía reutilizable */
+  --font-primary: "Poppins", sans-serif !important;
+  --font-display: "Playfair Display", Georgia, serif;
+
+  /* Escalas tipográficas */
+  --fs-micro: 0.58rem;
+  --fs-eyebrow: 0.64rem;
+  --fs-caption: 0.72rem;
+  --fs-label: 0.74rem;
+  --fs-help: 0.78rem;
+  --fs-body-sm: 0.82rem;
+  --fs-nav: 0.86rem;
+  --fs-body: 0.88rem;
+  --fs-card: 1rem;
+  --fs-auth: 1.45rem;
+  --fs-kpi: 1.6rem;
+  --fs-title: 1.7rem;
+  --fs-display: 2.15rem;
+  --fs-chart: 10px;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --ls-eyebrow: 0.16em;
+  --ls-title: -0.02em;
+  --lh-tight: 1.15;
+  --lh-body: 1.5;
+}
+
+body {
+  font-family: var(--font-primary) !important;
+  color: var(--color-text);
+  background: var(--color-background);
+  min-height: 100vh;
+  line-height: var(--lh-body);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================
+   ESTILOS DE LA NAVBAR RESPONSIVOS
+   ========================= */
+
+.sidenav {
+  background-color: var(--color-navbar-beige) !important;
+}
+
+.navbar-container {
+  padding: clamp(8px, 1.5vh, 16px) clamp(16px, 3vw, 24px)  clamp(20px, 3.5vh, 35px); /* Arriba | Lados | Abajo */
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100%;
+  justify-content: space-between;
+}
+
+/* Lado superior del navbar*/
+.up-side {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Lado inferior (tiene la info del usuario y cerras sesión) */
+.down-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/*ajuste de tamaño del padding cuando se colpasa*/
+.navbar-container.navbar-collapsed {
+  padding-inline: clamp(
+    4px,
+    1vw,
+    8px
+  ); /*padding inline controla los lados izquierdo y derecho*/
+}
+
+.navbar-container hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    /*degradado de la línea*/ 90deg,
+    transparent,
+    color-mix(in srgb, var(--color-grayblue) 45%, transparent),
+    transparent
+  );
+}
+
+.items-container span {
+  font-size: clamp(0.7rem, 0.65vw, 0.95rem);
+}
+
+.navbar-item {
+  padding: clamp(0.4rem, 0.2vw, 0.6rem);
+  color: var(--color-primary);
+  transition: all 0.3s ease;
+  border-radius: clamp(0.5rem, 1vw, 0.8rem);
+}
+
+.navbar-item:hover {
+  background-color: white;
+  color: var(--color-secondary);
+  font-weight: 600;
+  box-shadow: 0 clamp(0.1rem, 0.2vw, 0.2rem) clamp(0.3rem, 1vw, 0.5rem)
+    rgba(17, 24, 39, 0.322);
+}
+
+/*tamaños de los iconos del navbar responsivos*/
+.navbar-item mat-icon {
+  font-size: clamp(1.25rem, 2.2vw, 2.25rem) !important;
+  width: clamp(1.25rem, 2vw, 2.25rem) !important;
+  height: clamp(1.25rem, 2vw, 2.25rem) !important;
+  line-height: clamp(1.25rem, 2.2vw, 2.25rem) !important;
+  flex-shrink: 0;
+}
+
+/*tamaños del logo*/
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 0.8vw, 0.75rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container h1 {
+  font-size: clamp(1.1rem, 1.2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.logo-container h2 {
+  color: var(--color-grayblue);
+  font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+  font-weight: 500;
+}
+
+/*TAMAÑOS PARA LA IMÁGEN DEL LOGO NORMAL Y COLAPSADO*/
+
+/* Tamaño normal de la imagen con el menú abierto */
+.logo-container img {
+  padding-top: 12px;
+  width: clamp(3.5rem, 6vw, 5rem);
+  height: auto;
+  transition: width 0.3s ease; /* Para que la transición al colapsar sea suave */
+}
+
+/* Tamaño más grande cuando el menú está colapsado */
+.logo-container img.collapsed-logo {
+  width: clamp(33px, 2vw, 45px);
+}
+
+/*animación del sidebar*/
+.custom-animation {
+  transition-duration: 400ms !important; /* tiempo total que dura la animación */
+  transition-timing-function: cubic-bezier(
+    0.25,
+    0.8,
+    1
+  ) !important; /* curva de velocidad de la animación agil, suave, fluido */
+  transition-property: width !important; /* especifíca que elementos se van a ver afectados */
+}
+
+/* Icono de cerrar sidebar */
+.close-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+}
+
+/* Contenedor del botón */
+.close-btn-container {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.close-menu-button {
+  width: clamp(
+    40px,
+    4vw,
+    60px
+  ); /*vw equivale al 1% del ancho total de la pantalla*/
+  height: clamp(40px, 4vw, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-text);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-menu-button:hover {
+  color: var(--color-text);
+}
+
+/*contenido del layout*/
+.content-padding {
+  padding: clamp(35px, 4vw, 42px);
+}
+
+/* =========================
+   UTILIDADES TIPOGRÁFICAS
+   ========================= */
+
+.tipo-eyebrow {
+  margin: 0;
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.tipo-eyebrow--acento {
+  color: var(--color-kpi-pink);
+}
+
+.tipo-eyebrow--marca {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.28em;
+  font-weight: var(--fw-medium);
+}
+
+.tipo-titulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-title);
+  line-height: var(--lh-tight);
+  color: var(--color-navy);
+}
+
+.tipo-titulo--sans {
+  font-family: var(--font-primary);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  color: var(--color-text);
+}
+
+.tipo-titulo--auth {
+  font-family: var(--font-primary);
+  font-size: var(--fs-auth);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  color: var(--color-text);
+}
+
+.tipo-titulo--display {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: inherit;
+}
+
+.tipo-lead {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-regular);
+  color: var(--color-muted);
+}
+
+.tipo-card {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-card);
+  font-weight: var(--fw-bold);
+  color: var(--color-navy);
+}
+
+.tipo-kpi {
+  font-family: var(--font-display);
+  font-size: var(--fs-kpi);
+  font-weight: var(--fw-semibold);
+  line-height: 1.05;
+  color: var(--color-navy);
+}
+
+.tipo-label {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+}
+
+.tipo-caption {
+  font-size: var(--fs-caption);
+  color: var(--color-muted);
+}
+
+.tipo-help {
+  font-size: var(--fs-help);
+}
+
+.tipo-nav {
+  font-size: var(--fs-nav);
+}
+
+.tipo-chart {
+  font-family: var(--font-primary);
+  font-size: var(--fs-chart);
+}
+
+@media (max-width: 720px) {
+  html {
+    font-size: 15px;
+  }
+
+  .tipo-titulo {
+    font-size: 1.4rem;
+  }
+
+  .tipo-titulo--display {
+    font-size: 1.75rem;
+  }
+}
+
+/* =========================
+   ESTILOS DE BOTÓNES
+   ========================= */
+
+/*BOTON DE CERRAR SESIÓN (EXIT BTN)*/
+.exit-btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.exit-btn {
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 50%, transparent);
+  box-shadow: 0 8px 25px -5px
+    color-mix(in srgb, var(--color-secondary) 30%, transparent); /*desplazo vertical, horizonatal, desenfoque y radio*/
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 0.5vw, 8px);
+  font-size: clamp(11px, 0.85vw, 13px) !important;
+  color: var(--color-secondary);
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid var(--color-secondary);
+  border-radius: clamp(10px, 1vw, 15px);
+  cursor: pointer;
+  padding: clamp(2px, 0.4vw, 4px) clamp(8px, 0.8vw, 12px);
+  transition: all 0.3s ease;
+  background-color: var(--color-redsupport);
+}
+
+.exit-btn:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-background);
+}
+
+/* Alineación e integración del icono (versión expandida) */
+.exit-btn mat-icon {
+  font-size: clamp(14px, 1.1vw, 18px);
+  width: clamp(14px, 1.1vw, 18px);
+  height: clamp(14px, 1.1vw, 18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Estilos cuando el menú está colapsado --- */
+.exit-btn-container.collapsed .exit-btn {
+  /* Botón circular con tamaño fluido responsivo */
+  width: clamp(24px, 3.5vw, 40px);
+  height: clamp(24px, 3.5vw, 40px);
+  padding: 0;
+  border: 2px solid color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  border: 2px solid var(--color-secondary);
+  border-radius: 50%;
+}
+
+.exit-btn-container.collapsed .exit-btn mat-icon {
+  /* Icono más pequeño exclusivo para la versión colapsada */
+  font-size: 15px;
+  font-weight: 600;
+  width: clamp(11px, 1vw, 14px);
+  height: clamp(11px, 1vw, 14px);
+}
+
+/*BOTÓN AZUL*/
+.blue-btn {
+  background-color: var(--color-deepblue);
+  padding: 0.7rem;
+  color: var(--color-background);
+  border-radius: clamp(8px, 1.2vw, 15px);
+  font-size: var(--fs-body-sm);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    /*cubic-bazier es una curva personalizada en vez de ease*/ background-color
+      0.25s ease;
+  backface-visibility: hidden; /*propiedas que envita el renderizado borroso de las animaciones*/
+}
+
+.blue-btn:hover {
+  background-color: var(--color-primary);
+  transform: scale(1.025);
+}
+
+/* BOTÓN DE BORDE AZUL*/
+.border-blue-btn {
+  border: 1.9px solid var(--color-deepblue);
+  padding: 0.7rem;
+  color: var(--color-deepblue);
+  font-weight: 500;
+  border-radius: clamp(8px, 1.2vw, 15px);
+  font-size: var(--fs-body-sm);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    /*cubic-bazier es una curva personalizada en vez de ease*/ background-color
+      0.25s ease;
+  backface-visibility: hidden; /*propiedas que envita el renderizado borroso de las animaciones*/
+}
+
+.border-blue-btn:hover {
+  background-color: var(--color-deepblue);
+  color: var(--color-background);
+  transform: scale(1.025);
+}
+
+/* BOTÓN SIMPLE DE TEXTO AZUL*/
+.simple-blue-btn {
+  color: var(--color-deepblue);
+  padding: 0.7rem;
+  font-weight: 500;
+  font-size: var(--fs-body-sm);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    /*cubic-bazier es una curva personalizada en vez de ease*/ color 0.25s ease;
+}
+
+.simple-blue-btn:hover {
+  color: var(--color-secondary);
+}
+
+/* EFECTOS PARA TODOS LOS BOTONES*/
+
+/* Efecto de pulsación al hacer clic (feedback táctil) */
+.blue-btn:active,
+.border-blue-btn:active,
+.exit-btn:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* =========================
+   ESTILOS DE CARDS REUTILIZABLES
+   ========================= */
+
+/* Estilos de la información del usuario en el menu*/
+
+/* contenedor de la info */
+.user-info-cotainer {
+  position: relative; /* referencia de posicion para sus hijos*/
+  overflow: hidden; /* oculta los elementos que se salgan del contenedor */
+
+  margin-top: 3px;
+  border: 1px solid color-mix(in srgb, var(--color-muted) 40%, transparent);
+  background-color: var(--color-bluesupport);
+  box-shadow: 0 10px 25px -5px
+    color-mix(in srgb, var(--color-primary) 30%, transparent); /*desplazo vertical, horizonatal, desenfoque y radio*/
+  padding: 15px;
+  border-radius: 20px;
+
+  /* Evita que el efecto cambie el tamaño del contenedor */
+  isolation: isolate;
+}
+
+/* Destello de brillo */
+.user-info-cotainer::after {
+  /*after crea un elemento visual sin escribir un html como una capa invisible*/
+  content: ""; /* una capa invisible sin contenido*/
+
+  position: absolute; /*delimita el brillo con referencia a los limites del contenedor y no de la página*/
+  /* posicion del elemento absolute */
+  top: 0; /*alineado con la parte superior*/
+  right: -100%; /*fura del contenedor a la derehca*/
+  width: 45%; /*el brillo ocupa el 45% del ancho del contenedor*/
+  height: 100%; /*altura total del contenedor*/
+
+  background: linear-gradient(
+    110deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+
+  transform: skewX(-20deg); /* skewX inicia un elemento horizontalmente */
+  pointer-events: none; /* no recibe interacciones con el mouse peor no bloquea los que si */
+}
+
+.user-info-cotainer:hover::after {
+  animation: user-shine 1.2s ease-in-out;
+}
+
+/* Animación del brillo: derecha hacia izquierda */
+@keyframes user-shine {
+  0% {
+    right: -100%;
+  }
+
+  100% {
+    right: 120%;
+  }
+}
+
+.mat-drawer-inner-container {
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  overflow: auto;
+}

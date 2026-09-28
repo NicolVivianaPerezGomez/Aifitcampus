@@ -1,0 +1,76 @@
+<div class="navbar-container" [class.navbar-collapsed]="collapsed()">
+  <div class="up-side">
+    @if (!collapsed()) {
+    <div class="close-btn-container">
+      <button class="close-menu-button" (click)="menuClick.emit()">
+        <mat-icon class="close-icon">keyboard_double_arrow_left</mat-icon>
+      </button>
+    </div>
+    }
+
+    <section class="logo-container">
+      <button (click)="menuClick.emit()">
+        <img src="/assets/UE-logo.webp" alt="UE-logo" [class.collapsed-logo]="collapsed()"/>
+      </button>
+
+      <hr/>
+      @if (!collapsed()) {
+      <!--cuanto el menu este colpasado oculta esto-->
+      <h1>Uniempresarial</h1>
+      <h2>PAUSAS ACTIVAS</h2>
+      
+      }
+    </section>
+
+    <!--contenedor de los items del menu-->
+    <section class="items-container">
+      <ul class="py-2 flex flex-col w-full gap-2">
+        <!--py: padding en y-->
+        @for (item of items(); track item.label) {
+        <!--renderiza cada item del menu definido en el ts-->
+        <li>
+          <a
+            class="w-full p-2 flex items-center gap-2 rounded-md navbar-item"
+            [class.justify-center]="collapsed()"
+            [routerLink]="item.path"
+          >
+            <mat-icon> {{ item.icon }} </mat-icon>
+            <!--el menu colapsado solo muestra el icono-->
+            @if (!collapsed()) {
+            <!--si collapsed esta en false, osea el menu no esta colapsado muestra el texto-->
+            <span> {{ item.label }} </span>
+            }
+          </a>
+        </li>
+        }
+      </ul>
+    </section>
+  </div>
+
+  <div class="down-side">
+    <!-- información del usuario y salir-->
+    @if (!collapsed()) {
+    <hr/>
+    <section class="user-info-cotainer">
+      <app-user-info></app-user-info>
+    </section>
+    }
+  
+
+    <div class="down-side">
+      <!-- boton para salir-->
+      <div class="exit-btn-container" [class.collapsed]="collapsed()">
+        <button
+          class="exit-btn"
+          type="button"
+          [title]="collapsed() ? 'Cerrar sesión' : ''"
+          (click)="cerrarSesion()"
+        >
+          <mat-icon>logout</mat-icon>
+          @if (!collapsed()) {
+          <span>Cerrar sesión</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,11 @@
+<div class="grafico" role="img" aria-label="Gráfico de barras horizontales">
+  @for (fila of filas(); track fila.etiqueta) {
+    <div class="fila">
+      <span class="etiqueta">{{ fila.etiqueta }}</span>
+      <div class="pista">
+        <span class="barra" [style.width.%]="fila.ancho" [style.background]="fila.color"></span>
+      </div>
+      <strong>{{ fila.valor }}</strong>
+    </div>
+  }
+</div>

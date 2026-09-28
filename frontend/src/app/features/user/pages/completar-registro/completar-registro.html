@@ -1,0 +1,45 @@
+<section class="completar-registro">
+  <div class="tarjeta">
+    <header>
+      <p class="tipo-eyebrow">Registro</p>
+      <h1>Completa tu registro</h1>
+      <p class="tipo-lead">
+        Proporciona tu programa y departamento para finalizar tu registro.
+      </p>
+    </header>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+    @if (mensaje()) {
+      <p class="mensaje" role="status">{{ mensaje() }}</p>
+    }
+
+    <form (ngSubmit)="guardar()">
+      <label>
+        Programa (ID)
+        <input
+          type="number"
+          [(ngModel)]="programa"
+          name="programa"
+          placeholder="Ingresa el ID de tu programa"
+          required
+        />
+      </label>
+
+      <label>
+        Departamento
+        <input
+          type="text"
+          [(ngModel)]="departamento"
+          name="departamento"
+          placeholder="Nombre de tu departamento"
+        />
+      </label>
+
+      <button type="submit" [disabled]="cargando()">
+        {{ cargando() ? 'Guardando...' : 'Completar registro' }}
+      </button>
+    </form>
+  </div>
+</section>

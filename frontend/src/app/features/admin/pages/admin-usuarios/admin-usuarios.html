@@ -1,0 +1,176 @@
+<!-- Sección: estructura visual del componente. -->
+<main class="pagina-usuarios">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">COMUNIDAD</p>
+      <h1>Gestión de usuarios</h1>
+      <p class="descripcion">
+        Registra usuarios, asigna roles y gestiona el acceso a la plataforma.
+      </p>
+    </section>
+    <div class="acciones-header">
+      <button type="button" class="boton-principal" (click)="toggleFormulario()">
+        {{ mostrarFormulario() ? 'Cancelar' : '+ Nuevo usuario' }}
+      </button>
+      <form class="buscador" (ngSubmit)="cargar()">
+        <input
+          type="search"
+          name="busqueda"
+          [(ngModel)]="busqueda"
+          placeholder="Buscar por nombre, correo o área"
+          aria-label="Buscar usuarios"
+        />
+      </form>
+    </div>
+  </header>
+
+  @if (mostrarFormulario()) {
+    <section class="formulario-usuario">
+      <h2>Registrar nuevo usuario</h2>
+      <p class="descripcion">El usuario podrá iniciar sesión con su cuenta de Microsoft 365.</p>
+      <form (ngSubmit)="crearUsuario()">
+        <div class="campos">
+          <label>
+            Nombre
+            <input type="text" [(ngModel)]="nuevoUsuario.firstName" name="firstName" required />
+          </label>
+          <label>
+            Apellido
+            <input type="text" [(ngModel)]="nuevoUsuario.lastName" name="lastName" required />
+          </label>
+        </div>
+        <label>
+          Correo institucional
+          <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" placeholder="correo@uniempresarial.edu.co" required />
+        </label>
+        <label>
+          Contraseña
+          <input type="password" [(ngModel)]="nuevoUsuario.password" name="password" placeholder="Mínimo 6 caracteres" required minlength="6" />
+        </label>
+        <div class="campos">
+          <label>
+            Rol
+            <select [(ngModel)]="nuevoUsuario.roleId" name="roleId" required>
+              <option [ngValue]="0">Selecciona un rol</option>
+              @for (rol of roles(); track rol.id) {
+                @if (!rol.name.toLowerCase().includes('admin')) {
+                  <option [ngValue]="rol.id">{{ rol.name }}</option>
+                }
+              }
+            </select>
+          </label>
+          <label>
+            Programa
+            <input type="number" [(ngModel)]="nuevoUsuario.programId" name="programId" placeholder="ID del programa" required />
+          </label>
+        </div>
+        <label>
+          Departamento (opcional)
+          <input type="text" [(ngModel)]="nuevoUsuario.department" name="department" placeholder="Nombre del departamento" />
+        </label>
+        <button type="submit" class="boton-principal">Crear usuario</button>
+      </form>
+    </section>
+  }
+
+  @if (error()) {
+    <p class="descripcion" role="alert" style="color: var(--color-secondary)">{{ error() }}</p>
+  }
+  @if (mensaje()) {
+    <p class="descripcion" role="status">{{ mensaje() }}</p>
+  }
+  <section class="tarjeta-usuarios">
+    <section class="contenedor-tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Registro</th>
+            <th aria-label="Acciones"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario.id) {
+            <tr>
+              <td><strong>{{ usuario.firstName }}</strong><strong>{{ usuario.lastName }}</strong></td>
+              <td>{{ usuario.email }}</td>
+              <td>
+                @if (editandoRol() === usuario.id) {
+                  <select
+                    [ngModel]="usuario.roleId"
+                    (ngModelChange)="guardarRol(usuario, $event)"
+                    (blur)="editandoRol.set(null)"
+                    aria-label="Rol del usuario"
+                  >
+                    @for (rol of roles(); track rol.id) {
+                      <option [ngValue]="rol.id">{{ rol.name }}</option>
+                    }
+                  </select>
+                } @else {
+                  <span class="rol" [class.administrador]="esAdmin(usuario)">
+                    {{ usuario.role?.name ?? 'Sin rol' }}
+                  </span>
+                }
+              </td>
+              <td>
+                <span class="estado" [class.activo]="estaActivo(usuario)" [class.inactivo]="!estaActivo(usuario)">
+                  {{ estaActivo(usuario) ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="cambiar-rol"
+                  [disabled]="!estaActivo(usuario)"
+                  (click)="editandoRol.set(usuario.id)"
+                >
+                  Cambiar rol</button
+                >@if (estaActivo(usuario)) {<button
+                    type="button"
+                    class="accion-usuario"
+                    (click)="desactivar(usuario)"
+                  >
+                    Desactivar
+                  </button>} @else {<button
+                    type="button"
+                    class="accion-usuario activar"
+                    (click)="activar(usuario)"
+                  >
+                    Activar
+                  </button>}
+                  <button
+                    type="button"
+                    class="accion-usuario"
+                    (click)="restablecerContrasena(usuario)"
+                  >
+                    Restablecer contraseña
+                  </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6">{{ cargando() ? 'Cargando usuarios...' : 'No hay usuarios registrados.' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay" (click)="cancelarModal()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" (click)="$event.stopPropagation()">
+        <h2 id="modal-titulo">{{ tituloModal() }}</h2>
+        <p>{{ mensajeModal() }}</p>
+        <div class="modal-acciones">
+          <button type="button" class="boton-secundario" (click)="cancelarModal()">Cancelar</button>
+          <button type="button" class="boton-principal" (click)="confirmarModal()">{{ textoConfirmar() }}</button>
+        </div>
+      </div>
+    </div>
+  }
+</main>

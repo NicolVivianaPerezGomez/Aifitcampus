@@ -1,0 +1,12 @@
+<article class="kpi" [attr.data-acento]="acento()">
+  <span class="kpi__icono" aria-hidden="true">
+    <ng-content />
+  </span>
+  <div class="kpi__datos">
+    <strong class="tipo-kpi">{{ valor() }}</strong>
+    <p>{{ etiqueta() }}</p>
+    @if (detalle()) {
+      <small>{{ detalle() }}</small>
+    }
+  </div>
+</article>

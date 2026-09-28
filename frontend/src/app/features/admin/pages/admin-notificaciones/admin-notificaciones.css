@@ -1,0 +1,138 @@
+/* Sección: contenedor base alineado con AdminLayout. */
+:host {
+  color: var(--color-primary);
+  display: block;
+  font-family: var(--font-primary);
+}
+.pagina-notificaciones {
+  width: 100%;
+}
+/* Sección: encabezado de la pantalla. */
+.encabezado-pagina {
+  align-items: flex-end;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-bottom: 2.2rem;
+}
+.seccion {
+  color: var(--color-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.6rem;
+}
+h1 {
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+.descripcion {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin: 0.9rem 0 0;
+  max-width: 760px;
+}
+.boton-principal {
+  background: var(--color-secondary);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(237, 23, 54, 0.22);
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.9rem 1.35rem;
+}
+.tarjeta-notificaciones {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: var(--color-card-shadow);
+  padding: 1.25rem;
+}
+.contenedor-tabla {
+  border: 1px solid #e6eaf4;
+  border-radius: 14px;
+  overflow-x: auto;
+  padding: 0.7rem;
+}
+table {
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  min-width: 1040px;
+  width: 100%;
+}
+th {
+  background: var(--color-bluesupport);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  padding: 0.9rem 0.75rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+td {
+  border-bottom: 1px solid #edf0f6;
+  padding: 0.9rem 0.75rem;
+  vertical-align: middle;
+}
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+td:first-child {
+  min-width: 210px;
+}
+td strong,
+td small {
+  display: block;
+}
+td small {
+  color: #737b99;
+  font-size: 0.64rem;
+  margin-top: 0.22rem;
+}
+.estado {
+  border-radius: 999px;
+  font-size: 0.63rem;
+  font-weight: 700;
+  padding: 0.32rem 0.55rem;
+}
+.activo {
+  background: #def8ed;
+  color: #16804c;
+}
+.inactivo {
+  background: #eef0f5;
+  color: #737b99;
+}
+.acciones {
+  white-space: nowrap;
+}
+.acciones button {
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 0.2rem;
+}
+.acciones button:last-child {
+  color: var(--color-secondary);
+}
+@media (max-width: 640px) {
+  .encabezado-pagina {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .boton-principal {
+    width: 100%;
+  }
+  .tarjeta-notificaciones {
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+}
