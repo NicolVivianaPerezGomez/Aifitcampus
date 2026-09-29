@@ -46,7 +46,7 @@ export class RegisterUser {
     });
 
     await this.auditPort.register({
-      userId: actorUserId,
+      userId: actorUserId > 0 ? actorUserId : null,
       action: "CREATE",
       entity: "users",
       description: `Usuario creado: ${user.email}`,

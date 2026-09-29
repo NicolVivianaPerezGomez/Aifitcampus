@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../interfaces/usuario';
@@ -33,19 +33,6 @@ export class AuthService {
    */
   iniciarSesionMicrosoft(): void {
     window.location.href = `${environment.apiUrl}/auth/microsoft`;
-  }
-
-  /**
-   * Inicia sesión con correo y contraseña (login local).
-   */
-  async iniciarSesionLocal(correo: string, clave: string): Promise<Usuario> {
-    const response = await firstValueFrom(
-      this.http.post<{ token: string }>(`${environment.apiUrl}/auth/login`, {
-        email: correo,
-        password: clave,
-      })
-    );
-    return this.completarInicioSesion(response.token);
   }
 
   /**

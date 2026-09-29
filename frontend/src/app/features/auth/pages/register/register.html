@@ -22,18 +22,34 @@
       <p class="texto-registro">Regístrate para empezar a cuidar tu bienestar en la jornada.</p>
 
       <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
-        <label for="nombre">Nombre completo</label>
+        <label for="firstName">Nombre</label>
         <input
-          id="nombre"
+          id="firstName"
           type="text"
-          formControlName="nombre"
-          autocomplete="name"
-          [class.input-invalido]="isControlInvalid('nombre')"
+          formControlName="firstName"
+          placeholder="Tu nombre"
+          autocomplete="given-name"
+          [class.input-invalido]="isControlInvalid('firstName')"
         />
-        @if (hasError('nombre', 'required')) {
-          <small class="mensaje-error">El nombre completo es obligatorio.</small>
-        } @else if (hasError('nombre', 'pattern')) {
-          <small class="mensaje-error">Escribe al menos nombre y apellido; usa solo letras.</small>
+        @if (hasError('firstName', 'required')) {
+          <small class="mensaje-error">El nombre es obligatorio.</small>
+        } @else if (hasError('firstName', 'minlength')) {
+          <small class="mensaje-error">Mínimo 2 caracteres.</small>
+        }
+
+        <label for="lastName">Apellido</label>
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="Tu apellido"
+          autocomplete="family-name"
+          [class.input-invalido]="isControlInvalid('lastName')"
+        />
+        @if (hasError('lastName', 'required')) {
+          <small class="mensaje-error">El apellido es obligatorio.</small>
+        } @else if (hasError('lastName', 'minlength')) {
+          <small class="mensaje-error">Mínimo 2 caracteres.</small>
         }
 
         <label for="correo">Correo institucional</label>
@@ -53,6 +69,21 @@
           >
         }
 
+        <label for="clave">Contraseña</label>
+        <input
+          id="clave"
+          type="password"
+          formControlName="clave"
+          placeholder="Mínimo 6 caracteres"
+          autocomplete="new-password"
+          [class.input-invalido]="isControlInvalid('clave')"
+        />
+        @if (hasError('clave', 'required')) {
+          <small class="mensaje-error">La contraseña es obligatoria.</small>
+        } @else if (hasError('clave', 'minlength')) {
+          <small class="mensaje-error">Mínimo 6 caracteres.</small>
+        }
+
         <label for="programa">Programa (ID)</label>
         <input
           id="programa"
@@ -64,14 +95,6 @@
         @if (hasError('programa', 'required')) {
           <small class="mensaje-error">El programa es obligatorio.</small>
         }
-
-        <label for="departamento">Departamento</label>
-        <input
-          id="departamento"
-          type="text"
-          formControlName="departamento"
-          placeholder="Nombre de tu departamento"
-        />
 
         @if (error) {
           <small class="mensaje-error">{{ error }}</small>

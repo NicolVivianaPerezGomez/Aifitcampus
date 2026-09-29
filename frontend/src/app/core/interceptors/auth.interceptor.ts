@@ -20,11 +20,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(peticion).pipe(
     catchError((error) => {
-      if (error.status === 401 && esBackend) {
+      if (error.status === 401 && esBackend && token) {
         auth.cerrarSesion();
-        void router.navigate(['/login'], {
-          queryParams: { error: 'Tu sesión expiró, inicia sesión nuevamente.' },
-        });
+        const urlActual = router.url;
+        if (!urlActual.startsWith('/login')) {
+          void router.navigate(['/login'], {
+            queryParams: { error: 'Tu sesión expiró, inicia sesión nuevamente.' },
+          });
+        }
       }
       return throwError(() => error);
     }),

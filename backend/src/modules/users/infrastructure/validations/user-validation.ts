@@ -30,11 +30,6 @@ const updatePermissionsSchema = Joi.object({
   permissions: Joi.object().required(),
 });
 
-const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-});
-
 const resetPasswordSchema = Joi.object({
   password: Joi.string().min(6).max(100).required(),
 });
@@ -51,5 +46,4 @@ export const validateRegister = validate(registerSchema);
 export const validateUpdateProfile = validate(updateProfileSchema);
 export const validateAssignDepartment = validate(assignDepartmentSchema);
 export const validateUpdatePermissions = validate(updatePermissionsSchema);
-export const validateLogin = validate(loginSchema);
 export const validateResetPassword = validate(resetPasswordSchema);

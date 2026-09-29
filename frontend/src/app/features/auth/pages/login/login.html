@@ -16,28 +16,19 @@
           <p class="alerta" role="alert">{{ error() }}</p>
         }
 
-        <form (ngSubmit)="entrar()">
-          <label for="correo">Correo institucional</label>
-          <input id="correo" name="email" type="email" [(ngModel)]="correo" placeholder="tucorreo@uniempresarial.edu.co" required />
+        @if (exito()) {
+          <p class="exito" role="status">{{ exito() }}</p>
+        }
 
-          <label for="clave">Contraseña</label>
-          <div class="campo-clave">
-            <input id="clave" name="password" type="password" [(ngModel)]="clave" placeholder="••••••••" required />
-            <button type="button" aria-label="Mostrar contraseña">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-
-          <label class="recordar">
-            <input type="checkbox" name="recordar" />
-            <span class="cuadro"></span>
-            Recordarme
-          </label>
-
-          <button type="submit" class="entrar" [disabled]="cargando()">
-            {{ cargando() ? 'Verificando...' : 'Iniciar sesión' }}
-          </button>
-        </form>
+        <button type="button" class="entrar" (click)="entrar()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" width="20" height="20" aria-hidden="true">
+            <path fill="#f35325" d="M1 1h10v10H1z"/>
+            <path fill="#81bc06" d="M12 1h10v10H12z"/>
+            <path fill="#05a6f0" d="M1 12h10v10H1z"/>
+            <path fill="#ffba08" d="M12 12h10v10H12z"/>
+          </svg>
+          Iniciar con Microsoft
+        </button>
 
         <p class="enlace">
           ¿Aún no tienes cuenta?

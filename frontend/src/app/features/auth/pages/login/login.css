@@ -160,11 +160,39 @@ input::placeholder {
   background: var(--color-secondary);
   color: var(--color-white);
   font-weight: var(--fw-semibold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: var(--fs-body);
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.entrar:hover {
+  background: color-mix(in srgb, var(--color-secondary) 88%, var(--color-navy));
+}
+
+.entrar:active {
+  transform: scale(0.98);
+}
+
+.entrar svg {
+  flex-shrink: 0;
 }
 
 .alerta {
   font-size: var(--fs-help);
   color: var(--color-secondary);
+}
+
+.exito {
+  font-size: var(--fs-help);
+  color: #16a34a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
 }
 
 .enlace {

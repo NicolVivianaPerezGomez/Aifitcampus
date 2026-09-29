@@ -7,7 +7,6 @@ import {
   validateUpdateProfile,
   validateAssignDepartment,
   validateUpdatePermissions,
-  validateLogin,
   validateResetPassword,
 } from "../validations/user-validation";
 
@@ -16,7 +15,6 @@ const router = Router();
 // Autenticación HU-01: único mecanismo, Microsoft 365 (OAuth Authorization Code)
 router.get("/auth/microsoft", MicrosoftAuthController.redirect);
 router.get("/auth/microsoft/callback", MicrosoftAuthController.callback);
-router.post("/auth/login", validateLogin, UserController.login); // Login local con correo y contraseña
 router.post("/auth/register", validateRegister, UserController.registerPublic); // Registro público de usuarios
 router.get("/auth/me", authMiddleware, UserController.me); // usuario de la sesión actual
 

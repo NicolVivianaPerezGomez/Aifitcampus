@@ -14,7 +14,6 @@ import { ActivateUser } from "../../application/use-cases/ActivateUser";
 import { AssignDepartment } from "../../application/use-cases/AssignDepartment";
 import { UpdateUserPermissions } from "../../application/use-cases/UpdateUserPermissions";
 import { GetCurrentUser } from "../../application/use-cases/GetCurrentUser";
-import { LoginLocal } from "../../application/use-cases/LoginLocal";
 import { ResetPassword } from "../../application/use-cases/ResetPassword";
 
 const userAdapter = new UserAdapter();
@@ -22,17 +21,6 @@ const auditAdapter = new AuditAdapter();
 
 export class UserController {
   // HU-01: el login en sí ocurre en MicrosoftAuthController (flujo OAuth).
-
-  // Login local con correo y contraseña
-  static async login(req: Request, res: Response) {
-    try {
-      const { email, password } = req.body;
-      const result = await new LoginLocal(userAdapter, envs.ALLOWED_EMAIL_DOMAIN).execute(email, password);
-      return res.status(200).json(result);
-    } catch (error) {
-      return UserController.handleError(error, res);
-    }
-  }
 
   // Usuario de la sesión actual (lo pide el frontend después del login)
   static async me(req: AuthRequest, res: Response) {

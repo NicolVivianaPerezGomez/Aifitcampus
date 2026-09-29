@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
-import { AuthService } from '../../../../core/services/auth.service';
 import { mensajeError } from '../../../../core/services/api-error';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   styleUrl: './register.css',
   templateUrl: './register.html',
 })
@@ -15,7 +14,6 @@ export class Register {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly usuariosService = inject(UsuariosService);
-  private readonly auth = inject(AuthService);
 
   registerForm: FormGroup;
   submitted = false;
@@ -24,14 +22,8 @@ export class Register {
 
   constructor() {
     this.registerForm = this.formBuilder.group({
-      nombre: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$'),
-        ],
-      ],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       correo: [
         '',
         [
@@ -41,7 +33,6 @@ export class Register {
       ],
       clave: ['', [Validators.required, Validators.minLength(6)]],
       programa: ['', [Validators.required, Validators.min(1)]],
-      departamento: [''],
     });
   }
 
@@ -69,17 +60,18 @@ export class Register {
     try {
       // Crear usuario en el backend (solo rol "usuario", sin admin)
       await this.usuariosService.crear({
-        firstName: this.registerForm.get('nombre')?.value.split(' ')[0] || '',
-        lastName: this.registerForm.get('nombre')?.value.split(' ').slice(1).join(' ') || '',
+        firstName: this.registerForm.get('firstName')?.value,
+        lastName: this.registerForm.get('lastName')?.value,
         email: this.registerForm.get('correo')?.value,
         password: this.registerForm.get('clave')?.value,
         roleId: 2, // Rol "usuario" (no admin)
         programId: Number(this.registerForm.get('programa')?.value),
-        department: this.registerForm.get('departamento')?.value || undefined,
       });
 
-      // Iniciar sesión con Microsoft después del registro
-      this.auth.iniciarSesionMicrosoft();
+      // Redirigir al login con mensaje de éxito
+      void this.router.navigate(['/login'], {
+        queryParams: { registro: 'exitoso' },
+      });
     } catch (err) {
       this.error = mensajeError(err, 'No fue posible crear la cuenta');
     } finally {
