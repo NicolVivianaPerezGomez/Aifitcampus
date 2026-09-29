@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
@@ -11,7 +11,7 @@ import { mensajeError } from '../../../../core/services/api-error';
  * proporcionar su programa y departamento.
  */
 @Component({
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   selector: 'app-completar-registro',
   styleUrl: './completar-registro.css',
   templateUrl: './completar-registro.html',

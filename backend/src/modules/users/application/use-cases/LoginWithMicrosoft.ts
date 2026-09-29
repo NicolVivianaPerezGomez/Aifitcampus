@@ -54,11 +54,11 @@ export class LoginWithMicrosoft {
       authProvider: "microsoft",
       firstName: profile.firstName || user.firstName,
       lastName: profile.lastName || user.lastName,
-      jobTitle: profile.jobTitle,
-      department: profile.department,
-      officeLocation: profile.officeLocation,
-      mobilePhone: profile.mobilePhone,
-      businessPhones: profile.businessPhones,
+      jobTitle: profile.jobTitle ?? user.jobTitle,
+      department: profile.department ?? user.department,
+      officeLocation: profile.officeLocation ?? user.officeLocation,
+      mobilePhone: profile.mobilePhone ?? user.mobilePhone,
+      businessPhones: profile.businessPhones ?? user.businessPhones,
     }) as User;
 
     const token = signToken({ userId: updated.id, email: updated.email, roleId: updated.roleId });

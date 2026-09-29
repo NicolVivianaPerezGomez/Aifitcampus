@@ -13,15 +13,25 @@ export interface Insignia {
   isActive: boolean;
 }
 
+/** Insignia asignada a un usuario (GET /api/user-badges/user/:userId) */
+export interface UserBadge {
+  id: number;
+  userId: number;
+  badgeId: number;
+  earnedAt: string | null;
+  progress: number | null;
+}
+
 /**
- * Gestión de insignias para el administrador.
- * Endpoints: /api/badges
+ * Gestión de insignias y asignación de insignias a usuarios.
+ * Endpoints: /api/badges y /api/user-badges
  */
 @Injectable({ providedIn: 'root' })
 export class InsigniasService {
   private readonly http = inject(HttpClient);
   private readonly api = environment.apiUrl;
 
+  // Insignias
   listar(): Promise<Insignia[]> {
     return firstValueFrom(this.http.get<Insignia[]>(`${this.api}/badges`));
   }
@@ -54,5 +64,18 @@ export class InsigniasService {
 
   eliminar(id: number): Promise<unknown> {
     return firstValueFrom(this.http.delete(`${this.api}/badges/${id}`));
+  }
+
+  // UserBadges
+  listarPorUsuario(userId: number): Promise<UserBadge[]> {
+    return firstValueFrom(this.http.get<UserBadge[]>(`${this.api}/user-badges/user/${userId}`));
+  }
+
+  asignar(userId: number, badgeId: number, progress?: number): Promise<UserBadge> {
+    return firstValueFrom(this.http.post<UserBadge>(`${this.api}/user-badges`, { userId, badgeId, progress }));
+  }
+
+  remover(id: number): Promise<unknown> {
+    return firstValueFrom(this.http.delete(`${this.api}/user-badges/${id}`));
   }
 }

@@ -14,6 +14,9 @@ import { ExerciseCategoryModel } from "../../modules/exercises/infrastructure/pe
 import { ExerciseRoutineModel } from "../../modules/exercises/infrastructure/persistence/ExerciseRoutineModel";
 import { BadgeModel } from "../../modules/badges/infrastructure/persistence/BadgeModel";
 import { UserBadgeModel } from "../../modules/badges/infrastructure/persistence/UserBadgeModel";
+import { NotificationModel } from "../../modules/notifications/infrastructure/persistence/NotificationModel";
+import { NotificationDayModel } from "../../modules/notifications/infrastructure/persistence/NotificationDayModel";
+import { UserNotificationModel } from "../../modules/notifications/infrastructure/persistence/UserNotificationModel";
 
 dotenv.config();
 
@@ -34,6 +37,7 @@ export const AppDataSource = new DataSource({
         RoutineModel, RoutineLogModel, RoutineTypeModel,
         ExerciseModel, ExerciseCategoryModel, ExerciseRoutineModel,
         BadgeModel, UserBadgeModel,
+        NotificationModel, NotificationDayModel, UserNotificationModel,
     ],
 });
 

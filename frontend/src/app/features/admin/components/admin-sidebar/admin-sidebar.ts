@@ -19,12 +19,12 @@ export class AdminSidebar {
   /* items que se rendeizan en el menu de tipo MenuItem(una interface)*/
   items = signal<MenuItem[]>([
     { path: 'adminDashboard', icon: 'dashboard', label: 'Dashboard' },
-    { path: 'adminHorarios', icon: 'schedule', label: 'Horarios' },
     { path: 'adminEjercicios', icon: 'self_improvement', label: 'Ejercicios' },
     { path: 'adminRutinas', icon: 'fitness_center', label: 'Rutinas' },
     { path: 'adminUsuarios', icon: 'group', label: 'Usuarios' },
     { path: 'adminInsignias', icon: 'emoji_events', label: 'Insignias' },
-    { path: 'notificaciones', icon: 'notifications', label: 'Notificaciones' },
+    { path: 'adminAuditoria', icon: 'history', label: 'Auditoría' },
+    { path: 'adminNotificaciones', icon: 'notifications', label: 'Notificaciones' },
   ]);
 
   //propiedad de entrada del user-layout (true o false) para saber si el menu esta colapsado o no
