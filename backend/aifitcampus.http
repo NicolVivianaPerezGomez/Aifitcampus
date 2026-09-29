@@ -337,3 +337,55 @@ Content-Type: application/json
 ### Mi historial de rutinas
 GET {{baseUrl}}/routines/history/me
 Authorization: Bearer {{token}}
+
+### ============================================
+### NOTIFICACIONES
+### ============================================
+
+### Crear notificación (Admin)
+POST {{baseUrl}}/notifications
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pausa activa matutina",
+  "description": "Hora de realizar tu pausa activa",
+  "routineId": 1,
+  "notificationTime": "09:00",
+  "reminder": true,
+  "reminderMinutes": 5,
+  "isActive": true,
+  "days": [1, 2, 3, 4, 5]
+}
+
+### Obtener todas las notificaciones (Admin)
+GET {{baseUrl}}/notifications
+Authorization: Bearer {{token}}
+
+### Obtener notificaciones del usuario autenticado
+GET {{baseUrl}}/notifications/my-notifications
+Authorization: Bearer {{token}}
+
+### Obtener notificación por ID (Admin)
+GET {{baseUrl}}/notifications/1
+Authorization: Bearer {{token}}
+
+### Actualizar notificación (Admin)
+PUT {{baseUrl}}/notifications/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pausa activa matutina actualizada",
+  "description": "Hora de realizar tu pausa activa",
+  "routineId": 1,
+  "notificationTime": "10:00",
+  "reminder": true,
+  "reminderMinutes": 10,
+  "isActive": true,
+  "days": [1, 3, 5]
+}
+
+### Activar/Desactivar notificación (Admin)
+PATCH {{baseUrl}}/notifications/1/toggle
+Authorization: Bearer {{token}}
