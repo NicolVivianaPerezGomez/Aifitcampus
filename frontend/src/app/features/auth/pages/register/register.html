@@ -1,0 +1,116 @@
+<section id="contenido-principal" class="pagina" tabindex="-1">
+  <span class="anillos" aria-hidden="true"></span>
+  <article class="tarjeta">
+    <app-panel-bienvenida />
+
+    <div class="lado">
+      <div class="caja">
+        <app-logo-uniempresarial />
+
+        <header>
+          <h2 class="tipo-titulo tipo-titulo--auth">Crea tu cuenta</h2>
+          <p class="tipo-lead">Regístrate para empezar a cuidar tu bienestar en la jornada.</p>
+        </header>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+          <label for="firstName">
+            Nombre
+            <input
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+              placeholder="Tu nombre"
+              autocomplete="given-name"
+              [class.input-invalido]="isControlInvalid('firstName')"
+            />
+          </label>
+          @if (hasError('firstName', 'required')) {
+            <small class="mensaje-error">El nombre es obligatorio.</small>
+          } @else if (hasError('firstName', 'minlength')) {
+            <small class="mensaje-error">Mínimo 2 caracteres.</small>
+          }
+
+          <label for="lastName">
+            Apellido
+            <input
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+              placeholder="Tu apellido"
+              autocomplete="family-name"
+              [class.input-invalido]="isControlInvalid('lastName')"
+            />
+          </label>
+          @if (hasError('lastName', 'required')) {
+            <small class="mensaje-error">El apellido es obligatorio.</small>
+          } @else if (hasError('lastName', 'minlength')) {
+            <small class="mensaje-error">Mínimo 2 caracteres.</small>
+          }
+
+          <label for="correo">
+            Correo institucional
+            <input
+              id="correo"
+              type="email"
+              formControlName="correo"
+              placeholder="nombre@uniempresarial.edu.co"
+              autocomplete="email"
+              [class.input-invalido]="isControlInvalid('correo')"
+            />
+          </label>
+          @if (hasError('correo', 'required')) {
+            <small class="mensaje-error">El correo institucional es obligatorio.</small>
+          } @else if (hasError('correo', 'pattern')) {
+            <small class="mensaje-error"
+              >Usa un correo terminado en &#64;uniempresarial.edu.co.</small
+            >
+          }
+
+          <label for="clave">
+            Contraseña
+            <input
+              id="clave"
+              type="password"
+              formControlName="clave"
+              placeholder="Mínimo 6 caracteres"
+              autocomplete="new-password"
+              [class.input-invalido]="isControlInvalid('clave')"
+            />
+          </label>
+          @if (hasError('clave', 'required')) {
+            <small class="mensaje-error">La contraseña es obligatoria.</small>
+          } @else if (hasError('clave', 'minlength')) {
+            <small class="mensaje-error">Mínimo 6 caracteres.</small>
+          }
+
+          <label for="programa">
+            Programa (ID)
+            <input
+              id="programa"
+              type="number"
+              formControlName="programa"
+              placeholder="Ingresa el ID de tu programa"
+              [class.input-invalido]="isControlInvalid('programa')"
+            />
+          </label>
+          @if (hasError('programa', 'required')) {
+            <small class="mensaje-error">El programa es obligatorio.</small>
+          }
+
+          @if (error) {
+            <p class="alerta" role="alert">{{ error }}</p>
+          }
+
+          <button type="submit" class="entrar" [disabled]="cargando">
+            {{ cargando ? 'Creando cuenta...' : 'Registrarme' }}
+          </button>
+        </form>
+
+        <p class="enlace">
+          ¿Ya tienes cuenta?
+          <a routerLink="/login">Inicia sesión</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</section>

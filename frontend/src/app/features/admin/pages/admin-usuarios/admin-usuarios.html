@@ -1,0 +1,154 @@
+<!-- Sección: estructura visual del componente. -->
+<main class="pagina-usuarios">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">COMUNIDAD</p>
+      <h1>Gestión de usuarios</h1>
+      <p class="descripcion">
+        Registra usuarios, asigna roles y gestiona el acceso a la plataforma.
+      </p>
+    </section>
+    <div class="acciones-header">
+      <form class="buscador" (ngSubmit)="cargar()">
+        <input
+          type="search"
+          name="busqueda"
+          [(ngModel)]="busqueda"
+          placeholder="Buscar por nombre, correo o área"
+          aria-label="Buscar usuarios"
+        />
+      </form>
+    </div>
+  </header>
+
+  @if (error()) {
+    <p class="descripcion" role="alert" style="color: var(--color-secondary)">{{ error() }}</p>
+  }
+  @if (mensaje()) {
+    <p class="descripcion" role="status">{{ mensaje() }}</p>
+  }
+  <section class="tarjeta-usuarios">
+    <section class="contenedor-tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Registro</th>
+            <th class="col-acciones">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario.id) {
+            <tr>
+              <td>
+                <strong>{{ usuario.firstName }} {{ usuario.lastName }}</strong>
+              </td>
+              <td>{{ usuario.email }}</td>
+              <td>
+                @if (editandoRol() === usuario.id) {
+                  <select
+                    [ngModel]="usuario.roleId"
+                    (ngModelChange)="guardarRol(usuario, $event)"
+                    (blur)="editandoRol.set(null)"
+                    aria-label="Rol del usuario"
+                  >
+                    @for (rol of roles(); track rol.id) {
+                      <option [ngValue]="rol.id">{{ rol.name }}</option>
+                    }
+                  </select>
+                } @else {
+                  <span class="rol" [class.administrador]="esAdmin(usuario)">
+                    {{ usuario.role?.name ?? 'Sin rol' }}
+                  </span>
+                }
+              </td>
+              <td>
+                <span class="estado" [class.activo]="estaActivo(usuario)" [class.inactivo]="!estaActivo(usuario)">
+                  {{ estaActivo(usuario) ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</td>
+              <td class="col-acciones">
+                <div class="acciones-fila" role="group" [attr.aria-label]="'Acciones para ' + usuario.firstName + ' ' + usuario.lastName">
+                  <button
+                    type="button"
+                    class="btn-icono"
+                    [disabled]="!estaActivo(usuario)"
+                    (click)="editandoRol.set(usuario.id)"
+                    title="Cambiar rol"
+                    aria-label="Cambiar rol"
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M19 8v6M22 11h-6" />
+                    </svg>
+                  </button>
+                  @if (estaActivo(usuario)) {
+                    <button
+                      type="button"
+                      class="btn-icono btn-icono--peligro"
+                      (click)="desactivar(usuario)"
+                      title="Desactivar"
+                      aria-label="Desactivar usuario"
+                    >
+                      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9 9l6 6M15 9l-6 6" />
+                      </svg>
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      class="btn-icono btn-icono--ok"
+                      (click)="activar(usuario)"
+                      title="Activar"
+                      aria-label="Activar usuario"
+                    >
+                      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                  }
+                  <button
+                    type="button"
+                    class="btn-icono"
+                    (click)="restablecerContrasena(usuario)"
+                    title="Restablecer contraseña"
+                    aria-label="Restablecer contraseña"
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="4" y="11" width="16" height="10" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                      <circle cx="12" cy="16" r="1.2" fill="currentColor" stroke="none" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6">{{ cargando() ? 'Cargando usuarios...' : 'No hay usuarios registrados.' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay" (click)="cancelarModal()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" (click)="$event.stopPropagation()">
+        <h2 id="modal-titulo">{{ tituloModal() }}</h2>
+        <p>{{ mensajeModal() }}</p>
+        <div class="modal-acciones">
+          <button type="button" class="boton-secundario" (click)="cancelarModal()">Cancelar</button>
+          <button type="button" class="boton-principal" (click)="confirmarModal()">{{ textoConfirmar() }}</button>
+        </div>
+      </div>
+    </div>
+  }
+</main>

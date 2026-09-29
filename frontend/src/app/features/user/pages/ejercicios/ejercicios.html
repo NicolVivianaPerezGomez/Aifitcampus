@@ -1,0 +1,51 @@
+<section class="ejercicios-page">
+  <header class="ejercicios-page__cabecera">
+    <div>
+      <p class="tipo-eyebrow">Catálogo</p>
+      <h1 class="tipo-titulo tipo-titulo--sans">Ejercicios</h1>
+      <p class="tipo-lead">
+        Todos los videos e instrucciones que el administrador ha agregado al catálogo.
+      </p>
+    </div>
+    @if (ejercicios().length > 0) {
+      <button type="button" class="btn-rutina" (click)="iniciar()">Ir a Inicio</button>
+    }
+  </header>
+
+  @if (ejercicios().length === 0) {
+    <p class="tipo-lead vacio">
+      El catálogo está vacío. Cuando admin cree ejercicios con su URL de video, se listarán aquí.
+    </p>
+  } @else {
+    <div class="ejercicios-grid">
+      @for (ejercicio of ejercicios(); track ejercicio.id) {
+        <article class="card-ej">
+          <div class="card-ej__media">
+            @if (ejercicio.tipoRecurso === 'video') {
+              <video [src]="ejercicio.urlRecurso" muted playsinline preload="metadata"></video>
+            } @else {
+              <img [src]="ejercicio.urlRecurso" [alt]="ejercicio.nombre" />
+            }
+            <span class="card-ej__duracion">{{ formatear(ejercicio.duracionSegundos) }}</span>
+          </div>
+          <div class="card-ej__cuerpo">
+            <div class="card-ej__meta">
+              <em>{{ ejercicio.categoria }}</em>
+              <span>{{ ejercicio.repeticiones }} reps</span>
+            </div>
+            <h2>{{ ejercicio.nombre }}</h2>
+            <p>{{ ejercicio.descripcion }}</p>
+            <div class="card-ej__acciones">
+              <small>
+                {{ ejercicio.tipoRecurso === 'video' ? 'Video' : 'Imagen' }}
+                ·
+                {{ ejercicio.tipoAviso === 'bloqueo' ? 'Bloqueo' : 'Notificación' }}
+              </small>
+              <button type="button" (click)="iniciar()">Practicar</button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,183 @@
+<section class="sesion" [class.sesion--vacia]="!hayRutina()">
+  <!-- Barra superior -->
+  <header class="sesion__barra">
+    <div class="sesion__estado">
+      <span class="badge">{{ progresoTexto() }}</span>
+      <span class="sesion__etiqueta">Ejercicio actual</span>
+    </div>
+    <button
+      type="button"
+      class="btn-sonido"
+      [class.btn-sonido--off]="!sonidoActivo()"
+      (click)="toggleSonido()"
+      [disabled]="!hayRutina()"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        @if (sonidoActivo()) {
+          <path d="M11 5 6 9H3v6h3l5 4V5Z" stroke-linejoin="round" />
+          <path d="M15.5 8.5a4.5 4.5 0 0 1 0 7" stroke-linecap="round" />
+        } @else {
+          <path d="M11 5 6 9H3v6h3l5 4V5Z" stroke-linejoin="round" />
+          <path d="m16 9 5 5M21 9l-5 5" stroke-linecap="round" />
+        }
+      </svg>
+      Sonido
+    </button>
+  </header>
+
+  <div class="sesion__grid">
+    <!-- Media: video del admin -->
+    <div #mediaBox class="media" [class.media--360]="vista360()">
+      @if (actual(); as ejercicio) {
+        @if (ejercicio.tipoRecurso === 'video') {
+          <video
+            #videoPlayer
+            [src]="ejercicio.urlRecurso"
+            [muted]="!sonidoActivo()"
+            autoplay
+            loop
+            playsinline
+            [attr.aria-label]="ejercicio.nombre"
+          ></video>
+        } @else {
+          <img [src]="ejercicio.urlRecurso" [alt]="ejercicio.nombre" />
+        }
+      } @else {
+        <div class="media__placeholder">
+          <p>El video aparecerá aquí cuando el admin lo cree</p>
+        </div>
+      }
+
+      <div class="media__acciones">
+        <button type="button" (click)="toggleVista360()" [disabled]="!hayRutina()">Vista 360°</button>
+        <button type="button" (click)="pantallaCompleta()" [disabled]="!hayRutina()">Pantalla completa</button>
+      </div>
+    </div>
+
+    <!-- Panel derecho: título, tiempo, reps, siguiente -->
+    <aside class="panel">
+      <div class="panel__texto">
+        <h1>{{ actual()?.nombre || 'Nombre del ejercicio' }}</h1>
+        <span class="panel__acento" aria-hidden="true"></span>
+        <p>{{ actual()?.descripcion || 'La descripción e instrucciones se mostrarán al crear el ejercicio en administración.' }}</p>
+      </div>
+
+      <article class="card-tiempo">
+        <div class="card-tiempo__icono" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 8v4l2.5 1.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="card-tiempo__dato">
+          <span>Tiempo restante</span>
+          @if (actual(); as ejercicio) {
+            @for (key of [timerKey()]; track key) {
+              <app-reloj-contador
+                [segundos]="ejercicio.duracionSegundos"
+                [isPaused]="pausado()"
+                [compacto]="true"
+                (timeOut)="onTiempoAgotado()"
+              />
+            }
+          } @else {
+            <strong class="card-tiempo__vacio">00:00</strong>
+          }
+        </div>
+      </article>
+
+      <article class="card-reps">
+        <div class="card-reps__texto">
+          <span>Repeticiones</span>
+          <strong>
+            {{ hayRutina() ? repeticionActual() : '0' }}
+            /
+            {{ actual()?.repeticiones || '0' }}
+          </strong>
+        </div>
+        <div class="anillo" [style.--pct]="pctReps()" aria-hidden="true">
+          <em>
+            {{ hayRutina() ? repeticionActual() : '0' }}/{{ actual()?.repeticiones || '0' }}
+          </em>
+        </div>
+      </article>
+
+      <article class="card-siguiente">
+        <span class="card-siguiente__label">Siguiente ejercicio</span>
+        @if (siguiente(); as next) {
+          <div class="card-siguiente__fila">
+            @if (previewDe(next); as thumb) {
+              <img [src]="thumb" [alt]="next.nombre" />
+            } @else if (next.tipoRecurso === 'video' && next.urlRecurso) {
+              <video [src]="next.urlRecurso" muted playsinline preload="metadata"></video>
+            } @else {
+              <div class="card-siguiente__letra">{{ next.nombre.charAt(0) }}</div>
+            }
+            <div>
+              <strong>{{ next.nombre }}</strong>
+              <small>{{ formatear(next.duracionSegundos) }} segundos</small>
+            </div>
+          </div>
+        } @else if (hayRutina()) {
+          <div class="card-siguiente__fila card-siguiente__fila--fin">
+            <div class="card-siguiente__letra">✓</div>
+            <div>
+              <strong>Último ejercicio</strong>
+              <small>Al terminar irás a Mis pausas</small>
+            </div>
+          </div>
+        } @else {
+          <div class="card-siguiente__fila card-siguiente__fila--vacio">
+            <div class="card-siguiente__letra">+</div>
+            <div>
+              <strong>Pendiente</strong>
+              <small>Se mostrará el siguiente video del catálogo</small>
+            </div>
+          </div>
+        }
+      </article>
+    </aside>
+  </div>
+
+  <!-- Controles -->
+  <div class="controles">
+    <button type="button" class="btn-sec" (click)="anterior()" [disabled]="!hayRutina() || indice() === 0">
+      ← Ejercicio anterior
+    </button>
+    <button type="button" class="btn-pri" (click)="togglePausa()" [disabled]="!hayRutina()">
+      {{ pausado() ? '▶ Reanudar' : '❚❚ Pausar' }}
+    </button>
+    <button type="button" class="btn-sec" (click)="siguienteEjercicio()" [disabled]="!hayRutina()">
+      {{ siguiente() ? 'Siguiente ejercicio →' : 'Finalizar →' }}
+    </button>
+  </div>
+
+  <!-- Stepper: un nodo por cada video de admin -->
+  <footer class="progreso">
+    <h2>Progreso de la pausa activa</h2>
+    @if (hayRutina()) {
+      <ol class="stepper">
+        @for (item of rutina(); track item.id; let i = $index) {
+          <li [class.is-activo]="i === indice()" [class.is-hecho]="i < indice()">
+            <button type="button" (click)="irA(i)" [attr.aria-current]="i === indice() ? 'step' : null">
+              {{ i + 1 }}
+            </button>
+            <span>{{ item.nombre }}</span>
+          </li>
+        }
+      </ol>
+    } @else {
+      <ol class="stepper stepper--vacio" aria-label="Sin ejercicios aún">
+        @for (slot of [1, 2, 3]; track slot) {
+          <li>
+            <button type="button" disabled>{{ slot }}</button>
+            <span>Ejercicio {{ slot }}</span>
+          </li>
+        }
+      </ol>
+      <p class="progreso__hint">
+        Los pasos se generan solos cuando el administrador cree y active videos en el catálogo.
+      </p>
+    }
+  </footer>
+</section>

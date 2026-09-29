@@ -1,0 +1,91 @@
+@if (resumen(); as data) {
+  <section class="inicio">
+    <div class="hero">
+      <div>
+        <p class="tipo-eyebrow">Dashboard y estadísticas</p>
+        <h1 class="tipo-titulo tipo-titulo--sans">Dashboard</h1>
+        <span class="tipo-lead">Indicadores, racha, cumplimiento y actividad semanal en una sola vista.</span>
+      </div>
+
+      <article class="proxima">
+        <p>Próxima pausa programada</p>
+        <strong>{{ data.proximaPausa.dia }}, {{ data.proximaPausa.hora }}</strong>
+        <div class="proxima__pie">
+          <small>{{ data.proximaPausa.duracionMinutos }} min · {{ data.proximaPausa.dias }}</small>
+          <a routerLink="/sesion">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l10-5.5L8 6.5Z" fill="currentColor"/></svg>
+            Iniciar ahora
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <div class="kpis">
+      <app-tarjeta-kpi [valor]="'' + data.pausasCompletadas" etiqueta="Pausas completadas" detalle="Acumulado" acento="azul">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.2 10.6 15 16 9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </app-tarjeta-kpi>
+      <app-tarjeta-kpi [valor]="'' + data.sesionesSemana" etiqueta="Esta semana" detalle="sesiones registradas" acento="rosa">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </app-tarjeta-kpi>
+      <app-tarjeta-kpi [valor]="'' + data.rachaDias" etiqueta="Racha actual" detalle="días seguidos" acento="verde">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="7.4"/>
+          <path d="m8.1 12.15 2.55 2.55 5.25-5.35"/>
+        </svg>
+      </app-tarjeta-kpi>
+      <app-tarjeta-kpi [valor]="data.cumplimiento + '%'" etiqueta="Cumplimiento" [detalle]="data.minutosInvertidos + ' min invertidos'" acento="coral">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.1"/>
+          <path d="M12 10.7v1.5l1.15.7"/>
+          <path d="M12 5.2a6.8 6.8 0 1 1-4.8 2"/>
+          <path d="M12 3.6a8.4 8.4 0 1 1-5.95 2.45"/>
+        </svg>
+      </app-tarjeta-kpi>
+    </div>
+
+    <div class="cuerpo">
+      <article class="tarjeta">
+        <div class="tarjeta__cabeza">
+          <div class="tarjeta__titulo">
+            <span class="tarjeta__icono" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M5 19V10M10 19V6M15 19v-7M20 19H4"/>
+              </svg>
+            </span>
+            <h2 class="tipo-card">Actividad de la semana</h2>
+          </div>
+          <small>Actividad semanal</small>
+        </div>
+        <app-grafico-barras [puntos]="data.actividadSemana" [maximo]="3" />
+      </article>
+
+      <article class="tarjeta">
+        <div class="tarjeta__cabeza">
+          <div class="tarjeta__titulo">
+            <span class="tarjeta__icono" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M7 8v8M17 8v8M4.2 10v4M19.8 10v4M7 12h10"/>
+              </svg>
+            </span>
+            <h2 class="tipo-card">Este bloque</h2>
+          </div>
+          <small>{{ ejercicios().length }} ejercicios</small>
+        </div>
+        <ul>
+          @for (ejercicio of ejercicios(); track ejercicio.id) {
+            <li>
+              <span class="punto" [class.punto--bloqueo]="ejercicio.tipoAviso === 'bloqueo'"></span>
+              <div>
+                <strong>{{ ejercicio.nombre }}</strong>
+                <small>{{ ejercicio.tipoAviso === 'bloqueo' ? 'Bloqueo de pantalla' : 'Notificación' }}</small>
+              </div>
+              <a routerLink="/user/inicio" aria-label="Iniciar ejercicio">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z" fill="currentColor"/></svg>
+              </a>
+            </li>
+          }
+        </ul>
+      </article>
+    </div>
+  </section>
+}

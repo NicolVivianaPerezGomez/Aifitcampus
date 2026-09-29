@@ -1,0 +1,23 @@
+<section>
+  <header>
+    <p class="tipo-eyebrow">Actividad</p>
+    <h1 class="tipo-titulo tipo-titulo--sans">Historial</h1>
+    @if (usuario(); as persona) {
+      <span class="tipo-lead">{{ persona.nombre }} {{ persona.apellido }} · {{ persona.correo }}</span>
+    }
+  </header>
+
+  <ul>
+    @for (item of historial(); track item.id) {
+      <li>
+        <div>
+          <strong>{{ item.ejercicio }}</strong>
+          <small>{{ item.fecha }}</small>
+        </div>
+        <em>{{ item.porcentaje }}%</em>
+      </li>
+    } @empty {
+      <li><small>Aún no has hecho pausas.</small></li>
+    }
+  </ul>
+</section>

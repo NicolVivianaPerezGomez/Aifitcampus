@@ -1,0 +1,22 @@
+/* Mantiene el layout administrativo ocupando, como mínimo, toda la ventana. */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Evita que el sidenav termine cuando una página tiene poco contenido. */
+mat-sidenav-container {
+  min-height: 100vh;
+}
+
+/* Mantiene el área principal con el fondo común del panel administrativo. */
+mat-sidenav-content {
+  background: var(--color-background);
+  min-height: 100vh;
+}
+
+/* Hace que el área donde se renderiza el router-outlet mantenga la altura disponible. */
+main {
+  box-sizing: border-box;
+  min-height: 100vh;
+}

@@ -1,0 +1,57 @@
+<main class="pagina-insignias">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">INSIGNIAS</p>
+      <h1>Insignias de logros</h1>
+      <p class="descripcion">
+        Define los logros que los colaboradores pueden desbloquear al completar pausas activas.
+      </p>
+    </section>
+
+    <button type="button" class="boton-principal" routerLink="/admin/adminInsigniasFormulario">
+      + Nueva insignia
+    </button>
+  </header>
+
+  @if (error()) {
+    <p class="descripcion" role="alert" style="color: var(--color-secondary)">{{ error() }}</p>
+  }
+
+  <section class="lista-insignias">
+    @for (insignia of insignias(); track insignia.id) {
+      <article class="tarjeta-insignia">
+        <header class="cabecera-insignia">
+          <section>
+            <span class="tipo-insignia">
+              {{ insignia.condition ?? 'Condición personalizada' }}
+            </span>
+            <h2>{{ insignia.name }}</h2>
+          </section>
+          <section class="acciones">
+            <button type="button" aria-label="Editar insignia" (click)="editar(insignia)">✎</button
+            ><button
+              type="button"
+              aria-label="Inactivar insignia"
+              title="Inactivar insignia"
+              [disabled]="!insignia.isActive"
+              (click)="inactivar(insignia)"
+            >
+              ♧
+            </button>
+          </section>
+        </header>
+        @if (insignia.description) {
+          <p>{{ insignia.description }}</p>
+        }
+        <section class="datos-insignia">
+          <span>Meta: {{ insignia.targetValue ?? '—' }}</span>
+          <span class="estado" [class.activo]="insignia.isActive">{{ insignia.isActive ? 'Activa' : 'Inactiva' }}</span>
+        </section>
+      </article>
+    } @empty {
+      <p class="descripcion">
+        {{ cargando() ? 'Cargando insignias...' : 'Aún no hay insignias. Crea la primera con "+ Nueva insignia".' }}
+      </p>
+    }
+  </section>
+</main>

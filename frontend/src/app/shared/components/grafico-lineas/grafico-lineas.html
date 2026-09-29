@@ -1,0 +1,42 @@
+<div class="grafico">
+  <svg [attr.viewBox]="'0 0 ' + ancho + ' ' + alto" role="img" aria-label="Gráfico de líneas">
+    @for (marca of marcas(); track marca) {
+      <line
+        class="grilla"
+        [attr.x1]="izq"
+        [attr.x2]="ancho - der"
+        [attr.y1]="yDe(marca)"
+        [attr.y2]="yDe(marca)"
+      />
+      <text [attr.x]="izq - 8" [attr.y]="yDe(marca) + 3" text-anchor="end" class="eje">
+        {{ marca }}
+      </text>
+    }
+
+    @for (punto of coordenadas(); track punto.etiqueta; let i = $index) {
+      <line
+        class="grilla"
+        [attr.x1]="xDe(i)"
+        [attr.x2]="xDe(i)"
+        [attr.y1]="arriba"
+        [attr.y2]="alto - abajo"
+      />
+    }
+
+    <path [attr.d]="trazo()" fill="none" stroke="var(--color-navy)" stroke-width="2.4" />
+
+    @for (punto of coordenadas(); track punto.etiqueta) {
+      <circle
+        [attr.cx]="punto.x"
+        [attr.cy]="punto.y"
+        r="4.5"
+        fill="var(--color-kpi-pink)"
+        stroke="var(--color-navy)"
+        stroke-width="1.8"
+      />
+      <text [attr.x]="punto.x" [attr.y]="alto - 8" text-anchor="middle" class="eje">
+        {{ punto.etiqueta }}
+      </text>
+    }
+  </svg>
+</div>

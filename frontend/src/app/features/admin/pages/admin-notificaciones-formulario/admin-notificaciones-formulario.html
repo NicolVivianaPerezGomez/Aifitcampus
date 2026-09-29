@@ -1,0 +1,401 @@
+<!-- formulario para crear o editar una notificación. -->
+
+<section class="fondo-modal">
+
+  <section
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-formulario-notificacion"
+  >
+
+    <!-- volver -->
+    <a
+      class="volver"
+      routerLink="/admin/adminNotificaciones"
+    >
+      ← Volver a notificaciones
+    </a>
+
+    <!-- encabezado -->
+
+    <header class="encabezado-modal">
+
+      <section>
+
+        @if (idNotificacion) {
+
+          <p class="seccion">
+            EDITAR NOTIFICACIÓN
+          </p>
+
+          <h1 id="titulo-formulario-notificacion">
+            Editar notificación
+          </h1>
+
+        } @else {
+
+          <p class="seccion">
+            NUEVA NOTIFICACIÓN
+          </p>
+
+          <h1 id="titulo-formulario-notificacion">
+            Crear notificación
+          </h1>
+
+        }
+
+        <p class="descripcion">
+          Configura el recordatorio, frecuencia y destinatarios de la pausa activa.
+        </p>
+
+      </section>
+
+
+      <!-- cerrar -->
+
+      <button
+        type="button"
+        class="cerrar"
+        aria-label="Cerrar"
+        routerLink="/admin/adminNotificaciones"
+      >
+        ×
+      </button>
+
+    </header>
+
+
+    <!-- formulario -->
+
+    <form (ngSubmit)="guardar()">
+
+      <section class="contenido-formulario">
+
+
+        <!-- ================================= -->
+        <!-- CONFIGURACIÓN -->
+        <!-- ================================= -->
+
+        <section class="bloque-formulario">
+
+          <h2>
+            <span>1</span>
+            Configuración de la notificación
+          </h2>
+
+
+          <!-- nombre -->
+
+          <label for="nombre-notificacion">
+
+            Nombre de la notificación
+
+            <input
+              id="nombre-notificacion"
+              type="text"
+              name="name"
+              placeholder="Ej. Pausa visual"
+            />
+
+          </label>
+
+
+          <!-- descripción -->
+
+          <label for="descripcion-notificacion">
+
+            Descripción
+
+            <textarea
+              id="descripcion-notificacion"
+              name="description"
+              rows="3"
+              placeholder="Redacta el mensaje o instrucciones que recibirá el colaborador..."
+            ></textarea>
+
+          </label>
+
+
+          <!-- rutina y hora -->
+
+          <section class="campos">
+
+            <!-- rutina -->
+
+            <label for="rutina">
+
+              Rutina
+
+              <select
+                id="rutina"
+                name="routine_id"
+              >
+
+                <option value="">
+                  Selecciona una rutina
+                </option>
+
+                @for (rutina of rutinas; track rutina.id) {
+
+                  <option [value]="rutina.id">
+                    {{ rutina.name }}
+                  </option>
+
+                }
+
+              </select>
+
+            </label>
+
+
+            <!-- hora -->
+
+            <label for="hora">
+
+              Hora de envío
+
+              <input
+                id="hora"
+                type="time"
+                name="notification_time"
+              />
+
+            </label>
+
+          </section>
+
+
+          <!-- ================================= -->
+          <!-- ESTADO -->
+          <!-- ================================= -->
+
+          <label class="fila-switch">
+
+            <span>
+
+              <strong>
+                Notificación activa
+              </strong>
+
+              <small>
+                Se enviará según la programación configurada.
+              </small>
+
+            </span>
+
+            <input
+              type="checkbox"
+              name="is_active"
+              checked
+            />
+
+          </label>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- PROGRAMACIÓN -->
+        <!-- ================================= -->
+
+        <section class="bloque-formulario">
+
+          <h2>
+            <span>2</span>
+            Programación y destinatarios
+          </h2>
+
+
+          <p class="ayuda">
+            Selecciona los días, configura el recordatorio y elige quién recibirá el aviso.
+          </p>
+
+
+          <!-- días -->
+
+          <p class="etiqueta">
+            Días de la semana
+          </p>
+
+
+          <section class="dias">
+
+            <label>
+
+              <input
+                type="checkbox"
+                checked
+              />
+
+              <span>
+                Lunes
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input
+                type="checkbox"
+                checked
+              />
+
+              <span>
+                Martes
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input
+                type="checkbox"
+                checked
+              />
+
+              <span>
+                Miércoles
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input
+                type="checkbox"
+                checked
+              />
+
+              <span>
+                Jueves
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input
+                type="checkbox"
+                checked
+              />
+
+              <span>
+                Viernes
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input type="checkbox" />
+
+              <span>
+                Sábado
+              </span>
+
+            </label>
+
+
+            <label>
+
+              <input type="checkbox" />
+
+              <span>
+                Domingo
+              </span>
+
+            </label>
+
+          </section>
+
+
+          <!-- recordatorio -->
+
+          <label class="fila-switch">
+
+            <span>
+
+              <strong>
+                Enviar recordatorio
+              </strong>
+
+              <small>
+                Envía un aviso antes de la hora principal.
+              </small>
+
+            </span>
+
+            <input
+              type="checkbox"
+              name="reminder"
+            />
+
+          </label>
+
+
+          <!-- minutos -->
+
+          <label for="minutos-recordatorio">
+
+            Minutos antes del recordatorio
+
+            <input
+              id="minutos-recordatorio"
+              type="number"
+              name="reminder_minutes"
+              min="1"
+              placeholder="10"
+            />
+
+          </label>
+
+        </section>
+
+      </section>
+
+
+      <!-- ================================= -->
+      <!-- BOTONES -->
+      <!-- ================================= -->
+
+      <footer class="acciones-modal">
+
+        <button
+          type="button"
+          class="boton-secundario"
+          routerLink="/admin/adminNotificaciones"
+        >
+          Cancelar
+        </button>
+
+
+        <button
+          type="submit"
+          class="boton-principal"
+        >
+
+          @if (idNotificacion) {
+
+            Actualizar notificación
+
+          } @else {
+
+            Guardar notificación
+
+          }
+
+        </button>
+
+      </footer>
+
+    </form>
+
+  </section>
+
+</section>

@@ -1,0 +1,86 @@
+@if (resumen(); as data) {
+  <section class="mis-pausas-page">
+    <header class="mis-pausas-page__cabecera">
+      <div>
+        <p class="tipo-eyebrow">Actividad</p>
+        <h1 class="tipo-titulo tipo-titulo--sans">Mis pausas</h1>
+        <p class="tipo-lead">
+          Historial de lo que has completado en la app, tu racha y el porcentaje de cumplimiento.
+        </p>
+        @if (usuario(); as persona) {
+          <span class="usuario-meta">{{ persona.nombre }} {{ persona.apellido }}</span>
+        }
+      </div>
+      <a class="btn-iniciar" routerLink="/sesion">Iniciar pausa</a>
+    </header>
+
+    <div class="kpis">
+      <app-tarjeta-kpi
+        [valor]="'' + data.rachaDias"
+        etiqueta="Racha actual"
+        detalle="días seguidos activos"
+        acento="verde"
+      />
+      <app-tarjeta-kpi
+        [valor]="data.cumplimiento + '%'"
+        etiqueta="Cumplimiento"
+        [detalle]="data.pausasCompletadas + ' de ' + data.pausasProgramadas + ' programadas'"
+        acento="azul"
+      />
+      <app-tarjeta-kpi
+        [valor]="data.tasaFinalizacion + '%'"
+        etiqueta="Tasa de finalización"
+        detalle="pausas terminadas sin omitir"
+        acento="coral"
+      />
+      <app-tarjeta-kpi
+        [valor]="'' + data.sesionesSemana"
+        etiqueta="Esta semana"
+        [detalle]="data.minutosInvertidos + ' min invertidos · ' + data.diasActivosMes + ' días del mes'"
+        acento="rosa"
+      />
+    </div>
+
+    <div class="barras">
+      <article class="barra-card">
+        <div class="barra-card__head">
+          <h2>Cumplimiento general</h2>
+          <strong>{{ data.cumplimiento }}%</strong>
+        </div>
+        <div class="barra" role="progressbar" [attr.aria-valuenow]="data.cumplimiento" aria-valuemin="0" aria-valuemax="100">
+          <span [style.width.%]="data.cumplimiento"></span>
+        </div>
+      </article>
+      <article class="barra-card">
+        <div class="barra-card__head">
+          <h2>Finalización de sesiones</h2>
+          <strong>{{ data.tasaFinalizacion }}%</strong>
+        </div>
+        <div class="barra barra--secundaria" role="progressbar" [attr.aria-valuenow]="data.tasaFinalizacion" aria-valuemin="0" aria-valuemax="100">
+          <span [style.width.%]="data.tasaFinalizacion"></span>
+        </div>
+      </article>
+    </div>
+
+    <section class="historial">
+      <div class="historial__cabeza">
+        <h2 class="tipo-card">Historial reciente</h2>
+        <small>{{ data.historial.length }} registros</small>
+      </div>
+      <ul>
+        @for (item of data.historial; track item.id) {
+          <li [class.omitida]="!item.completada">
+            <div>
+              <strong>{{ item.ejercicio }}</strong>
+              <small>{{ item.fecha }} · {{ formatear(item.duracionSegundos) }}</small>
+            </div>
+            <div class="historial__tags">
+              <em>{{ item.animo }}</em>
+              <span>{{ item.completada ? 'Completada' : 'Omitida' }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+  </section>
+}

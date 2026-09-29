@@ -1,0 +1,24 @@
+:host {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.lockup {
+  width: min(196px, 64vw);
+  height: auto;
+}
+
+.lockup--estrecho {
+  width: 8.6rem;
+}
+
+.isotipo {
+  width: 2.1rem;
+  height: auto;
+  display: block;
+}
+
+:host-context(.nav) .isotipo,
+:host-context(header) .isotipo {
+  width: 2.05rem;
+}

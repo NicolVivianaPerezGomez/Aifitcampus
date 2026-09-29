@@ -1,0 +1,160 @@
+/* Sección: estilos visuales y responsive del componente. */
+:host {
+  color: var(--color-primary);
+  display: block;
+  font-family: var(--font-primary);
+}
+
+.pagina-horarios {
+  width: 100%;
+}
+
+.encabezado-pagina {
+  align-items: flex-end;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-bottom: 2.2rem;
+}
+
+.seccion {
+  color: var(--color-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.6rem;
+}
+
+h1 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.descripcion {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin: 0.9rem 0 0;
+  max-width: 760px;
+}
+
+.boton-principal {
+  background: var(--color-secondary);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(237, 23, 54, 0.22);
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.9rem 1.35rem;
+}
+
+.tarjeta-horarios {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: 22px;
+  box-shadow: var(--color-card-shadow);
+  color: var(--color-text);
+  padding: clamp(1rem, 2vw, 1.7rem);
+}
+
+.contenedor-tabla {
+  border: 1px solid var(--color-gray-border);
+  border-radius: 14px;
+  overflow-x: auto;
+  padding: 0.7rem;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  min-width: 820px;
+  width: 100%;
+}
+
+th {
+  background: var(--color-bluesupport);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  padding: 0.9rem 0.8rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+td {
+  border-bottom: 1px solid var(--color-surface-muted);
+  color: var(--color-text);
+  padding: 1rem 0.8rem;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+td:nth-child(4) {
+  line-height: 1.65;
+  min-width: 290px;
+}
+
+td small {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+}
+
+.estado {
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.3rem 0.55rem;
+}
+
+.activo {
+  background: var(--color-status-ok-bg);
+  color: var(--color-status-ok-fg);
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+.acciones button {
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 0.25rem;
+}
+
+.acciones button:last-child {
+  color: var(--color-secondary);
+}
+
+@media (max-width: 900px) {
+  .encabezado-pagina {
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .encabezado-pagina {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .boton-principal {
+    width: 100%;
+  }
+
+  .tarjeta-horarios {
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+}

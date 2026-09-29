@@ -1,0 +1,44 @@
+@if (resumen(); as data) {
+  <section class="estadisticas-page">
+    <header>
+      <p class="tipo-eyebrow">Análisis</p>
+      <h1 class="tipo-titulo tipo-titulo--sans">Estadísticas</h1>
+      <p class="tipo-lead">Tu cumplimiento, racha y actividad de la semana.</p>
+    </header>
+
+    <div class="kpis">
+      <app-tarjeta-kpi
+        [valor]="'' + data.pausasCompletadas"
+        etiqueta="Pausas completadas"
+        detalle="Acumulado"
+        acento="azul"
+      />
+      <app-tarjeta-kpi
+        [valor]="'' + data.sesionesSemana"
+        etiqueta="Esta semana"
+        detalle="sesiones registradas"
+        acento="rosa"
+      />
+      <app-tarjeta-kpi
+        [valor]="'' + data.rachaDias"
+        etiqueta="Racha actual"
+        detalle="días seguidos"
+        acento="verde"
+      />
+      <app-tarjeta-kpi
+        [valor]="data.cumplimiento + '%'"
+        etiqueta="Cumplimiento"
+        [detalle]="data.minutosInvertidos + ' min invertidos'"
+        acento="coral"
+      />
+    </div>
+
+    <article class="tarjeta">
+      <div class="tarjeta__cabeza">
+        <h2 class="tipo-card">Actividad de la semana</h2>
+        <small>Sesiones por día</small>
+      </div>
+      <app-grafico-barras [puntos]="data.actividadSemana" [maximo]="3" />
+    </article>
+  </section>
+}

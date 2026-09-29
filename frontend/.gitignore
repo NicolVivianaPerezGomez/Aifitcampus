@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules/
+
+# Angular build & cache
+/dist/
+/.angular/
+.angular/
+/out-tsc/
+/tmp/
+/coverage/
+*.tsbuildinfo
+
+# Capacitor & Android
+android/.gradle/
+android/build/
+android/app/build/
+.idea/**
+android/.idea/**
+android/local.properties
+.capacitor/
+
+# Environment files
+.env
+
+# Logs & Cache
+.cache/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS metadata
+.DS_Store
+Thumbs.db

@@ -1,0 +1,37 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav
+    class="!rounded-none custom-animation sidenav"
+    [style.width]="sidenavWidth()" //Propiedad que controla el tamaño del sidenav
+    [mode]="isMobile() ? 'over' : 'side'" //propiedad que controla el modo del navbar "sobre" o "al lado"
+    //si estoy en mobile, ?(si): el menu es visible cuando collpased sea falso
+    //:(no) si no es mobile, el menu estara forzado a ser true (estar abierto)
+    [opened]="isMobile() ? !collapsed() : true"
+    //CONTROL EN MODO MOBILE
+    //evneto que si es se actualiza collapsed a true
+    (closed)="isMobile() && collapsed.set(true)"
+    #sidenav
+  >
+    <app-user-sidebar
+      //collapsed una propiedad que viene del hijo
+      // si estoy en mobile:
+      //si ?: es mobile se envia false
+      //no : : le envia el valor de collapsed()
+      [collapsed]="isMobile() ? false : collapsed()"
+      //closeMenu es un evento que viene del hijo, cuando se ejecuta se cambia a true
+      (closeMenu)="collapsed.set(true)"
+      //menuClick es un evento que el hijo envia y que accede a toggleMenu para cambiar su valor 
+      (menuClick)="toggleMenu()"
+    ></app-user-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content [style.margin-left]="contentMargin()" class="custom-animation">
+    <!-- el header solo aparece si el modo es mobile-->
+    @if (isMobile()) {
+      <app-header (menuClick)="toggleMenu()"></app-header>
+    }
+
+    <main id="contenido-principal" class="p-4 content-padding" tabindex="-1">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

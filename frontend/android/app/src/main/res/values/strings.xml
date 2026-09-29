@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pausas-activas-frontend</string>
+    <string name="title_activity_main">pausas-activas-frontend</string>
+    <string name="package_name">co.edu.uniempresarial.pausasactivas</string>
+    <string name="custom_url_scheme">co.edu.uniempresarial.pausasactivas</string>
+</resources>

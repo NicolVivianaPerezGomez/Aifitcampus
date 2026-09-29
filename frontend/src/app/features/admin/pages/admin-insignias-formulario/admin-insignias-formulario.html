@@ -1,0 +1,81 @@
+<!-- Sección: contenedor visual del formulario de una insignia. -->
+<section class="fondo-modal">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-formulario-insignia">
+    <!-- Sección: encabezado y cierre del formulario. -->
+    <header class="encabezado-modal">
+      <section>
+        <p class="seccion">{{ editando ? 'EDITAR INSIGNIA' : 'NUEVA INSIGNIA' }}</p>
+        <h1 id="titulo-formulario-insignia">{{ editando ? 'Editar insignia' : 'Crear insignia' }}</h1>
+        <p class="descripcion">Define el logro y la condición para desbloquearla.</p>
+      </section>
+      <button type="button" class="cerrar" aria-label="Cerrar" routerLink="/admin/adminInsignias">
+        ×
+      </button>
+    </header>
+
+    <form (ngSubmit)="guardar()">
+      <!-- Sección: campos de la insignia. -->
+      <section class="contenido-formulario">
+        <section class="bloque-formulario">
+          <h2><span>1</span> Información de la insignia</h2>
+          <label for="nombre-insignia"
+            >Nombre de la insignia<input
+              id="nombre-insignia"
+              name="name"
+              type="text"
+              [(ngModel)]="nombre"
+              placeholder="Ejemplo: Primera pausa"
+          /></label>
+          <label for="descripcion-insignia"
+            >Descripción<textarea
+              id="descripcion-insignia"
+              name="description"
+              rows="3"
+              [(ngModel)]="descripcion"
+              placeholder="Describe qué representa esta insignia."
+            ></textarea>
+          </label>
+        </section>
+
+        <section class="bloque-formulario">
+          <h2><span>2</span> Condición y meta</h2>
+          <label for="condicion-insignia"
+            >Condición<input
+              id="condicion-insignia"
+              name="condition"
+              type="text"
+              [(ngModel)]="condicion"
+              placeholder="Ejemplo: Completar 10 pausas"
+          /></label>
+          <label for="meta-insignia"
+            >Valor meta (opcional)<input
+              id="meta-insignia"
+              name="targetValue"
+              type="number"
+              min="1"
+              [(ngModel)]="meta"
+              placeholder="Ejemplo: 10"
+          /></label>
+          <label class="fila-switch"
+            ><span
+              ><strong>Insignia activa</strong
+              ><small>Estará disponible para los colaboradores.</small></span
+            ><input type="checkbox" name="isActive" [(ngModel)]="activa"
+          /></label>
+        </section>
+      </section>
+
+      @if (error()) {
+        <p class="nota" role="alert" style="color: var(--color-secondary); padding: 0 1.5rem">{{ error() }}</p>
+      }
+      <!-- Sección: acciones finales del formulario. -->
+      <footer class="acciones-modal">
+        <button type="button" class="boton-secundario" routerLink="/admin/adminInsignias">
+          Cancelar</button
+        ><button type="submit" class="boton-principal" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar insignia' }}
+        </button>
+      </footer>
+    </form>
+  </section>
+</section>

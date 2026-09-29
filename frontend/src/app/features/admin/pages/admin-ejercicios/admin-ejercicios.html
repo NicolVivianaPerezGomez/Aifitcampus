@@ -1,0 +1,106 @@
+<main class="pagina-ejercicios">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">CATÁLOGO</p>
+      <h1>Ejercicios y animaciones</h1>
+      <p class="descripcion">
+        Vincula el video de cada pausa. Lo que guardes aquí es lo que verá el colaborador en Inicio y
+        Ejercicios.
+      </p>
+    </section>
+    <button type="button" class="boton-principal" routerLink="/admin/adminEjerciciosFormulario">
+      + Nuevo ejercicio
+    </button>
+  </header>
+
+  @if (error()) {
+    <p class="descripcion alerta" role="alert">{{ error() }}</p>
+  }
+
+  @if (ejercicios().length === 0) {
+    <section class="lista-vacia">
+      <p>Aún no hay ejercicios. Crea el primero con su video o imagen.</p>
+      <button type="button" class="boton-principal" routerLink="/admin/adminEjerciciosFormulario">
+        + Nuevo ejercicio
+      </button>
+    </section>
+  } @else {
+    <section class="lista-ejercicios" aria-label="Catálogo de ejercicios">
+      @for (ejercicio of ejercicios(); track ejercicio.id) {
+        <article class="tarjeta-ejercicio">
+          <section class="ilustracion" [attr.aria-label]="'Vista previa de ' + ejercicio.nombre">
+            @if (ejercicio.tipoRecurso === 'video' && ejercicio.urlRecurso) {
+              <video [src]="ejercicio.urlRecurso" muted playsinline preload="metadata"></video>
+            } @else if (ejercicio.urlRecurso) {
+              <img [src]="ejercicio.urlRecurso" [alt]="ejercicio.nombre" />
+            } @else {
+              <span class="sin-recurso">Sin recurso</span>
+            }
+          </section>
+
+          <div class="tarjeta-cuerpo">
+            <section class="etiquetas">
+              <span>{{ ejercicio.categoria }}</span>
+              <span [class.etiqueta-roja]="ejercicio.tipoAviso === 'bloqueo'">
+                {{ ejercicio.tipoAviso === 'bloqueo' ? 'Bloqueo de pantalla' : 'Notificación' }}
+              </span>
+              @if (!ejercicio.activo) {
+                <span class="etiqueta-inactivo">Inactivo</span>
+              }
+            </section>
+
+            <h2>{{ ejercicio.nombre }}</h2>
+            <p>{{ ejercicio.descripcion }}</p>
+
+            <small>
+              {{ formatear(ejercicio.duracionSegundos) }} · {{ ejercicio.repeticiones }} reps ·
+              {{ ejercicio.tipoRecurso === 'video' ? 'Video' : 'Imagen' }}
+            </small>
+
+            <footer class="tarjeta-pie">
+              <div class="acciones" role="group" [attr.aria-label]="'Administrar ' + ejercicio.nombre">
+                <button
+                  type="button"
+                  class="btn-icono"
+                  aria-label="Editar ejercicio"
+                  title="Editar"
+                  (click)="editar(ejercicio.id)"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 20h9" stroke-linecap="round" />
+                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="btn-icono btn-icono--ok"
+                  aria-label="Activar ejercicio"
+                  title="Activar"
+                  [disabled]="ejercicio.activo"
+                  (click)="activar(ejercicio.id)"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="btn-icono btn-icono--peligro"
+                  aria-label="Inactivar ejercicio"
+                  title="Inactivar"
+                  [disabled]="!ejercicio.activo"
+                  (click)="eliminar(ejercicio.id)"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              <a class="boton-video" routerLink="/user/inicio">Ver como el usuario</a>
+            </footer>
+          </div>
+        </article>
+      }
+    </section>
+  }
+</main>

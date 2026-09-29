@@ -1,0 +1,75 @@
+<main class="pagina-rutinas">
+  <header class="encabezado-pagina">
+    <section>
+      <p class="seccion">RUTINAS</p>
+      <h1>Rutinas de pausas activas</h1>
+      <p class="descripcion">
+        Agrupa ejercicios, define el orden de ejecución y configura la duración de cada rutina.
+      </p>
+    </section>
+
+    <button type="button" class="boton-principal" routerLink="/admin/adminRutinasFormulario">
+      + Nueva rutina
+    </button>
+  </header>
+
+  @if (error()) {
+    <p class="descripcion" role="alert" style="color: var(--color-secondary)">{{ error() }}</p>
+  }
+
+  <section class="lista-rutinas">
+    @for (rutina of rutinas(); track rutina.id; let i = $index) {
+      <article class="tarjeta-rutina">
+        <header class="cabecera-rutina">
+          <section>
+            <span class="tipo-rutina" [class.tipo-secundario]="i % 2 === 1">
+              {{ rutina.routineType?.name ?? 'Sin tipo' }}
+            </span>
+            <h2>{{ rutina.name }}</h2>
+          </section>
+          <section class="acciones">
+            <button type="button" aria-label="Editar rutina" (click)="editar(rutina)">✎</button
+            ><button
+              type="button"
+              aria-label="Activar rutina"
+              title="Activar rutina"
+              [disabled]="rutina.isActive"
+              (click)="activar(rutina)"
+            >
+              ✓
+            </button>
+            <button
+              type="button"
+              aria-label="Inactivar rutina"
+              title="Inactivar rutina"
+              [disabled]="!rutina.isActive"
+              (click)="inactivar(rutina)"
+            >
+              ♧
+            </button>
+          </section>
+        </header>
+        @if (rutina.description) {
+          <p>{{ rutina.description }}</p>
+        }
+        <section class="datos-rutina">
+          <span>{{ rutina.exercises.length }} ejercicios</span
+          ><span>{{ formatear(rutina.totalDurationSeconds) }}</span
+          ><span class="estado" [class.activo]="rutina.isActive">{{ rutina.isActive ? 'Activa' : 'Inactiva' }}</span>
+        </section>
+        <ol class="ejercicios-rutina">
+          @for (item of rutina.exercises; track item.orderIndex) {
+            <li>
+              <span>{{ item.orderIndex }}</span> {{ item.exercise?.name ?? 'Ejercicio ' + item.exerciseId }}
+              <small>{{ formatear(item.exercise?.durationSeconds ?? 0) }}{{ item.sets && item.sets > 1 ? ' × ' + item.sets : '' }}</small>
+            </li>
+          }
+        </ol>
+      </article>
+    } @empty {
+      <p class="descripcion">
+        {{ cargando() ? 'Cargando rutinas...' : 'Aún no hay rutinas. Crea la primera con "+ Nueva rutina".' }}
+      </p>
+    }
+  </section>
+</main>

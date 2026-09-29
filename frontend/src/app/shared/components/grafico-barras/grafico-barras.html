@@ -1,0 +1,82 @@
+<div class="grafico">
+  @if (tieneSecundaria()) {
+    <div class="leyenda" aria-hidden="true">
+      <span><i class="leyenda__punto leyenda__punto--rosa"></i> Completadas</span>
+      <span><i class="leyenda__punto leyenda__punto--navy"></i> Omitidas</span>
+    </div>
+  }
+
+  <svg [attr.viewBox]="'0 0 ' + ancho + ' ' + alto" role="img" aria-label="Gráfico de barras">
+    <defs>
+      <linearGradient [attr.id]="idGradiente + '-rosa'" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--color-pink-soft)" />
+        <stop offset="55%" stop-color="var(--color-magenta)" />
+        <stop offset="100%" stop-color="var(--color-secondary)" />
+      </linearGradient>
+      <linearGradient [attr.id]="idGradiente + '-navy'" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--color-circle-blue)" />
+        <stop offset="100%" stop-color="var(--color-navy)" />
+      </linearGradient>
+      <filter [attr.id]="idGradiente + '-sombra'" x="-20%" y="-10%" width="140%" height="130%">
+        <feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#ED1736" flood-opacity="0.2" />
+      </filter>
+    </defs>
+
+    @for (marca of marcas(); track marca) {
+      <line
+        class="grilla"
+        [attr.x1]="izq"
+        [attr.x2]="ancho - der"
+        [attr.y1]="yDe(marca)"
+        [attr.y2]="yDe(marca)"
+      />
+      <text [attr.x]="izq - 10" [attr.y]="yDe(marca) + 3.5" text-anchor="end" class="eje">
+        {{ marca }}
+      </text>
+    }
+
+    @for (barra of barras(); track barra.etiqueta) {
+      <line
+        class="grilla grilla--vertical"
+        [attr.x1]="barra.guiaX"
+        [attr.x2]="barra.guiaX"
+        [attr.y1]="arriba"
+        [attr.y2]="alto - abajo"
+      />
+    }
+
+    <line
+      class="eje-linea"
+      [attr.x1]="izq"
+      [attr.x2]="izq"
+      [attr.y1]="arriba"
+      [attr.y2]="alto - abajo"
+    />
+    <line
+      class="eje-linea"
+      [attr.x1]="izq"
+      [attr.x2]="ancho - der"
+      [attr.y1]="alto - abajo"
+      [attr.y2]="alto - abajo"
+    />
+
+    @for (barra of barras(); track barra.etiqueta) {
+      <path
+        class="barra"
+        [attr.d]="trazoBarra(barra.principal.x, barra.principal.y, barra.principal.ancho, barra.principal.altura)"
+        [attr.fill]="'url(#' + idGradiente + '-rosa)'"
+        [attr.filter]="'url(#' + idGradiente + '-sombra)'"
+      />
+      @if (barra.secundaria; as extra) {
+        <path
+          class="barra barra--navy"
+          [attr.d]="trazoBarra(extra.x, extra.y, extra.ancho, extra.altura)"
+          [attr.fill]="'url(#' + idGradiente + '-navy)'"
+        />
+      }
+      <text [attr.x]="barra.etiquetaX" [attr.y]="alto - 11" text-anchor="middle" class="eje">
+        {{ barra.etiqueta }}
+      </text>
+    }
+  </svg>
+</div>

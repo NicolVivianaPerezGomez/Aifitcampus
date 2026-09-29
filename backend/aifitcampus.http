@@ -1,0 +1,374 @@
+### AI Fit Campus - Endpoints
+### Archivo para VS Code REST Client o similares
+### Base URL: http://localhost:4000/api
+
+@baseUrl = http://localhost:4000/api
+@token = TU_TOKEN_JWT_AQUI
+
+### ============================================
+### AUTENTICACIÓN
+### ============================================
+
+### Redirige al login de Microsoft
+GET http://localhost:4000/api/auth/microsoft
+
+### Callback de Microsoft OAuth
+GET {{baseUrl}}/auth/microsoft/callback
+
+### Registro público (sin auth)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Juan",
+  "lastName": "Pérez",
+  "email": "juan.perez@uniempresarial.edu.co",
+  "password": "Password123!",
+  "roleId": 2,
+  "programId": 1
+}
+
+### Usuario de la sesión actual
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### ============================================
+### USUARIOS (Admin)
+### ============================================
+
+### Crear usuario (Admin)
+POST {{baseUrl}}/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "María",
+  "lastName": "Gómez",
+  "email": "maria.gomez@uniempresarial.edu.co",
+  "password": "Password123!",
+  "roleId": 2,
+  "programId": 1,
+  "department": "Sistemas"
+}
+
+### Buscar usuarios
+GET {{baseUrl}}/users?search=juan&active=true
+Authorization: Bearer {{token}}
+
+### Actualizar perfil propio
+PATCH {{baseUrl}}/users/1/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "programId": 1,
+  "department": "Sistemas"
+}
+
+### Desactivar usuario
+PATCH {{baseUrl}}/users/1/deactivate
+Authorization: Bearer {{token}}
+
+### Activar usuario
+PATCH {{baseUrl}}/users/1/activate
+Authorization: Bearer {{token}}
+
+### Asignar departamento
+PATCH {{baseUrl}}/users/1/department
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "department": "Recursos Humanos"
+}
+
+### Actualizar permisos
+PATCH {{baseUrl}}/users/1/permissions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "permissions": { "canEdit": true }
+}
+
+### Restablecer contraseña
+PATCH {{baseUrl}}/users/1/reset-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "password": "NuevaPassword123!"
+}
+
+### ============================================
+### ROLES (Admin)
+### ============================================
+
+### Listar roles
+GET {{baseUrl}}/roles
+Authorization: Bearer {{token}}
+
+### Crear rol
+POST {{baseUrl}}/roles
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "supervisor"
+}
+
+### Renombrar rol
+PATCH {{baseUrl}}/roles/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "administrador"
+}
+
+### Eliminar rol
+DELETE {{baseUrl}}/roles/1
+Authorization: Bearer {{token}}
+
+### Asignar rol a usuario
+PATCH {{baseUrl}}/users/1/role
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "roleId": 1
+}
+
+### ============================================
+### EJERCICIOS
+### ============================================
+
+### Listar ejercicios
+GET {{baseUrl}}/exercises?search=cuello&categoryId=1&active=true
+Authorization: Bearer {{token}}
+
+### Obtener ejercicio por ID
+GET {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+
+### Crear ejercicio (Admin)
+POST {{baseUrl}}/exercises
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramiento de cuello",
+  "description": "Estiramiento suave para el cuello",
+  "durationSeconds": 120,
+  "resourceUrl": "https://ejemplo.com/video.mp4",
+  "categoryId": 1
+}
+
+### Actualizar ejercicio (Admin)
+PATCH {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramiento de cuello actualizado",
+  "durationSeconds": 150
+}
+
+### Eliminar ejercicio (Admin)
+DELETE {{baseUrl}}/exercises/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### CATEGORÍAS DE EJERCICIO
+### ============================================
+
+### Listar categorías
+GET {{baseUrl}}/exercise-categories
+Authorization: Bearer {{token}}
+
+### Crear categoría (Admin)
+POST {{baseUrl}}/exercise-categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Cuello y hombros"
+}
+
+### Actualizar categoría (Admin)
+PATCH {{baseUrl}}/exercise-categories/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Cuello y hombros actualizado"
+}
+
+### Eliminar categoría (Admin)
+DELETE {{baseUrl}}/exercise-categories/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### RUTINAS
+### ============================================
+
+### Listar rutinas
+GET {{baseUrl}}/routines?search=cuello&routineTypeId=1&active=true
+Authorization: Bearer {{token}}
+
+### Obtener rutina por ID
+GET {{baseUrl}}/routines/1
+Authorization: Bearer {{token}}
+
+### Historial del usuario actual
+GET {{baseUrl}}/routines/history/me
+Authorization: Bearer {{token}}
+
+### Crear rutina (Admin)
+POST {{baseUrl}}/routines
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Rutina de cuello",
+  "description": "Rutina para aliviar la tensión del cuello",
+  "routineTypeId": 1,
+  "exercises": [
+    { "exerciseId": 1, "orderIndex": 1, "sets": 3, "reps": 10, "restSeconds": 30 }
+  ]
+}
+
+### Actualizar rutina (Admin)
+PATCH {{baseUrl}}/routines/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Rutina de cuello actualizada"
+}
+
+### Eliminar rutina (Admin)
+DELETE {{baseUrl}}/routines/1?confirm=true
+Authorization: Bearer {{token}}
+
+### Registrar ejecución de rutina
+POST {{baseUrl}}/routines/1/execute
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "completionPercentage": 100,
+  "status": "completada",
+  "durationSeconds": 300
+}
+
+### ============================================
+### TIPOS DE RUTINA
+### ============================================
+
+### Listar tipos de rutina
+GET {{baseUrl}}/routine-types
+Authorization: Bearer {{token}}
+
+### Crear tipo de rutina (Admin)
+POST {{baseUrl}}/routine-types
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramientos",
+  "description": "Rutinas de estiramiento"
+}
+
+### Actualizar tipo de rutina (Admin)
+PATCH {{baseUrl}}/routine-types/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Estiramientos actualizados"
+}
+
+### Eliminar tipo de rutina (Admin)
+DELETE {{baseUrl}}/routine-types/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### INSIGNIAS
+### ============================================
+
+### Listar insignias
+GET {{baseUrl}}/badges?active=true
+Authorization: Bearer {{token}}
+
+### Obtener insignia por ID
+GET {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+
+### Crear insignia (Admin)
+POST {{baseUrl}}/badges
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Primera pausa",
+  "description": "Completó su primera pausa activa",
+  "condition": "pausas_completadas",
+  "targetValue": 1
+}
+
+### Actualizar insignia (Admin)
+PATCH {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Primera pausa actualizada"
+}
+
+### Eliminar insignia (Admin)
+DELETE {{baseUrl}}/badges/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### INSIGNIAS DE USUARIO (UserBadge)
+### ============================================
+
+### Insignias de un usuario
+GET {{baseUrl}}/user-badges/user/1
+Authorization: Bearer {{token}}
+
+### Asignar insignia a usuario (Admin)
+POST {{baseUrl}}/user-badges
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "badgeId": 1,
+  "progress": 100
+}
+
+### Remover insignia de usuario (Admin)
+DELETE {{baseUrl}}/user-badges/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### AUDITORÍA (Admin)
+### ============================================
+
+### Listar auditoría
+GET {{baseUrl}}/audits?userId=1&entity=badges&action=CREATE&limit=50&offset=0
+Authorization: Bearer {{token}}
+
+### Obtener registro de auditoría por ID
+GET {{baseUrl}}/audits/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### ESTADÍSTICAS AVANZADAS (Admin)
+### ============================================
+
+### Obtener estadísticas avanzadas
+GET {{baseUrl}}/stats/advanced
+Authorization: Bearer {{token}}

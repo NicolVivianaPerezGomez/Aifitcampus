@@ -1,0 +1,186 @@
+.ejercicios-page__cabecera {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ejercicios-page__cabecera .tipo-lead {
+  margin: 0.3rem 0 0;
+  max-width: 36rem;
+}
+
+.btn-rutina {
+  flex-shrink: 0;
+  min-height: 2.5rem;
+  padding: 0 1.15rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: white;
+  font-size: var(--fs-nav);
+  font-weight: var(--fw-semibold);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
+
+.ejercicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+.card-ej {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-white);
+  border: 1px solid var(--color-card-border);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: var(--color-card-shadow);
+  max-width: 100%;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-ej:hover {
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--color-navy) 10%, transparent);
+  transform: translateY(-2px);
+}
+
+.card-ej__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    160deg,
+    var(--color-navy) 0%,
+    color-mix(in srgb, var(--color-primary) 88%, #000) 100%
+  );
+  overflow: hidden;
+}
+
+.card-ej__media video,
+.card-ej__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card-ej:hover .card-ej__media video,
+.card-ej:hover .card-ej__media img {
+  transform: scale(1.02);
+}
+
+.vacio {
+  margin-top: 1rem;
+}
+
+.card-ej__duracion {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  min-height: 1.6rem;
+  padding: 0 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, #0c1467 75%, transparent);
+  color: white;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  display: inline-flex;
+  align-items: center;
+}
+
+.card-ej__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.95rem 1rem 1.05rem;
+  flex: 1;
+}
+
+.card-ej__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card-ej__meta em {
+  font-style: normal;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+  background: color-mix(in srgb, var(--color-navy) 8%, var(--color-white));
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.card-ej__meta span {
+  font-size: var(--fs-help);
+  color: var(--color-muted);
+}
+
+.card-ej h2 {
+  margin: 0;
+  font-size: var(--fs-card);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
+.card-ej p {
+  margin: 0;
+  font-size: var(--fs-help);
+  color: var(--color-muted);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.card-ej__acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-top: 0.55rem;
+}
+
+.card-ej__acciones small {
+  font-size: var(--fs-caption);
+  color: var(--color-lightgray);
+}
+
+.card-ej__acciones button {
+  min-height: 2rem;
+  padding: 0 0.85rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-secondary);
+  color: white;
+  font-size: var(--fs-help);
+  font-weight: var(--fw-semibold);
+}
+
+@media (max-width: 1100px) {
+  .ejercicios-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .ejercicios-page__cabecera {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ejercicios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-ej__media {
+    aspect-ratio: 16 / 9;
+  }
+}

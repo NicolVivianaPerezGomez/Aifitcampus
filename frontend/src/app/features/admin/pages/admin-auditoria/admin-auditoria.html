@@ -1,0 +1,68 @@
+<main class="pagina-auditoria" id="contenido-principal" tabindex="-1">
+  <header class="encabezado">
+    <p class="seccion">SISTEMA</p>
+    <h1 id="titulo-auditoria">Auditoría</h1>
+    <p class="subtitulo" id="desc-auditoria">
+      Registro de acciones realizadas en el sistema
+    </p>
+  </header>
+
+  @if (error()) {
+    <div class="alerta alerta-error" role="alert">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <div class="cargando" role="status" aria-live="polite">Cargando registros...</div>
+  } @else {
+    <section class="tarjeta-tabla" aria-labelledby="titulo-auditoria" aria-describedby="desc-auditoria">
+      <div class="tabla-contenedor" tabindex="0" role="region" aria-label="Tabla de auditoría. Desplaza horizontalmente si es necesario.">
+        <table class="tabla">
+          <caption class="sr-only">
+            Historial de auditoría: fecha, usuario, acción, entidad y descripción de cada cambio
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Acción</th>
+              <th scope="col">Entidad</th>
+              <th scope="col">Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (registro of registros(); track registro.id) {
+              <tr>
+                <td class="col-fecha">
+                  <time [attr.datetime]="registro.createdAt">{{ formatearFecha(registro.createdAt) }}</time>
+                </td>
+                <td class="col-usuario">
+                  @if (registro.userId) {
+                    <span class="chip-usuario" [attr.aria-label]="'Usuario ' + registro.userId">
+                      #{{ registro.userId }}
+                    </span>
+                  } @else {
+                    <span class="sin-dato" aria-label="Sin usuario">—</span>
+                  }
+                </td>
+                <td>
+                  <span
+                    class="badge-accion"
+                    [attr.data-accion]="registro.action.toLowerCase()"
+                  >
+                    {{ registro.action }}
+                  </span>
+                </td>
+                <td class="col-entidad">{{ registro.entity }}</td>
+                <td class="col-descripcion">{{ registro.description ?? '—' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="vacio">No hay registros de auditoría</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</main>
