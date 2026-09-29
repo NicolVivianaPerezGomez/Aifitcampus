@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { MicrosoftAuthController } from "../controllers/MicrosoftAuthController";
 import { authMiddleware } from "../../../../shared/middleware/auth.middleware";
+import { adminMiddleware } from "../../../../shared/middleware/admin.middleware";
 import {
   validateRegister,
   validateUpdateProfile,
@@ -19,13 +20,13 @@ router.post("/auth/register", validateRegister, UserController.registerPublic); 
 router.get("/auth/me", authMiddleware, UserController.me); // usuario de la sesión actual
 
 // Usuarios (requieren sesión)
-router.post("/users", authMiddleware, validateRegister, UserController.register); // HU-02 (Admin)
+router.post("/users", authMiddleware, adminMiddleware, validateRegister, UserController.register); // HU-02 (Admin)
 router.patch("/users/:id/profile", authMiddleware, validateUpdateProfile, UserController.updateProfile); // HU-03
-router.get("/users", authMiddleware, UserController.search); // HU-05 CA-01
-router.patch("/users/:id/deactivate", authMiddleware, UserController.deactivate); // HU-05 CA-02
-router.patch("/users/:id/activate", authMiddleware, UserController.activate);
-router.patch("/users/:id/department", authMiddleware, validateAssignDepartment, UserController.assignDepartment); // HU-13
-router.patch("/users/:id/permissions", authMiddleware, validateUpdatePermissions, UserController.updatePermissions); // apoyo HU-07
-router.patch("/users/:id/reset-password", authMiddleware, validateResetPassword, UserController.resetPassword);
+router.get("/users", authMiddleware, adminMiddleware, UserController.search); // HU-05 CA-01 (Admin)
+router.patch("/users/:id/deactivate", authMiddleware, adminMiddleware, UserController.deactivate); // HU-05 CA-02 (Admin)
+router.patch("/users/:id/activate", authMiddleware, adminMiddleware, UserController.activate); // (Admin)
+router.patch("/users/:id/department", authMiddleware, adminMiddleware, validateAssignDepartment, UserController.assignDepartment); // HU-13 (Admin)
+router.patch("/users/:id/permissions", authMiddleware, adminMiddleware, validateUpdatePermissions, UserController.updatePermissions); // apoyo HU-07 (Admin)
+router.patch("/users/:id/reset-password", authMiddleware, adminMiddleware, validateResetPassword, UserController.resetPassword); // (Admin)
 
 export default router;

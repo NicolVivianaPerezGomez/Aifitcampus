@@ -12,6 +12,9 @@ import roleRoutes from "../modules/roles/infrastructure/routes/RoleRoutes";
 import exerciseRoutes from "../modules/exercises/infrastructure/routes/ExerciseRoutes";
 import badgeRoutes from "../modules/badges/infrastructure/routes/BadgeRoutes";
 import routineRoutes from "../modules/routines/infrastructure/routes/RoutineRoutes";
+import auditRoutes from "../modules/audits/infrastructure/routes/AuditRoutes";
+import statsRoutes from "../modules/statistics/infrastructure/routes/StatsRoutes";
+import notificationRoutes from "../modules/notifications/infrastructure/routes/NotificationRoutes";
 
 import { errorHandler } from "../shared/middleware/error-handler.middleware";
 
@@ -34,7 +37,7 @@ class App {
       cors({
         origin: envs.FRONTEND_URL,
         credentials: true,
-        methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
       })
     );
@@ -49,6 +52,9 @@ class App {
     this.app.use("/api", exerciseRoutes); // Ejercicios (por video) y categorías
     this.app.use("/api", badgeRoutes); // Insignias
     this.app.use("/api", routineRoutes); // Rutinas, tipos de rutina e historial
+    this.app.use("/api", auditRoutes); // Auditoría
+    this.app.use("/api", statsRoutes); // Estadísticas avanzadas
+    this.app.use("/api/notifications", notificationRoutes); // Notificaciones
   }
 
   getApp() {

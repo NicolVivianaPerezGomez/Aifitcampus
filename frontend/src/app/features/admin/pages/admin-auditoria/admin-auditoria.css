@@ -1,0 +1,109 @@
+.contenedor-pagina {
+  padding: 2rem;
+}
+
+.encabezado {
+  margin-bottom: 1.5rem;
+}
+
+.encabezado h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitulo {
+  color: #4b5563;
+  margin: 0.25rem 0 0;
+}
+
+.cargando {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.alerta {
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.alerta-error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tabla th,
+.tabla td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tabla th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla tr:hover {
+  background-color: #f9fafb;
+}
+
+.vacio {
+  text-align: center;
+  color: #6b7280;
+  padding: 2rem;
+}
+
+.badge-accion {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.badge-accion.create {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-accion.update {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-accion.delete {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-accion.assign {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-accion.remove {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}

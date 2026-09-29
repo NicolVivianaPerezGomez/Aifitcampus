@@ -1,22 +1,174 @@
-<!-- página para consultar las notificaciones configuradas. -->
-<main class="pagina-notificaciones">
-  <!-- encabezado y acceso al formulario de creación. -->
-  <header class="encabezado-pagina">
+<section class="pagina">
+  <header class="encabezado">
     <section>
-      <p class="seccion">AVISOS</p>
-      <h1>Notificaciones programadas</h1>
+      <p class="seccion">ADMINISTRACIÓN</p>
+
+      <h1>Notificaciones</h1>
+
       <p class="descripcion">
-        Configura qué rutina se envía, a qué hora, los días de la semana y quiénes la recibirán.
+        Configura y administra las notificaciones de las pausas activas.
       </p>
     </section>
-    <button type="button" class="boton-principal" routerLink="/admin/adminNotificacionesFormulario">
+
+    <button
+      type="button"
+      class="boton-principal"
+      routerLink="/admin/adminNotificacionesFormulario"
+    >
       + Nueva notificación
     </button>
   </header>
 
-  <!-- Estado vacío: las notificaciones se cargarán desde el backend cuando el módulo esté disponible. -->
-  <section class="lista-vacia">
-    <p>Aún no hay notificaciones programadas.</p>
-    <p class="descripcion">Cuando el módulo de notificaciones esté disponible en el backend, podrás programar avisos aquí.</p>
-  </section>
-</main>
+  @if (cargando()) {
+
+    <section class="mensaje">
+      <p>Cargando notificaciones...</p>
+    </section>
+
+  } @else if (notificaciones().length === 0) {
+
+    <section class="mensaje">
+      <h2>No hay notificaciones</h2>
+
+      <p>
+        Todavía no hay notificaciones programadas.
+      </p>
+
+      <button
+        type="button"
+        class="boton-principal"
+        routerLink="/admin/adminNotificacionesFormulario"
+      >
+        Crear notificación
+      </button>
+    </section>
+
+  } @else {
+
+    <section class="lista-notificaciones">
+
+      @for (notificacion of notificaciones(); track notificacion.id) {
+
+        <article class="tarjeta-notificacion">
+
+          <header class="cabecera-tarjeta">
+
+            <section>
+              <h2>
+                {{ notificacion.name }}
+              </h2>
+
+              <p>
+                {{ notificacion.description }}
+              </p>
+            </section>
+
+            @if (notificacion.isActive) {
+
+              <span class="estado activo">
+                Activa
+              </span>
+
+            } @else {
+
+              <span class="estado inactivo">
+                Inactiva
+              </span>
+
+            }
+
+          </header>
+
+
+          <section class="informacion">
+
+            <section class="dato">
+              <span class="etiqueta-dato">
+                Hora
+              </span>
+
+              <strong>
+                {{ notificacion.notificationTime }}
+              </strong>
+            </section>
+
+
+            <section class="dato">
+              <span class="etiqueta-dato">
+                Días
+              </span>
+
+              <section class="dias">
+
+                @for (
+                  dia of notificacion.days;
+                  track dia
+                ) {
+
+                  <span class="dia">
+                    {{ dia }}
+                  </span>
+
+                }
+
+              </section>
+            </section>
+
+
+            <section class="dato">
+              <span class="etiqueta-dato">
+                Recordatorio
+              </span>
+
+              @if (notificacion.reminder) {
+
+                <strong>
+                  {{ notificacion.reminderMinutes }}
+                  minutos antes
+                </strong>
+
+              } @else {
+
+                <strong>
+                  No configurado
+                </strong>
+
+              }
+
+            </section>
+
+          </section>
+
+
+          <footer class="acciones">
+
+            <button
+              type="button"
+              class="boton-secundario"
+              [routerLink]="[
+                '/admin/adminNotificacionesFormulario',
+                notificacion.id
+              ]"
+            >
+              Editar
+            </button>
+
+            <button
+              type="button"
+              class="boton-secundario"
+              (click)="cambiarEstado(notificacion.id)"
+            >
+              {{ notificacion.isActive ? 'Desactivar' : 'Activar' }}
+            </button>
+
+          </footer>
+
+        </article>
+
+      }
+
+    </section>
+
+  }
+
+</section>

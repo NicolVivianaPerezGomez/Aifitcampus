@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PuntoGrafico, ResumenEstadisticas, ResumenUsuario } from '../interfaces/estadisticas';
 import { AuthService } from './auth.service';
+import { EstadisticasAvanzadasService, AdvancedStats } from './estadisticas-avanzadas.service';
 
 /** Usuario tal como lo devuelve el backend (GET /api/users) */
 interface UsuarioApi {
@@ -37,26 +38,27 @@ interface RoutineLogApi {
 /**
  * Entrega los indicadores de bienestar y cumplimiento.
  * Los datos vienen del backend: /api/users, /api/exercises, /api/routines/history/me
+ * y /api/stats/advanced para métricas avanzadas.
  */
 @Injectable({ providedIn: 'root' })
 export class EstadisticasService {
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
+  private readonly statsAvanzadas = inject(EstadisticasAvanzadasService);
   private readonly urlUsuarios = `${environment.apiUrl}/users`;
   private readonly urlEjercicios = `${environment.apiUrl}/exercises`;
   private readonly urlHistorial = `${environment.apiUrl}/routines/history/me`;
 
   /**
    * Devuelve el resumen que alimenta el panel del administrador.
-   * Los datos vienen del backend: /api/users y /api/exercises.
-   * Las métricas que no tienen endpoint disponible se calculan con los datos
-   * que sí existen o se dejan en 0 para que el admin vea que aún no hay datos.
+   * Usa /api/stats/advanced para métricas avanzadas.
    */
   async obtenerResumenAdmin(): Promise<ResumenEstadisticas> {
     try {
-      const [usuarios, ejercicios] = await Promise.all([
+      const [usuarios, ejercicios, advanced] = await Promise.all([
         firstValueFrom(this.http.get<UsuarioApi[]>(this.urlUsuarios)),
         firstValueFrom(this.http.get<EjercicioApi[]>(this.urlEjercicios)),
+        this.statsAvanzadas.obtener(),
       ]);
 
       const usuariosActivos = usuarios.filter((u) => u.statusId === 1).length;
@@ -66,19 +68,19 @@ export class EstadisticasService {
         usuariosActivos,
         usuariosTotales: usuarios.length,
         ejerciciosActivos,
-        pausasSemana: 0,
-        cumplimiento: 0,
-        animoPromedio: 0,
-        minutosInvertidos: 0,
-        pausasOmitidas: 0,
-        tasaRespuesta: 0,
-        cumplimientoSemanal: [],
-        animoSemanal: [],
-        minutosSemanales: [],
-        participacionFranja: [],
-        distribucionAnimo: [],
-        usuariosDestacados: [],
-        ejerciciosPopulares: [],
+        pausasSemana: advanced.pausasSemana,
+        cumplimiento: advanced.cumplimiento,
+        animoPromedio: advanced.animoPromedio,
+        minutosInvertidos: advanced.minutosInvertidos,
+        pausasOmitidas: advanced.pausasOmitidas,
+        tasaRespuesta: advanced.tasaRespuesta,
+        cumplimientoSemanal: this.convertirWeeklyStats(advanced.cumplimientoSemanal),
+        animoSemanal: this.convertirWeeklyStats(advanced.animoSemanal),
+        minutosSemanales: this.convertirWeeklyStats(advanced.minutosSemanales),
+        participacionFranja: this.convertirFranjaStats(advanced.participacionFranja),
+        distribucionAnimo: this.convertirDistribucionAnimo(advanced.distribucionAnimo),
+        usuariosDestacados: advanced.usuariosDestacados,
+        ejerciciosPopulares: advanced.ejerciciosPopulares,
       };
     } catch {
       return this.resumenVacio();
@@ -172,6 +174,30 @@ export class EstadisticasService {
       const count = logs.filter((l) => l.startedAt.slice(0, 10) === clave).length;
       return { etiqueta, valor: count };
     });
+  }
+
+  /** Convierte WeeklyStats del backend a PuntoGrafico del frontend. */
+  private convertirWeeklyStats(stats: AdvancedStats['cumplimientoSemanal']): PuntoGrafico[] {
+    return stats.map((s) => ({
+      etiqueta: s.weekStart,
+      valor: s.cumplimiento,
+    }));
+  }
+
+  /** Convierte FranjaStats del backend a PuntoGrafico del frontend. */
+  private convertirFranjaStats(stats: AdvancedStats['participacionFranja']): PuntoGrafico[] {
+    return stats.map((s) => ({
+      etiqueta: s.franja,
+      valor: s.cantidad,
+    }));
+  }
+
+  /** Convierte DistribucionAnimo del backend a PuntoGrafico del frontend. */
+  private convertirDistribucionAnimo(stats: AdvancedStats['distribucionAnimo']): PuntoGrafico[] {
+    return stats.map((s) => ({
+      etiqueta: s.animo,
+      valor: s.cantidad,
+    }));
   }
 
   private resumenVacio(): ResumenEstadisticas {

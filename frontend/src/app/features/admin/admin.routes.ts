@@ -3,8 +3,6 @@ import { AdminLayout } from './components/admin-layout/admin-layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { AdminEjercicios } from './pages/admin-ejercicios/admin-ejercicios';
 import { AdminEjerciciosFormulario } from './pages/admin-ejercicios-formulario/admin-ejercicios-formulario';
-import { AdminHorarios } from './pages/admin-horarios/admin-horarios';
-import { AdminHorariosFormulario } from './pages/admin-horarios-formulario/admin-horarios-formulario';
 import { AdminUsuarios } from './pages/admin-usuarios/admin-usuarios';
 import { AdminRutinas } from './pages/admin-rutinas/admin-rutinas';
 import { AdminRutinasFormulario } from './pages/admin-rutinas-formulario/admin-rutinas-formulario';
@@ -13,6 +11,7 @@ import { AdminNotificaciones } from './pages/admin-notificaciones/admin-notifica
 import { AdminNotificacionesFormulario } from './pages/admin-notificaciones-formulario/admin-notificaciones-formulario';
 import { AdminInsignias } from './pages/admin-insignias/admin-insignias';
 import { AdminInsigniasFormulario } from './pages/admin-insignias-formulario/admin-insignias-formulario';
+import { AdminAuditoria } from './pages/admin-auditoria/admin-auditoria';
 
 /**
  * Rutas del módulo de administración.
@@ -23,8 +22,6 @@ export const ADMIN_ROUTES: Routes = [
     component: AdminLayout,
     children: [
       { path: 'adminDashboard', component: Dashboard },
-      { path: 'adminHorarios', component: AdminHorarios },
-      { path: 'adminHorariosFormulario', component: AdminHorariosFormulario },
       { path: 'adminEjercicios', component: AdminEjercicios },
       { path: 'adminEjerciciosFormulario', component: AdminEjerciciosFormulario },
       { path: 'adminUsuarios', component: AdminUsuarios },
@@ -33,8 +30,10 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'notificaciones', component: Notifications },
       { path: 'adminNotificaciones', component: AdminNotificaciones },
       { path: 'adminNotificacionesFormulario', component: AdminNotificacionesFormulario },
+      { path: 'adminNotificacionesFormulario/:id', component: AdminNotificacionesFormulario },
       { path: 'adminInsignias', component: AdminInsignias },
       { path: 'adminInsigniasFormulario', component: AdminInsigniasFormulario },
+      { path: 'adminAuditoria', component: AdminAuditoria },
     ],
   },
 ];

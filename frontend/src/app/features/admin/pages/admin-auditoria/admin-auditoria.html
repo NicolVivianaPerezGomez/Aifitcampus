@@ -1,0 +1,47 @@
+<div class="contenedor-pagina">
+  <header class="encabezado">
+    <h1>Auditoría</h1>
+    <p class="subtitulo">Registro de acciones realizadas en el sistema</p>
+  </header>
+
+  @if (error()) {
+    <div class="alerta alerta-error">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <div class="cargando">Cargando registros...</div>
+  } @else {
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+            <th>Entidad</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (registro of registros(); track registro.id) {
+            <tr>
+              <td>{{ formatearFecha(registro.createdAt) }}</td>
+              <td>{{ registro.userId ?? '—' }}</td>
+              <td>
+                <span class="badge-accion" [class]="registro.action.toLowerCase()">
+                  {{ registro.action }}
+                </span>
+              </td>
+              <td>{{ registro.entity }}</td>
+              <td>{{ registro.description ?? '—' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="vacio">No hay registros de auditoría</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
