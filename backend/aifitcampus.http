@@ -5,7 +5,15 @@
 @baseUrl = http://localhost:4000/api
 @token = TU_TOKEN_JWT_AQUI
 
+<<<<<<< Updated upstream
 ### ============================================
+=======
+# Pega aquí tu token (el que empieza por eyJ...), sin comillas
+@token = 
+
+
+### ============================================================
+>>>>>>> Stashed changes
 ### AUTENTICACIÓN
 ### ============================================
 
