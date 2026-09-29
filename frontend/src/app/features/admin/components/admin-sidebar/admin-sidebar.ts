@@ -19,11 +19,11 @@ export class AdminSidebar {
   /* items que se rendeizan en el menu de tipo MenuItem(una interface)*/
   items = signal<MenuItem[]>([
     { path: 'adminDashboard', icon: 'dashboard', label: 'Dashboard' },
-    { path: 'adminHorarios', icon: 'schedule', label: 'Horarios' },
     { path: 'adminEjercicios', icon: 'self_improvement', label: 'Ejercicios' },
     { path: 'adminRutinas', icon: 'fitness_center', label: 'Rutinas' },
     { path: 'adminUsuarios', icon: 'group', label: 'Usuarios' },
     { path: 'adminInsignias', icon: 'emoji_events', label: 'Insignias' },
+    { path: 'adminAuditoria', icon: 'history', label: 'Auditoría' },
     { path: 'notificaciones', icon: 'notifications', label: 'Notificaciones' },
   ]);
 

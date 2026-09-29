@@ -12,6 +12,8 @@ import roleRoutes from "../modules/roles/infrastructure/routes/RoleRoutes";
 import exerciseRoutes from "../modules/exercises/infrastructure/routes/ExerciseRoutes";
 import badgeRoutes from "../modules/badges/infrastructure/routes/BadgeRoutes";
 import routineRoutes from "../modules/routines/infrastructure/routes/RoutineRoutes";
+import auditRoutes from "../modules/audits/infrastructure/routes/AuditRoutes";
+import statsRoutes from "../modules/statistics/infrastructure/routes/StatsRoutes";
 
 import { errorHandler } from "../shared/middleware/error-handler.middleware";
 
@@ -49,6 +51,8 @@ class App {
     this.app.use("/api", exerciseRoutes); // Ejercicios (por video) y categorías
     this.app.use("/api", badgeRoutes); // Insignias
     this.app.use("/api", routineRoutes); // Rutinas, tipos de rutina e historial
+    this.app.use("/api", auditRoutes); // Auditoría
+    this.app.use("/api", statsRoutes); // Estadísticas avanzadas
   }
 
   getApp() {

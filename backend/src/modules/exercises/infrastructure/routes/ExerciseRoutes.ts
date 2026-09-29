@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ExerciseController } from "../controllers/ExerciseController";
 import { ExerciseCategoryController } from "../controllers/ExerciseCategoryController";
 import { authMiddleware } from "../../../../shared/middleware/auth.middleware";
+import { adminMiddleware } from "../../../../shared/middleware/admin.middleware";
 import {
   validateCreateExercise,
   validateUpdateExercise,
@@ -13,15 +14,15 @@ const router = Router();
 
 // Categorías de ejercicios
 router.get("/exercise-categories", authMiddleware, ExerciseCategoryController.getAll);
-router.post("/exercise-categories", authMiddleware, validateCreateExerciseCategory, ExerciseCategoryController.create);
-router.patch("/exercise-categories/:id", authMiddleware, validateUpdateExerciseCategory, ExerciseCategoryController.update);
-router.delete("/exercise-categories/:id", authMiddleware, ExerciseCategoryController.remove);
+router.post("/exercise-categories", authMiddleware, adminMiddleware, validateCreateExerciseCategory, ExerciseCategoryController.create);
+router.patch("/exercise-categories/:id", authMiddleware, adminMiddleware, validateUpdateExerciseCategory, ExerciseCategoryController.update);
+router.delete("/exercise-categories/:id", authMiddleware, adminMiddleware, ExerciseCategoryController.remove);
 
 // Ejercicios (por video)
 router.get("/exercises", authMiddleware, ExerciseController.getAll);
 router.get("/exercises/:id", authMiddleware, ExerciseController.getById);
-router.post("/exercises", authMiddleware, validateCreateExercise, ExerciseController.create);
-router.patch("/exercises/:id", authMiddleware, validateUpdateExercise, ExerciseController.update);
-router.delete("/exercises/:id", authMiddleware, ExerciseController.remove);
+router.post("/exercises", authMiddleware, adminMiddleware, validateCreateExercise, ExerciseController.create);
+router.patch("/exercises/:id", authMiddleware, adminMiddleware, validateUpdateExercise, ExerciseController.update);
+router.delete("/exercises/:id", authMiddleware, adminMiddleware, ExerciseController.remove);
 
 export default router;

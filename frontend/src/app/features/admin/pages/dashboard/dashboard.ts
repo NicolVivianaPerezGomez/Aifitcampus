@@ -36,11 +36,11 @@ export class Dashboard {
    * Adapta los ejercicios populares al formato de los gráficos.
    */
   puntosEjercicios(
-    ejercicios: { nombre: string; usos: number }[] | undefined
+    ejercicios: { exerciseId: number; nombre: string; vecesUsado: number }[] | undefined
   ): PuntoGrafico[] {
     return (ejercicios ?? []).map((ejercicio) => ({
       etiqueta: ejercicio.nombre,
-      valor: ejercicio.usos,
+      valor: ejercicio.vecesUsado,
     }));
   }
 }

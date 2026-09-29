@@ -21,7 +21,7 @@ export class UserAdapter implements UserPort {
       firstName: model.firstName,
       lastName: model.lastName,
       email: model.email,
-      password: model.password,
+      password: null, // Nunca exponer el hash de contraseña
       microsoftId: model.microsoftId,
       authProvider: model.authProvider,
       jobTitle: model.jobTitle,
