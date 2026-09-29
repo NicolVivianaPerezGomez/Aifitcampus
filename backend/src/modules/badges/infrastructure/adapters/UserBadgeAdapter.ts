@@ -5,7 +5,7 @@ import { UserBadge } from "../../domain/entities/UserBadge";
 import { UserBadgePort } from "../../domain/ports/UserBadgePort";
 
 export class UserBadgeAdapter implements UserBadgePort {
-  private repo: Repository<UserBadgeModel>;
+  private readonly repo: Repository<UserBadgeModel>;
 
   constructor() {
     this.repo = AppDataSource.getRepository(UserBadgeModel);
@@ -17,7 +17,7 @@ export class UserBadgeAdapter implements UserBadgePort {
       userId: model.userId,
       badgeId: model.badgeId,
       earnedAt: model.earnedAt,
-      progress: model.progress ? parseFloat(model.progress) : null,
+      progress: model.progress ? Number.parseFloat(model.progress) : null,
     };
   }
 

@@ -18,7 +18,7 @@ export const adminMiddleware = async (req: AuthRequest, res: Response, next: Nex
       relations: { role: true },
     });
 
-    if (!user || !user.role) {
+    if (!user?.role) {
       return res.status(403).json({ message: "No tiene permisos de administrador" });
     }
 

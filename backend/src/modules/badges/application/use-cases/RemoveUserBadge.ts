@@ -4,8 +4,8 @@ import { AppError } from "../../../../shared/utils/AppError";
 
 export class RemoveUserBadge {
   constructor(
-    private userBadgePort: UserBadgePort,
-    private auditPort: AuditPort
+    private readonly userBadgePort: UserBadgePort,
+    private readonly auditPort: AuditPort
   ) {}
 
   async execute(id: number, actorUserId: number): Promise<void> {

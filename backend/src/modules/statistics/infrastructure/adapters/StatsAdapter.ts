@@ -15,10 +15,10 @@ import {
 } from "../../domain/entities/Stats";
 
 export class StatsAdapter implements StatsPort {
-  private logRepo: Repository<RoutineLogModel>;
-  private userRepo: Repository<UserModel>;
-  private exerciseRoutineRepo: Repository<ExerciseRoutineModel>;
-  private exerciseRepo: Repository<ExerciseModel>;
+  private readonly logRepo: Repository<RoutineLogModel>;
+  private readonly userRepo: Repository<UserModel>;
+  private readonly exerciseRoutineRepo: Repository<ExerciseRoutineModel>;
+  private readonly exerciseRepo: Repository<ExerciseModel>;
 
   constructor() {
     this.logRepo = AppDataSource.getRepository(RoutineLogModel);
@@ -136,7 +136,7 @@ export class StatsAdapter implements StatsPort {
       });
     }
 
-    return result.sort((a, b) => b.pausasCompletadas - a.pausasCompletadas).slice(0, limit);
+    return result.toSorted((a, b) => b.pausasCompletadas - a.pausasCompletadas).slice(0, limit);
   }
 
   async getEjerciciosPopulares(limit = 5): Promise<EjercicioPopular[]> {
@@ -229,8 +229,7 @@ export class StatsAdapter implements StatsPort {
       weekStart.setDate(date.getDate() - date.getDay());
       const key = weekStart.toISOString().slice(0, 10);
 
-      if (!weeks[key]) weeks[key] = [];
-      weeks[key]!.push(log);
+      (weeks[key] ??= []).push(log);
     }
 
     return Object.entries(weeks)

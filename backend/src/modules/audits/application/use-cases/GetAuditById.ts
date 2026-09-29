@@ -3,7 +3,7 @@ import { Audit } from "../../domain/entities/Audit";
 import { AppError } from "../../../../shared/utils/AppError";
 
 export class GetAuditById {
-  constructor(private auditPort: AuditPort) {}
+  constructor(private readonly auditPort: AuditPort) {}
 
   async execute(id: number): Promise<Audit> {
     const audit = await this.auditPort.findById(id);
