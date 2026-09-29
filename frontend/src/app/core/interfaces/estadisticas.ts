@@ -12,8 +12,19 @@ export interface PuntoGrafico {
  * Colaborador destacado en el ranking de pausas.
  */
 export interface UsuarioDestacado {
+  userId: number;
   nombre: string;
-  pausas: number;
+  pausasCompletadas: number;
+  racha: number;
+}
+
+/**
+ * Ejercicio más usado en rutinas.
+ */
+export interface EjercicioPopular {
+  exerciseId: number;
+  nombre: string;
+  vecesUsado: number;
 }
 
 /**
@@ -35,7 +46,7 @@ export interface ResumenEstadisticas {
   participacionFranja: PuntoGrafico[];
   distribucionAnimo: PuntoGrafico[];
   usuariosDestacados: UsuarioDestacado[];
-  ejerciciosPopulares: { nombre: string; usos: number }[];
+  ejerciciosPopulares: EjercicioPopular[];
 }
 
 /**
