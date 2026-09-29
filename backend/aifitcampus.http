@@ -16,7 +16,7 @@ GET http://localhost:4000/api/auth/microsoft
 GET {{baseUrl}}/auth/microsoft/callback
 
 ### Registro público (sin auth)
-POST {{baseUrl}}/auth/register
+POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
